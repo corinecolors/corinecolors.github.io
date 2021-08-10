@@ -1,52 +1,58 @@
 <template>
   <div class="videopopup">
-    <div class="bg"/>
+    <div class="bg" />
     <div class="inner">
       <div class="close" v-if="showX" @click="closeVid">X</div>
-    <div class="videopopup-inner" >
-      <h2>{{$cms.textField(data.video_title)}}</h2>
-      <video class="vid" controls ref="video" id="video" >
-        <source :src="data.video.url" type="video/mp4">
-      Your browser does not support the video tag.
-      </video>
-      <!-- <iframe ref="video" id="video" class="vid" :src="activeVidData.url" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+      <div class="videopopup-inner">
+        <h2>{{ $cms.textField(data.video_title) }}</h2>
+        <video class="vid" controls ref="video" id="video">
+          <source :src="data.video.url" type="video/mp4" />
+          Your browser does not support the video tag.
+        </video>
+        <!-- <iframe ref="video" id="video" class="vid" :src="activeVidData.url" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
       <br/> -->
 
-      <!-- <youtube video-id="video" ref="youtube" :width="width" :height="height"></youtube> -->
-      <div class="infobar">
-         <div class="info">
-          <InfoIcon/>
-          <p>{{$cms.textField(data.info)}}</p>
+        <!-- <youtube video-id="video" ref="youtube" :width="width" :height="height"></youtube> -->
+        <div class="infobar">
+          <div class="info">
+            <InfoIcon />
+            <p>{{ $cms.textField(data.info) }}</p>
+          </div>
+          <div class="socialicons" v-if="url">
+            <transition v-for="(item, i) in socials" :key="i">
+              <ShareNetwork
+                class="social"
+                :network="item.name"
+                :url="url"
+                :title="$cms.textField(data.video_title)"
+                :description="desc"
+                hashtags="#nice, #good"
+                :quote="`${$cms.textField(data.video_title)} – ${desc}`"
+              >
+                <component class="icon" :is="item.component" />
+              </ShareNetwork>
+            </transition>
+            <br />
+            <button @click="copytoclipboard" class="copy">
+              Copy link to clipboard
+              <input type="text" class="url" ref="url" :value="url" />
+            </button>
+            <div class="copiedMsg" v-if="showCopiedMsg">
+              Link copied to clipboard!
+            </div>
+          </div>
         </div>
-        <div class="socialicons" v-if="url">
-        <transition v-for="(item, i) in socials" :key="i">
-          <ShareNetwork
-            class="social"
-            :network="item.name"
-            :url="url"
-            :title="$cms.textField(data.video_title)"
-            :description="desc"
-            hashtags="#nice, #good"
-            :quote="`${$cms.textField(data.video_title)} – ${desc}`"
-            >
-              <component class="icon" :is="item.component"/>
-          </ShareNetwork>
-        </transition>
       </div>
-      </div>
-       
-
-    </div>
     </div>
   </div>
 </template>
 
 <script>
-import iconFacebook from './iconFacebook';
-import iconTwitter from './iconTwitter';
-import iconWhatsapp from './iconWhatsapp';
-import iconReddit from './iconReddit';
-import iconTelegram from './iconTelegram';
+import iconFacebook from "./iconFacebook";
+import iconTwitter from "./iconTwitter";
+import iconWhatsapp from "./iconWhatsapp";
+import iconReddit from "./iconReddit";
+import iconTelegram from "./iconTelegram";
 import InfoIcon from "./InfoIcon.vue";
 
 export default {
@@ -57,46 +63,46 @@ export default {
     iconWhatsapp,
     iconReddit,
     iconTelegram,
-    InfoIcon
-
+    InfoIcon,
   },
   data() {
     return {
       url: null,
       showX: false,
+      showCopiedMsg: false,
       socials: [
         {
           name: "facebook",
-          component: "iconFacebook"
+          component: "iconFacebook",
         },
         {
           name: "twitter",
-          component: "iconTwitter"
+          component: "iconTwitter",
         },
         {
           name: "telegram",
-          component: "iconTelegram"
+          component: "iconTelegram",
         },
         {
           name: "whatsapp",
-          component: "iconWhatsapp"
+          component: "iconWhatsapp",
         },
         {
           name: "reddit",
-          component: "iconReddit"
+          component: "iconReddit",
         },
-      ]
+      ],
     };
   },
   props: {
     desc: {
       type: String,
-      default: 'description'
+      default: "description",
     },
     data: {
       type: Object,
-      default: null
-    }
+      default: null,
+    },
   },
   computed: {
     // player() {
@@ -114,6 +120,16 @@ export default {
     closeVid() {
       this.$emit("closeVid", true);
     },
+    copytoclipboard() {
+      var url = this.$refs.url;
+      url.select();
+      url.setSelectionRange(0, 99999);
+      document.execCommand("copy");
+      this.showCopiedMsg = true;
+      setTimeout(() => {
+        this.showCopiedMsg = false;
+      }, 3000);
+    },
     watchEndVideo() {
       // this.player.loadVideoById('video');
       // this.player.loadVideoByUrl(this.data.video.url);
@@ -122,22 +138,31 @@ export default {
       // })
       this.$refs.video.addEventListener("ended", () => {
         this.showX = true;
-      })
+      });
     },
     updateFbMetaTags() {
       //Set default FB meta tag Title
-      document.querySelector('meta[name="fbtitle"]').setAttribute("content", this.$cms.textField(this.data.video_title));
+      document
+        .querySelector('meta[name="fbtitle"]')
+        .setAttribute("content", this.$cms.textField(this.data.video_title));
       //Set default FB meta tag Description
-      document.querySelector('meta[name="fbdescription"]').setAttribute("content", this.$cms.textField(this.data.info));
+      document
+        .querySelector('meta[name="fbdescription"]')
+        .setAttribute("content", this.$cms.textField(this.data.info));
       //Set default FB meta tag Image
-      document.querySelector('meta[name="fbimage"]').setAttribute("content", this.data.vid_preview_image.url);
-      document.querySelector('meta[name="fburl"]').setAttribute("content", this.url);
-
-    }
+      document
+        .querySelector('meta[name="fbimage"]')
+        .setAttribute("content", this.data.vid_preview_image.url);
+      document
+        .querySelector('meta[name="fburl"]')
+        .setAttribute("content", this.url);
+    },
   },
   mounted() {
     // Will have to change later, if this url changes
-    this.url = `https://corinecolors.github.io/#/video/${this.data.video.name.split(".")[0]}`;
+    this.url = `https://corinecolors.github.io/#/video/${
+      this.data.video.name.split(".")[0]
+    }`;
     // console.log("Popp Video data ", this.data);
     this.updateFbMetaTags();
     this.watchEndVideo();
@@ -193,7 +218,7 @@ p {
   position: relative;
   width: 50%;
   margin: auto;
-    vertical-align: middle;
+  vertical-align: middle;
   display: inline-block;
   text-align: left;
   p {
@@ -206,7 +231,6 @@ p {
     padding: 10px;
     vertical-align: top;
     display: inline-block;
-
   }
 }
 .inner {
@@ -219,7 +243,7 @@ p {
   height: 100%;
   z-index: -1;
   background: black;
-  opacity: .75;
+  opacity: 0.75;
 }
 .infobar {
   // text-align: right;
@@ -227,7 +251,7 @@ p {
   margin: auto;
 }
 .socialicons {
-    vertical-align: top;
+  vertical-align: top;
   display: inline-block;
   text-align: right;
   margin-left: auto;
@@ -235,5 +259,21 @@ p {
 }
 .infobar {
   padding-top: 20px;
+}
+.copy {
+  text-align: right;
+  color: white;
+  margin-top: 10px;
+  position: relative;
+  display: inline-block;
+  width: auto;
+}
+.url {
+  position: absolute;
+  opacity: 0;
+}
+.copiedMsg {
+  padding: 10px;
+  color: white;
 }
 </style>

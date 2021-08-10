@@ -107,6 +107,7 @@ export default {
         this.active = document.getElementById(`canvas${this.data.i}A`);
         //re-introduce moue listener to the new active canvas
         this.mouseEvents();
+        this.$store.commit("digMoreMessage", true);
       }
     },
     Asolved() {

@@ -1,8 +1,7 @@
 <template>
   <div id="index">
-      <router-view></router-view>
-      <CursorThing/>
-
+    <router-view></router-view>
+    <CursorThing />
   </div>
 </template>
 
@@ -12,31 +11,28 @@ export default {
   name: "Index",
   metaInfo: {
     title: `Lina's Desktop`,
-    titleTemplate: '%s | An Immersive Experience',
-     meta: [
-        {
-          name: 'fburl',
-          property: 'og:url',
-          content: 'https://ddd.github.io/#/'
-        }
-      ],
+    titleTemplate: "%s | An Immersive Experience",
+    meta: [
+      {
+        name: "fbtitle",
+        property: "og:title",
+        content: "TESTING TO SEE IF THIS APPEARS",
+      },
+    ],
   },
- 
+
   data() {
     return {};
   },
-  
+
   components: {
     CursorThing,
-
   },
   props: {},
   watch: {},
   methods: {},
   computed: {},
-  mounted() {
-    
-  },
+  mounted() {},
 };
 </script>
 
@@ -50,8 +46,12 @@ export default {
   color: #2c3e50;
   height: 100vh;
   /* background: black; */
-  background: rgb(126,107,125);
-  background: linear-gradient(180deg, rgba(126,107,125,1) 0%, rgba(62,50,62,1) 100%);
+  background: rgb(126, 107, 125);
+  background: linear-gradient(
+    180deg,
+    rgba(126, 107, 125, 1) 0%,
+    rgba(62, 50, 62, 1) 100%
+  );
   /* margin-top: 60px; */
   overflow: hidden;
   cursor: none;

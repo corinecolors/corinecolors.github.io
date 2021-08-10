@@ -17,6 +17,7 @@ export default Vue.prototype.$store = new Vuex.Store({
       digType: "Etch",
     },
     activePiece: {},
+    isDigging: false
     // active:
   },
   mutations: {
@@ -43,6 +44,10 @@ export default Vue.prototype.$store = new Vuex.Store({
     activePiece(state, activePiece) {
       state.activePiece = activePiece;
       Vue.set(state, activePiece);
+    },
+    isDigging(state, isDigging) {
+      state.isDigging = isDigging;
+      Vue.set(state, isDigging);
     },
   },
   actions: {

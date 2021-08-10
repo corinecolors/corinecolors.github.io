@@ -1,10 +1,11 @@
 <template>
   <div class="puzzle">
-    <VideoPopup 
-    class="section VideoPopup" 
-    v-if="showVid" 
-    :data="$puzzle.piece[activei - 1]" 
-    @closeVid="showVid = false"/>
+    <VideoPopup
+      class="section VideoPopup"
+      v-if="showVid"
+      :data="$puzzle.piece[activei - 1]"
+      @closeVid="showVid = false"
+    />
 
     <div class="wholePuzzle">
       <transition v-for="(item, i) in $puzzle.piece" :key="i">
@@ -13,16 +14,13 @@
             :activei="activei"
             :i="i"
             :key="i"
-            
             @solved="handleSolved"
             :data="{ data: item, i: i }"
-            :class="
-              `${activei === i ? `active` : `inactive`} ${
-                i < activei ? `solvedPuz` : ``
-              }`
-            "
+            :class="`${activei === i ? `active` : `inactive`} ${
+              i < activei ? `solvedPuz` : ``
+            }`"
           />
-        </div> 
+        </div>
       </transition>
     </div>
   </div>
@@ -30,7 +28,7 @@
 
 <script>
 import Digging from "./Digging.vue";
-import VideoPopup from './VideoPopup.vue'
+import VideoPopup from "./VideoPopup.vue";
 
 export default {
   name: "Puzzle",
@@ -38,12 +36,12 @@ export default {
     return {
       activei: 0,
       showVid: false,
-      activeVidData: {}
+      activeVidData: {},
     };
   },
   components: {
     Digging,
-    VideoPopup
+    VideoPopup,
   },
   props: {},
   watch: {},
@@ -53,8 +51,7 @@ export default {
       this.showVid = true;
       this.activei = e.i + 1;
       this.$store.commit("activePiece", this.$puzzle.piece[this.activei]);
-      console.log(this.$store.state.activePiece);
-
+      // console.log(this.$store.state.activePiece);
     },
   },
   mounted() {

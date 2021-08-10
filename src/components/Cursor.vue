@@ -1,24 +1,31 @@
 <template>
-<div class="cursor-wrapper">
-  <div class="cursor" ref="cursor"><img :src="$store.state.tool.src"></div>
+  <div class="cursor-wrapper">
+    <div class="cursor" ref="cursor">
+      <img :src="$store.state.tool.src" />
+      <DebrisChoppings class="debris" />
+    </div>
   </div>
 </template>
 
 <script>
+import DebrisChoppings from "./Debris_Choppings";
 export default {
-  name: "Template",
+  name: "Cursor",
   data() {
     return {};
+  },
+  components: {
+    DebrisChoppings,
   },
   props: {},
   watch: {},
   methods: {
     mousemove() {
-      window.addEventListener("mousemove", e => {
+      window.addEventListener("mousemove", (e) => {
         // console.log(e);
-        this.$refs.cursor.style =`transform: translateX(${e.clientX}px) translateY(${e.clientY}px)`;
-      })
-    }
+        this.$refs.cursor.style = `transform: translateX(${e.clientX}px) translateY(${e.clientY}px)`;
+      });
+    },
   },
   mounted() {
     this.mousemove();
@@ -37,5 +44,11 @@ export default {
 }
 img {
   max-height: 60px;
+}
+.debris {
+  width: 100px;
+  top: -15px;
+  position: fixed;
+  z-index: -1;
 }
 </style>

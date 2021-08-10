@@ -12,13 +12,13 @@ export default {
   metaInfo: {
     title: `Lina's Desktop`,
     titleTemplate: "%s | An Immersive Experience",
-    meta: [
-      {
-        name: "fbtitle",
-        property: "og:title",
-        content: "TESTING TO SEE IF THIS APPEARS",
-      },
-    ],
+    // meta: [
+    //   {
+    //     name: "fbtitle",
+    //     property: "og:title",
+    //     content: "TESTING TO SEE IF THIS APPEARS",
+    //   },
+    // ],
   },
 
   data() {

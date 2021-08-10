@@ -1,6 +1,11 @@
 <template>
   <div class="digging" ref="digging">
-    <div class="questionmark">?</div>
+    <div class="previewtext" v-if="!hidePreviewTextAltogether">
+      <span v-if="showPreviewText">{{
+        $cms.textField(data.data.puzzle_preview_message)
+      }}</span>
+      <span class="questionmark" v-else>?</span>
+    </div>
     <canvas
       :id="`canvas${data.i}B`"
       class="b"
@@ -51,6 +56,8 @@ export default {
       active: null,
       Aprohibited: true,
       digType: null,
+      showPreviewText: false,
+      hidePreviewTextAltogether: false,
     };
   },
   computed: {
@@ -83,6 +90,7 @@ export default {
     tool() {
       if (this.activei === this.tool.i && this.i === this.tool.i) {
         this.digType = this.$store.state.tool.digType;
+        this.showPreviewText = true;
         this.$refs.digging.style = "pointer-events: auto";
       } else {
         this.$refs.digging.style = "pointer-events: none";
@@ -211,6 +219,7 @@ export default {
       this.active.addEventListener("mouseup", this.mouseup);
     },
     mousedown(e) {
+      this.hidePreviewTextAltogether = true;
       this.$store.commit("isDigging", true);
       this.active.addEventListener("mousemove", this.mousemove);
       this.isPress = true;
@@ -626,7 +635,7 @@ export default {
   max-height: 100%;
   transition: max-height 0.5s ease;
 }
-.questionmark {
+.previewtext {
   color: white;
   position: absolute;
   left: 50%;
@@ -635,5 +644,8 @@ export default {
   z-index: 10;
   pointer-events: none;
   user-select: none;
+}
+.questionmark {
+  font-size: 40px;
 }
 </style>

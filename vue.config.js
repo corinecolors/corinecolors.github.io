@@ -1,14 +1,12 @@
 const path = require("path");
 
-// var assetsPath = "assets";
+var assetsPath = "assets";
 var desktop = "desktop";
 
 module.exports = {
   outputDir: path.resolve(__dirname, desktop),
-  // publicPath: process.env.NODE_ENV === "production" ? `./${desktop}/` : "",
-  publicPath: process.env.NODE_ENV === "production" ? `./` : "",
-
-  // assetsDir: assetsPath,
+  publicPath: process.env.NODE_ENV === "production" ? `./${desktop}/` : "",
+  assetsDir: assetsPath,
   lintOnSave: true,
   // chainWebpack: (config) => {
   //   config
@@ -17,4 +15,7 @@ module.exports = {
   //       template: path.resolve('index.html'),
   //     }]);
   // },
+
+  // publicPath: process.env.NODE_ENV === "production" ? `./` : "",
+
 };

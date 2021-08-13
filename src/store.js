@@ -14,11 +14,13 @@ export default Vue.prototype.$store = new Vuex.Store({
     tool: {
       src: "https://miro.medium.com/max/560/0*oa0XcvM99Y5clDsj.png",
       i: 0,
-      digType: "Etch",
+      digType: "",
     },
     activePiece: {},
     isDigging: false,
-    digMoreMessage: false
+    digMoreMessage: false,
+    pressPlayMessage: false,
+    mouse: {},
     // active:
   },
   mutations: {
@@ -53,6 +55,14 @@ export default Vue.prototype.$store = new Vuex.Store({
     digMoreMessage(state, digMoreMessage) {
       state.digMoreMessage = digMoreMessage;
       Vue.set(state, digMoreMessage);
+    },
+    pressPlayMessage(state, pressPlayMessage) {
+      state.pressPlayMessage = pressPlayMessage;
+      Vue.set(state, pressPlayMessage);
+    },
+    mouse(state, mouse) {
+      state.mouse = mouse;
+      Vue.set(state, mouse);
     },
   },
   actions: {

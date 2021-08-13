@@ -108,6 +108,8 @@ export default {
         //re-introduce moue listener to the new active canvas
         this.mouseEvents();
         this.$store.commit("digMoreMessage", true);
+      this.$store.commit("mouse", {mouseevent: "mouseup", e: "none"});
+
       }
     },
     Asolved() {
@@ -116,6 +118,9 @@ export default {
         this.active.removeEventListener("mousemove", this.mousemove);
         this.active.removeEventListener("mouseup", this.mouseup);
         this.$store.commit("isDigging", false);
+        this.$store.commit("pressPlayMessage", true);
+        this.$store.commit("mouse", {mouseevent: "mouseup", e: "none"});
+
 
         //   this.$emit('solved', this.data.i)
       }
@@ -225,13 +230,21 @@ export default {
       this.active.addEventListener("mousemove", this.mousemove);
       this.isPress = true;
       this.old = { x: e.offsetX, y: e.offsetY };
+        this.$store.commit("mouse", {mouseevent: "mousedown", e: e});
+
+      
     },
-    mouseup() {
+    
+    mouseup(e) {
       this.isPress = false;
       this.$store.commit("isDigging", false);
+      this.$store.commit("mouse", {mouseevent: "mouseup", e: e});
+
     },
     mousemove(e) {
       if (this.isPress) {
+        this.$store.commit("mouse", {mouseevent: "mousemove", e: e});
+
         var x = e.offsetX;
         var y = e.offsetY;
         this.ctx.globalCompositeOperation = "destination-out";

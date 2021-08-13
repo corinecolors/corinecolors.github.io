@@ -40,7 +40,7 @@ export default {
       }
   },
   mounted() {
-      this.hover();
+    //   this.hover();
       while (this.randomizedpieces.length < 8) {
           var num = Math.floor((Math.random() * 8));
           if (this.randomizedpieces.indexOf(num) < 0) {
@@ -58,7 +58,9 @@ export default {
     overflow: hidden;
     border-radius: 0 20px 20px 0;
     /* left: -50px; */
-    left: -60px;
+    // left: -60px;
+    left: 0px;
+
     border: .5px solid black;
     width: 80px;
     height: 80vh;

@@ -4,6 +4,9 @@
       <img :src="$store.state.tool.src" />
       <DebrisChoppings class="debris" />
       <div class="digmore" v-if="$store.state.digMoreMessage">Dig More!</div>
+      <div class="pressPlayMessage" v-if="$store.state.pressPlayMessage">
+        Watch the Video!
+      </div>
     </div>
   </div>
 </template>
@@ -18,13 +21,18 @@ export default {
     return {};
   },
   computed: {
-    ...mapState(["digMoreMessage"]),
+    ...mapState(["digMoreMessage", "pressPlayMessage"]),
   },
   components: {
     DebrisChoppings,
   },
   props: {},
   watch: {
+    pressPlayMessage() {
+      setTimeout(() => {
+        this.$store.commit("pressPlayMessage", false);
+      }, 2000);
+    },
     digMoreMessage() {
       setTimeout(() => {
         this.$store.commit("digMoreMessage", false);
@@ -68,7 +76,8 @@ img {
   font-weight: bold;
   color: rgb(211, 134, 247);
 }
-.digmore {
+.digmore,
+.pressPlayMessage {
   text-shadow: 0px 0px 10px rgba(0, 0, 0, 1);
 }
 </style>

@@ -32,9 +32,8 @@
                 <component class="icon" :is="item.component" />
               </ShareNetwork>
             </transition>
-            <br />
             <button @click="copytoclipboard" class="copy">
-              Copy link to clipboard
+             <iconCopyLink/>
               <input type="text" class="url" ref="url" :value="url" />
             </button>
             <div class="copiedMsg" v-if="showCopiedMsg">
@@ -51,9 +50,8 @@
 import iconFacebook from "./iconFacebook";
 import iconTwitter from "./iconTwitter";
 import iconWhatsapp from "./iconWhatsapp";
-import iconReddit from "./iconReddit";
-import iconTelegram from "./iconTelegram";
 import InfoIcon from "./InfoIcon.vue";
+import iconCopyLink from "./iconCopyLink";
 
 export default {
   name: "VideoPopup",
@@ -61,9 +59,8 @@ export default {
     iconFacebook,
     iconTwitter,
     iconWhatsapp,
-    iconReddit,
-    iconTelegram,
     InfoIcon,
+    iconCopyLink
   },
   data() {
     return {
@@ -80,16 +77,8 @@ export default {
           component: "iconTwitter",
         },
         {
-          name: "telegram",
-          component: "iconTelegram",
-        },
-        {
           name: "whatsapp",
           component: "iconWhatsapp",
-        },
-        {
-          name: "reddit",
-          component: "iconReddit",
         },
       ],
     };
@@ -275,5 +264,9 @@ p {
 .copiedMsg {
   padding: 10px;
   color: white;
+}
+button {
+  border: none;
+  padding: 0 5px;
 }
 </style>

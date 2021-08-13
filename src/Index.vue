@@ -39,7 +39,6 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="scss">
 #index {
-  font-family: BlinkMacSystemFont;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: left;
@@ -52,10 +51,15 @@ export default {
     rgba(126, 107, 125, 1) 0%,
     rgba(62, 50, 62, 1) 100%
   );
+  font-family: Arial, Helvetica, sans-serif;
   /* margin-top: 60px; */
   overflow: hidden;
   cursor: none;
+  p, a, h1, h2, h3, h4, h5, span {
+    font-family: Arial, Helvetica, sans-serif;
+  }
 }
+
 body {
   margin: 0;
   height: 100%;

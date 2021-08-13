@@ -3,28 +3,44 @@
     <div class="app-inner">
       <!-- <FlippyImage class="bg"/> -->
       <!-- <Puzzle/> -->
+      <AudioPlayer/>
       <transition appear name="section">
-        <Puzzle class="section Puzzle" v-if="$store.state.screens['Toolbar']"/>
+        <Puzzle class="section Puzzle" v-if="$store.state.screens['Toolbar']" />
       </transition>
-      <Curtain/>
+      <Curtain />
       <transition appear name="section">
-      <ChooseLanguage @next="handleNext" class="section ChooseLanguage" v-if="ChooseLanguage"/>
-       </transition>
-       <transition appear name="section">
-        <IntroVideo  :playVid="playVid" @videoEnded="handleNext" class="section IntroVideo"  v-if="IntroVideo"/>
+        <ChooseLanguage
+          @next="handleNext"
+          class="section ChooseLanguage"
+          v-if="ChooseLanguage"
+        />
       </transition>
-      <transition appear name="section" >
-        <Disclaimer @next="handleNext" class="section Disclaimer" v-if="Disclaimer"/>
-       </transition>
-       <!-- <Digging class="section Digging"/> -->
-      <transition appear name="section" >
-       <Toolbar class="section Toolbar" v-if="$store.state.screens['Toolbar']"/>
-       </transition>
-      <Desktop class="section Desktop"/>
       <transition appear name="section">
-      <WarningSurveillance v-if="!$store.state.screens.Toolbar"/>
-       </transition>
-    
+        <IntroVideo
+          :playVid="playVid"
+          @videoEnded="handleNext"
+          class="section IntroVideo"
+          v-if="IntroVideo"
+        />
+      </transition>
+      <transition appear name="section">
+        <Disclaimer
+          @next="handleNext"
+          class="section Disclaimer"
+          v-if="Disclaimer"
+        />
+      </transition>
+      <!-- <Digging class="section Digging"/> -->
+      <transition appear name="section">
+        <Toolbar
+          class="section Toolbar"
+          v-if="$store.state.screens['Toolbar']"
+        />
+      </transition>
+      <Desktop class="section Desktop" />
+      <transition appear name="section">
+        <WarningSurveillance v-if="!$store.state.screens.Toolbar" />
+      </transition>
     </div>
   </div>
 </template>
@@ -32,6 +48,7 @@
 <script>
 // import FlippyImage from './components/FlippyImage.vue'
 // import Puzzle from './components/Puzzle.vue'
+import AudioPlayer from './components/AudioPlayer.vue'
 
 import ChooseLanguage from "./components/ChooseLanguage.vue";
 import Desktop from "./components/Desktop.vue";
@@ -42,10 +59,10 @@ import Disclaimer from "./components/Disclaimer.vue";
 import Toolbar from "./components/Toolbar.vue";
 import WarningSurveillance from "./components/WarningSurveillance.vue";
 import Puzzle from "./components/Puzzle.vue";
-import {mapState} from 'vuex';
+import { mapState } from "vuex";
 export default {
   name: "App",
-  
+
   components: {
     // FlippyImage,
     // Puzzle
@@ -58,22 +75,21 @@ export default {
     Toolbar,
     WarningSurveillance,
     Puzzle,
-    
+    AudioPlayer
   },
   computed: {
-    ...mapState(["emailsRead", "allEmailsRead"])
+    ...mapState(["emailsRead", "allEmailsRead"]),
   },
   watch: {
     emailsRead: {
       handler(e) {
-
-          if (e.indexOf(false) < 0) {
-            this.$store.commit("allEmailsRead", true)
-            this.Toolbar = true;
-          }
-        },
-          deep: true 
-    }
+        if (e.indexOf(false) < 0) {
+          this.$store.commit("allEmailsRead", true);
+          this.Toolbar = true;
+        }
+      },
+      deep: true,
+    },
   },
   data() {
     return {
@@ -113,6 +129,8 @@ export default {
       });
     },
     move(e) {
+      this.$store.commit("mouse", {mouseevent: "mousemove", e: e});
+
       this.lastFilePos = {
         x: e.clientX - this.offsetX,
         y: e.clientY - this.offsetY,
@@ -128,7 +146,7 @@ export default {
       for (let i = 0; i < this.$emails.length; i++) {
         this.$store.state.emailsRead.push(false);
       }
-    }
+    },
   },
   mounted() {
     // this.clickndrag();
@@ -140,13 +158,11 @@ export default {
     // document.querySelector('meta[name="fbdescription"]').setAttribute("content", this.$cms.textField(this.$puzzle.fb_default_desc));
     // //Set default FB meta tag Image
     // document.querySelector('meta[name="fbimage"]').setAttribute("content", this.$puzzle.fb_default_image.url);
-
   },
 };
 </script>
 
 <style>
-
 .app-inner {
   height: 100vh;
 }
@@ -196,7 +212,6 @@ button {
 }
 .Digging {
   z-index: 4;
-
 }
 
 .Puzzle {

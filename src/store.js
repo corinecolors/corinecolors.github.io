@@ -21,6 +21,7 @@ export default Vue.prototype.$store = new Vuex.Store({
     digMoreMessage: false,
     pressPlayMessage: false,
     mouse: {},
+    donePuzzle: false,
     // active:
   },
   mutations: {
@@ -63,6 +64,10 @@ export default Vue.prototype.$store = new Vuex.Store({
     mouse(state, mouse) {
       state.mouse = mouse;
       Vue.set(state, mouse);
+    },
+    donePuzzle(state, donePuzzle) {
+      state.donePuzzle = donePuzzle;
+      Vue.set(state, donePuzzle);
     },
   },
   actions: {

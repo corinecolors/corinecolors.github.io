@@ -71,7 +71,10 @@ export default {
     transition: left .5s ease;
 }
 .bg {
-    background: white;
+    // background: white;
+    background: url('../assets/Toolbar.jpg');
+    background-size: cover;
+    background-repeat: no-repeat;
     opacity: .6;
     z-index: -100;
     position: absolute;

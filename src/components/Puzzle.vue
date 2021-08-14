@@ -1,5 +1,6 @@
 <template>
   <div class="puzzle">
+   <img class="bg" :src="$puzzle.main_bg_bordered.url"/>
     <VideoPopup
       class="section VideoPopup"
       v-if="showVid"
@@ -73,7 +74,7 @@ export default {
 .wholePuzzle {
   display: flex;
   flex-wrap: wrap;
-  width: calc(100vh * 1.51);
+  width: calc(100vh * 1.52);
   margin: auto;
 }
 .inactive:not(.solvedPuz) {
@@ -99,5 +100,9 @@ export default {
 }
 .piece {
   position: relative;
+}
+.bg {
+  width: calc(100vw - 2px);
+  height: calc(100vh - 2px);
 }
 </style>

@@ -3,37 +3,40 @@
     <span v-if="$store.state.isDigging">
       <!-- AXE -->
       <transition appear v-if="tool.digType === 'Axe'" key="chopping">
-        <span>
-          
+        <div class="debris">
+          <div class="bg"/>
           <img src="../assets/debris/Choppings.svg" />
-        </span>
+        </div>
       </transition>
 
       <!-- DIG -->
       <transition appear v-if="tool.digType === 'Dig'" key="dirt">
-        <span>
+        <div class="debris">
+          <div class="bg"/>
          
           <img src="../assets/debris/Dirt.svg" />
-        </span>
+        </div>
       </transition>
 
       <!-- ETCH -->
       <transition appear v-if="tool.digType === 'Etch'" key="peeling">
-        <span>
+        <div class="debris">
+          <div class="bg"/>
           
           <img
             src="../assets/debris/Peeling.svg"
             style="width: 40px; margin-top: 20px"
           />
-        </span>
+        </div>
       </transition>
 
       <!-- SNIP -->
       <transition appear v-if="tool.digType === 'Snip'" key="snips">
-        <span>
+        <div class="debris">
+          <div class="bg"/>
          
           <img src="../assets/debris/Snips.svg" />
-        </span>
+        </div>
       </transition>
 
       <!-- PAINT -->
@@ -42,13 +45,14 @@
         v-if="tool.digType === 'Sponge' || tool.digType === 'Paint'"
         key="splash"
       >
-        <span>
+        <div class="debris">
+          <div class="bg"/>
           
           <img
             src="../assets/debris/Splash.svg"
             style="width: 120px; margin-top: -20px; margin-left: -10px"
           />
-        </span>
+        </div>
       </transition>
     </span>
   </div>
@@ -80,5 +84,23 @@ export default {
 <style scoped lang="scss">
 .debris_choppings {
   pointer-events: none;
+  // .bg {
+  //   background: url("https://images.prismic.io/firstlady/a93564d3-3d40-4658-a136-c839c272b209_SquareTexture.jpg?auto=compress,format");
+  //   background-size: cover;
+  //   mix-blend-mode: exclusion;
+  //   width: 100%;
+  //   height: 100%;
+  //   position: absolute;
+  //   left: 0;
+  //   top: 0;
+  //   z-index: 4;
+  // }
+  .debris {
+    position: relative;
+  }
+  // img {
+  //   mask-image: url("https://images.prismic.io/firstlady/a93564d3-3d40-4658-a136-c839c272b209_SquareTexture.jpg?auto=compress,format");
+  //    -webkit-mask-image:url("https://images.prismic.io/firstlady/a93564d3-3d40-4658-a136-c839c272b209_SquareTexture.jpg?auto=compress,format");
+  // }
 }
 </style>

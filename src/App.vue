@@ -3,6 +3,11 @@
     <div class="app-inner">
       <!-- <FlippyImage class="bg"/> -->
       <!-- <Puzzle/> -->
+      <!-- v-if="finalscreen" -->
+      <transition  appear name="section">
+        <FinalScreen class="section FinalScreen"/>
+        </transition>
+      <Popup/>
       <AudioPlayer/>
       <transition appear name="section">
         <Puzzle class="section Puzzle" v-if="$store.state.screens['Toolbar']" />
@@ -49,6 +54,7 @@
 // import FlippyImage from './components/FlippyImage.vue'
 // import Puzzle from './components/Puzzle.vue'
 import AudioPlayer from './components/AudioPlayer.vue'
+import Popup from './components/Popup.vue'
 
 import ChooseLanguage from "./components/ChooseLanguage.vue";
 import Desktop from "./components/Desktop.vue";
@@ -59,6 +65,8 @@ import Disclaimer from "./components/Disclaimer.vue";
 import Toolbar from "./components/Toolbar.vue";
 import WarningSurveillance from "./components/WarningSurveillance.vue";
 import Puzzle from "./components/Puzzle.vue";
+import FinalScreen from "./components/FinalScreen.vue";
+
 import { mapState } from "vuex";
 export default {
   name: "App",
@@ -75,12 +83,20 @@ export default {
     Toolbar,
     WarningSurveillance,
     Puzzle,
-    AudioPlayer
+    AudioPlayer,
+    Popup,
+    FinalScreen
   },
   computed: {
-    ...mapState(["emailsRead", "allEmailsRead"]),
+    ...mapState(["emailsRead", "allEmailsRead","donePuzzle"]),
   },
   watch: {
+    donePuzzle() {
+      if (this.donePuzzle) {
+        console.log("done puzzle!");
+        this.finalscreen = true;
+      }
+    },
     emailsRead: {
       handler(e) {
         if (e.indexOf(false) < 0) {
@@ -101,6 +117,7 @@ export default {
       playVid: false,
       IntroVideo: true,
       Disclaimer: true,
+      finalscreen: false
     };
   },
   methods: {
@@ -152,6 +169,7 @@ export default {
     // this.clickndrag();
     this.release();
     this.setStore();
+    console.log(this.$puzzle.debris_bg.url);
     //Set default FB meta tag Title
     // document.querySelector('meta[name="fbtitle"]').setAttribute("content", this.$cms.textField(this.$puzzle.fb_default_title));
     // //Set default FB meta tag Description
@@ -252,5 +270,11 @@ button {
 }
 .smol {
   font-size: 12px;
+}
+.FinalScreen {
+  z-index: 100;
+  width: 100%;
+  height: 100%;
+  position: fixed;
 }
 </style>

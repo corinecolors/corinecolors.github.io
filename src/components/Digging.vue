@@ -58,6 +58,7 @@ export default {
       digType: null,
       showPreviewText: false,
       hidePreviewTextAltogether: false,
+      offset: 1000
     };
   },
   computed: {
@@ -120,7 +121,9 @@ export default {
         this.$store.commit("isDigging", false);
         this.$store.commit("pressPlayMessage", true);
         this.$store.commit("mouse", {mouseevent: "mouseup", e: "none"});
-
+        if (this.data.i=== 7) {
+          this.$store.commit("donePuzzle", true);
+        }
 
         //   this.$emit('solved', this.data.i)
       }
@@ -147,7 +150,7 @@ export default {
       }
       //DETERMINE IF SCRUBBED ENOUGH
       if (
-        this.whArray.length < 5 &&
+        this.whArray.length < this.offset &&
         this.active === document.getElementById(`canvas${this.data.i}AA`)
       ) {
         console.log("width and height", this.width, this.height);
@@ -156,7 +159,7 @@ export default {
       }
 
       if (
-        this.whArray.length < 5 &&
+        this.whArray.length < this.offset &&
         this.active === document.getElementById(`canvas${this.data.i}A`)
       ) {
         this.Asolved = true;
@@ -179,9 +182,11 @@ export default {
 
       var imgA = new Image();
       var imgB = new Image();
+      var cover = new Image();
 
       imgA.src = urlA;
       imgB.src = urlB;
+      cover.src = this.data.data.cover.url;
 
       new Promise((resolve) => {
         imgA.onload = function () {
@@ -194,10 +199,14 @@ export default {
           ctxA.drawImage(imgA, 0, 0, this.width, this.height);
 
           //-------- Establishing the AA canvas here
-          canvasAA.width = this.width;
-          canvasAA.height = this.height;
-          ctxAA.fillStyle = "black";
-          ctxAA.fillRect(0, 0, this.width, this.height);
+          // canvasAA.width = this.width;
+          // canvasAA.height = this.height;
+          // ctxAA.fillStyle = "rgba(255, 255, 255, 0)";
+          // ctxAA.fillRect(0, 0, this.width, this.height);
+            canvasAA.width = this.width;
+            canvasAA.height = this.height;
+            ctxAA.drawImage(cover, 0, 0, this.width, this.height);
+          
 
           resolve({ width: this.width, height: this.height });
         };
@@ -213,6 +222,7 @@ export default {
         canvasB.height = this.height;
         ctxB.drawImage(imgB, 0, 0, this.width, this.height);
       };
+      
 
       //   console.log(this.width, this.height);
 
@@ -585,6 +595,7 @@ export default {
   mounted() {
     this.active = document.getElementById(`canvas${this.data.i}AA`);
     this.dig();
+    console.log(this.data.i);
   },
 };
 </script>
@@ -606,6 +617,7 @@ export default {
   // background: black;
   position: absolute;
   left: 0;
+  margin-left: 1px;
 }
 .aa {
   z-index: 4;
@@ -661,5 +673,11 @@ export default {
 }
 .questionmark {
   font-size: 40px;
+}
+.digging {
+  // border: 1px solid grey;
+  -webkit-box-shadow: 0px 0px 15px 0px rgba(0,0,0,0.46); 
+  box-shadow: 0px 0px 15px 0px rgba(0,0,0,0.46);
+  padding: 1px;
 }
 </style>

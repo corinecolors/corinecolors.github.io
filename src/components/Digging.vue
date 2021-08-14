@@ -4,7 +4,7 @@
       <span v-if="showPreviewText">{{
         $cms.textField(data.data.puzzle_preview_message)
       }}</span>
-      <span class="questionmark" v-else>?</span>
+      <span class="questionmark" v-else><img :src="imgSrc(data.i)"/></span>
     </div>
     <canvas
       :id="`canvas${data.i}B`"
@@ -58,7 +58,7 @@ export default {
       digType: null,
       showPreviewText: false,
       hidePreviewTextAltogether: false,
-      offset: 1000
+      offset: 5
     };
   },
   computed: {
@@ -130,6 +130,9 @@ export default {
     },
   },
   methods: {
+    imgSrc(i) {
+      return require(`../assets/QuestionMarks/qm${i + 1}.png`)
+    },
     handlePlayButton() {
       this.$emit("solved", this.data);
     },
@@ -595,7 +598,7 @@ export default {
   mounted() {
     this.active = document.getElementById(`canvas${this.data.i}AA`);
     this.dig();
-    console.log(this.data.i);
+    console.log(this.data, "data");
   },
 };
 </script>
@@ -673,6 +676,9 @@ export default {
 }
 .questionmark {
   font-size: 40px;
+ img {
+    width: 50px
+ }
 }
 .digging {
   // border: 1px solid grey;

@@ -3,8 +3,8 @@
     <div class="app-inner">
       <!-- <FlippyImage class="bg"/> -->
       <!-- <Puzzle/> -->
-      <!-- v-if="finalscreen" -->
-      <transition  appear name="section">
+      <!--  -->
+      <transition  v-if="finalscreen" appear name="section">
         <FinalScreen class="section FinalScreen"/>
         </transition>
       <Popup/>

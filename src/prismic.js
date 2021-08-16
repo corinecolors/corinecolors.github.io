@@ -62,6 +62,12 @@ export default new (class Prismic {
         this.eng.introvid = resp.results.find(
           (e) => e.type === "intro"
         ).data.intro_video;
+        this.eng.postdisclaimervid = resp.results.find(
+          (e) => e.type === "intro"
+        ).data.post_disclaimer_video;
+        this.eng.disclaimervoice = resp.results.find(
+          (e) => e.type === "intro"
+        ).data.disclaimer_voice_eng;
         Vue.prototype.$eng = this.eng;
 
         //Assign to Arabic object- --------–––––––––––––––––––––––––––––––––––––––––––––

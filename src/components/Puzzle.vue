@@ -67,7 +67,7 @@ export default {
 .puzzle {
   position: fixed;
   // z-index: 1000;
-  background: black;
+  // background: black;
   width: 100%;
   height: 100%;
 }

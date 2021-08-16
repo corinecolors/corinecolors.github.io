@@ -3,9 +3,9 @@
     <div class="cursor" ref="cursor">
       <img :src="$store.state.tool.src" />
       <DebrisChoppings class="debris" />
-      <div class="digmore" v-if="$store.state.digMoreMessage">Dig More!</div>
+      <div class="digmore" v-if="$store.state.digMoreMessage">{{$cms.textField(activePiece.cta_more)}}</div>
       <div class="pressPlayMessage" v-if="$store.state.pressPlayMessage">
-        Watch the Video!
+        Press play to continue!
       </div>
     </div>
   </div>
@@ -21,13 +21,16 @@ export default {
     return {};
   },
   computed: {
-    ...mapState(["digMoreMessage", "pressPlayMessage"]),
+    ...mapState(["digMoreMessage", "pressPlayMessage", "activePiece"]),
   },
   components: {
     DebrisChoppings,
   },
   props: {},
   watch: {
+    activePiece() {
+      console.log("this.activePiece", this.activePiece.cta_more);
+    },
     pressPlayMessage() {
       setTimeout(() => {
         this.$store.commit("pressPlayMessage", false);

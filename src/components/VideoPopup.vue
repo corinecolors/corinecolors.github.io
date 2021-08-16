@@ -169,8 +169,8 @@ export default {
   padding: 0 5px;
 }
 #video {
-  width: 75vw;
-  height: 75vh;
+  width: 800px;
+  height: 500px;
 }
 .videopopup-inner {
   // position: fixed;

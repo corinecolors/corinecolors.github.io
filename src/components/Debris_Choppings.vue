@@ -39,6 +39,15 @@
         </div>
       </transition>
 
+      <!-- SNIP -->
+      <transition appear v-if="tool.digType === 'Magnify'" key="magnify">
+        <div class="debris">
+          <div class="bg"/>
+         
+          <img src="../assets/debris/Glow.svg" style="margin-left: -60px; margin-top: -40px;"/>
+        </div>
+      </transition>
+
       <!-- PAINT -->
       <transition
         appear

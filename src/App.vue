@@ -1,13 +1,20 @@
 <template>
   <div id="app" ref="app">
-    <div class="app-inner">
-      <!-- <FlippyImage class="bg"/> -->
-      <!-- <Puzzle/> -->
-      <!--  -->
+    <div class="app-inner" v-if="ww > 1000">
+      <transition appear name="section" >
+        <PostDisclaimerVideo 
+        class="section PostDisclaimerVideo"
+        v-show="PostDisclaimerVideo"
+        :playVid="PostDisclaimerVideo"
+        @videoEnded="handleNext"/>
+        </transition>
+      <audio ref="disclaimervoice" v-if="disclaimervoiceUrl">
+          <source :src="disclaimervoiceUrl" type="audio/mpeg" />
+      </audio>
       <transition  v-if="finalscreen" appear name="section">
         <FinalScreen class="section FinalScreen"/>
         </transition>
-      <Popup/>
+      <!-- <Popup/> -->
       <AudioPlayer/>
       <transition appear name="section">
         <Puzzle class="section Puzzle" v-if="$store.state.screens['Toolbar']" />
@@ -47,6 +54,9 @@
         <WarningSurveillance v-if="!$store.state.screens.Toolbar" />
       </transition>
     </div>
+    <div v-else class="mobile">
+      <h1>Please view this experience  on desktop.</h1>
+      </div>
   </div>
 </template>
 
@@ -54,7 +64,7 @@
 // import FlippyImage from './components/FlippyImage.vue'
 // import Puzzle from './components/Puzzle.vue'
 import AudioPlayer from './components/AudioPlayer.vue'
-import Popup from './components/Popup.vue'
+import PostDisclaimerVideo from './components/PostDisclaimerVideo.vue'
 
 import ChooseLanguage from "./components/ChooseLanguage.vue";
 import Desktop from "./components/Desktop.vue";
@@ -84,13 +94,23 @@ export default {
     WarningSurveillance,
     Puzzle,
     AudioPlayer,
-    Popup,
-    FinalScreen
+    FinalScreen,
+    PostDisclaimerVideo
   },
   computed: {
-    ...mapState(["emailsRead", "allEmailsRead","donePuzzle"]),
+    ...mapState(["emailsRead", "allEmailsRead","donePuzzle", "localizationData", "activePiece"]),
   },
   watch: {
+     
+    localizationData: {
+      handler() {
+        this.disclaimervoiceUrl = this.$store.state.data.disclaimervoice.url;
+        setTimeout(() => {
+          if (this.Disclaimer) this.$refs.disclaimervoice.play();
+        }, 2500)
+      },
+      deep:true
+    },
     donePuzzle() {
       if (this.donePuzzle) {
         console.log("done puzzle!");
@@ -117,7 +137,10 @@ export default {
       playVid: false,
       IntroVideo: true,
       Disclaimer: true,
-      finalscreen: false
+      finalscreen: false,
+      disclaimervoiceUrl: null,
+      PostDisclaimerVideo: false,
+      ww: null
     };
   },
   methods: {
@@ -132,6 +155,11 @@ export default {
       }
       if (e === "disclaimerDissapear") {
         this.Disclaimer = false;
+        this.PostDisclaimerVideo = true;
+        this.$refs.disclaimervoice.pause();
+      }
+      if (e === "disclaimerVidDissapear") {
+        this.PostDisclaimerVideo = false;
       }
     },
     clickndrag() {
@@ -169,7 +197,11 @@ export default {
     // this.clickndrag();
     this.release();
     this.setStore();
-    console.log(this.$puzzle.debris_bg.url);
+    this.ww = window.innerWidth;
+    window.addEventListener('resize', () => {
+      this.ww = window.innerWidth;
+    })
+    // console.log(this.$puzzle.debris_bg.url);
     //Set default FB meta tag Title
     // document.querySelector('meta[name="fbtitle"]').setAttribute("content", this.$cms.textField(this.$puzzle.fb_default_title));
     // //Set default FB meta tag Description
@@ -180,7 +212,7 @@ export default {
 };
 </script>
 
-<style>
+<style lang="scss">
 .app-inner {
   height: 100vh;
 }
@@ -276,5 +308,17 @@ button {
   width: 100%;
   height: 100%;
   position: fixed;
+}
+.mobile {
+  h1 {
+    position: fixed;
+    color: white;
+    text-align: center;
+    left: 50%;
+    top: 50%;
+    margin: 0;
+    width: 80%;
+    transform: translateX(-50%) translateY(-50%);
+  }
 }
 </style>

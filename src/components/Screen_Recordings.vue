@@ -2,67 +2,7 @@
   <div class="screen email">
       <Closebar @close="close"/>
       <div class="screeninner">
-        <div class="sidebar">
-          <div class="logo">
-            <img src="../assets/Email.png"/>
-            <h1>Email</h1>
-          </div>
-          <div class="menu">
-            <div v-for="(item, i) in menuitems" :key="i" class="menuitem">
-              <img :src="item.src"/>
-              <p>{{item.title}}</p>
-              </div>
-            </div>
-        </div>
-        <div class="thread">
-          <transition appear name="emailthread" v-if="!currentEmail">
-            <div class="threadlist">
-              <div class="bg"/>
-              <table v-if="$emails && $emails.length">
-                <transition  v-for="(item, i) in $emails" :key="i">
-                  <tr class="row" :style="$store.state.emailsRead[i] === true ? `background: lightgrey;` : ``" @click="activeEmail(item, i)">
-                    <td class="starredthread">
-                      <img src='../assets/starred.png'/>
-                    </td>
-                    <td class="headline">
-                      <p>{{item.headline}}</p>
-                    </td>
-                    <td class="subject">
-                      <p>{{item.subject}}</p>
-                    </td>
-                  </tr>
-                </transition>
-              </table>
-            </div>
-            </transition>
-            <transition name="openedemail" appear>
-                  <div  class="openedemail"  v-if="currentEmail">
-                      <div class="back" @click="currentEmail = null">
-                          <img src='../assets/back.png'/>
-                        </div>
-
-                        <div class="thread_singular" v-for="(item, i) in 3" :key="i">
-                          <div class="senderInformation">
-                            <div class="dp" :style="`background-image: url(${currentEmail.dp})`">
-                            </div>
-                            <p class="senderinfo">Sent from <b>{{currentEmail.sender}}</b> &lt;{{currentEmail.from}}&gt;
-                            <br/>
-                              <span class="smol">To me</span>
-                            </p>
-                            <div class="icons">
-                              <img src='../assets/forward.png'/>
-                              <img src='../assets/starred.png'/>
-                              <img src='../assets/more.png'/>
-                            </div>
-
-                          </div>
-                            <h2>{{currentEmail.headline}}</h2>
-                            <p v-html="currentEmail.body"></p>
-                      </div>
-
-                      </div>
-                </transition>
-          </div>
+      
       </div>
 
   </div>
@@ -141,11 +81,8 @@ Closebar
     overflow: hidden;
     padding-bottom: 22px;
 }
-h2 {
-  margin: 20px 0 10px;
-}
 .logo {
-  h2,  h1, img {
+  h1, img {
     display: inline-block;
     vertical-align: middle;
   }
@@ -292,10 +229,5 @@ td {
   top: 0;
   height: 100vh;
   width: 100%;
-}
-.thread_singular {
-  padding-bottom: 40px;
-  margin-bottom: 20px;
-  border-bottom: 1px solid rgb(231, 231, 231);
 }
 </style>

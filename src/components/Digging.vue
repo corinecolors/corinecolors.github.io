@@ -58,7 +58,7 @@ export default {
       digType: null,
       showPreviewText: false,
       hidePreviewTextAltogether: false,
-      offset: 5
+      offset: 100
     };
   },
   computed: {
@@ -271,7 +271,7 @@ export default {
         }
 
         // ---- Circle
-        if (this.digType === "Circle") {
+        if (this.digType === "Magnify") {
           this.ctx.arc(x, y, this.range, 0, 2 * Math.PI);
           this.ctx.fill();
         }

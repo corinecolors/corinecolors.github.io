@@ -15,10 +15,11 @@ export default {
     return {};
   },
   props: {},
-  watch: {},
+  watch: {
+  },
   methods: {
     handleLang() {
-      this.$emit("next", "disclaimerDissapear");
+      this.$emit("next", "disclaimerDissapear", "localizationData");
     }
   },
   mounted() {

@@ -2,12 +2,25 @@
   <div class="toolbar">
       <div class="bar" ref="bar">
           <div class="bg"/>
-          <div class="tools" v-if="randomizedpieces.length">
+          <!-- <div class="tools" v-if="randomizedpieces.length">
             <div class="tool"  v-for="(item, i) in randomizedpieces" :key="i">
                 <img 
                 :style="$store.state.activePiece === $puzzle.piece[item] ? `opacity: 1` : `opacity: .25; pointer-events: none;`"
                 :src="$puzzle.piece[item].tool.url" 
                 @click="assignTool({src: $puzzle.piece[item].tool.url, i: item, digType: $puzzle.piece[item].reveal_type})"/>
+            </div>
+        </div> -->
+             <div class="tools">
+            <div class="tool">
+                <!-- :style="$store.state.activePiece === $puzzle.piece[item] ? `opacity: 1` : `opacity: .25; pointer-events: none;`" -->
+                <img 
+                :style="!$store.state.AAsolved ? `opacity: 1` : `opacity: .25; pointer-events: none;`"
+                :src="$puzzle.scraper.url" 
+                @click="assignTool({src: $puzzle.scraper.url,  digType: etch})"/>
+                <img 
+                :style="$store.state.AAsolved ? `opacity: 1` : `opacity: .25; pointer-events: none;`"
+                :src="$puzzle.revealer.url" 
+                @click="assignTool({src: $puzzle.revealer.url,  digType: reveal})"/>
             </div>
         </div>
     </div>
@@ -19,7 +32,9 @@ export default {
   name: "Toolbar",
   data() {
     return {
-        randomizedpieces: []
+        randomizedpieces: [],
+        etch: 'Etch',
+        reveal: "Reveal"
     };
   },
   computed: {
@@ -83,11 +98,15 @@ export default {
     position: fixed;
 }
 .tool img{
-    width: 60px;
+    width: 80px;
+    padding: 60px 0;
 }
 .tool {
     z-index: 2;
-    padding: 5px 10px;
     cursor: pointer;
+}
+.tools {
+    margin-top: 40vh;
+    transform: translateY(-50%);
 }
 </style>

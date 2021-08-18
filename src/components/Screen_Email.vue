@@ -59,10 +59,13 @@
                             <h2>{{currentEmail.headline}}</h2>
                             <p v-html="currentEmail.body"></p>
                       </div>
-
+                        <div class="link">
+                          <div class="linkinner" @click="handleClick">The Deep State Files</div>
+                        </div>
                       </div>
                 </transition>
           </div>
+          
       </div>
 
   </div>
@@ -116,6 +119,9 @@ Closebar
     },
     close(i) {
       this.$emit("close", i)
+    },
+    handleClick() {
+      this.$store.commit('screens', {what: "Toolbar", bool: true});
     }
   },
   mounted() {},
@@ -297,5 +303,20 @@ td {
   padding-bottom: 40px;
   margin-bottom: 20px;
   border-bottom: 1px solid rgb(231, 231, 231);
+}
+.link {
+  padding-bottom: 50px;
+  padding-left: 0;
+}
+.linkinner {
+  background: black;
+  padding: 20px;
+  color: white;
+    transition: background .5s ease;
+  border-radius: 20px;
+  &:hover {
+    background: grey;
+    transition: background .5s ease;
+  }
 }
 </style>

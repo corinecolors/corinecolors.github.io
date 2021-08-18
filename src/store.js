@@ -12,8 +12,7 @@ export default Vue.prototype.$store = new Vuex.Store({
       Toolbar: false,
     },
     tool: {
-      src: "https://miro.medium.com/max/560/0*oa0XcvM99Y5clDsj.png",
-      i: 0,
+      src: null,
       digType: "",
     },
     activePiece: {},
@@ -22,6 +21,7 @@ export default Vue.prototype.$store = new Vuex.Store({
     pressPlayMessage: false,
     mouse: {},
     donePuzzle: false,
+    AAsolved: false,
     // active:
   },
   mutations: {
@@ -36,6 +36,10 @@ export default Vue.prototype.$store = new Vuex.Store({
     allEmailsRead(state, data) {
       state.allEmailsRead = data;
       Vue.set(state, data);
+    },
+    AAsolved(state, AAsolved) {
+      state.AAsolved = AAsolved;
+      Vue.set(state, AAsolved);
     },
     screens(state, obj) {
       state.screens[`${obj.what}`] = obj.bool;

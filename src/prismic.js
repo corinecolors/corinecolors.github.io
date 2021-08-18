@@ -40,10 +40,19 @@ export default new (class Prismic {
     return new Promise((res) => {
       const client = this.p.client("https://firstlady.cdn.prismic.io/api/v2");
       client.query("").then((resp) => {
-        console.log(resp.results);
+        // console.log(resp.results);
         Vue.prototype.$puzzle = resp.results.find(
           (e) => e.type === "puzzle"
         ).data;
+
+        // desktopcontent
+        Vue.prototype.$desktopcontent = resp.results.find(
+          (e) => e.type === "desktopcontent"
+        ).data;
+        Vue.prototype.$desktopcontent.screenrecordings = Vue.prototype.$desktopcontent.body.filter(
+          (i) => i.slice_type === "screenrecordings"
+        )[0];
+        // console.log(Vue.prototype.$desktopcontent);
 
         //Assign to Eng object- --------–––––––––––––––––––––––––––––––––––––––––––––
 
@@ -69,6 +78,8 @@ export default new (class Prismic {
           (e) => e.type === "intro"
         ).data.disclaimer_voice_eng;
         Vue.prototype.$eng = this.eng;
+
+        console.log(Vue.prototype.$puzzle);
 
         //Assign to Arabic object- --------–––––––––––––––––––––––––––––––––––––––––––––
         this.arabic.disclaimer = resp.results.find(

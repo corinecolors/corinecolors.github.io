@@ -10,37 +10,38 @@
       <img class="folder" :src="item.icon.url" />
       <p>{{$cms.textField(item.label)}}</p>
     </div>
-    <div class="screenarea">
-      <component :is="activeScreen" @close="handleClose"/>
+    <div class="screenarea" v-if="activeScreen && activeScreen.length">
+      <transition v-for="(item, i) in activeScreen" :key="i">
+       <component  :is="item" @close="handleClose(i)"/>
+      </transition>
       </div>
   </div>
 </template>
 
 <script>
 import ScreenEmail from "../components/Screen_Email.vue";
+import ScreenRecordings from "../components/Screen_Recordings.vue";
 
 export default {
   components: {
-    ScreenEmail
+    ScreenEmail,
+    ScreenRecordings
   },
   name: "Desktop",
   data() {
     return {
-      activeScreen: null,
-   
+      activeScreen: [],
     };
   },
   props: {},
   watch: {},
   methods: {
     handleClose(i) {
-      if (i) {
-        this.activeScreen = null;
-      }
+      this.activeScreen.splice(i, 1);
     },
     goTo(item) {
-      if (!this.activeScreen)
-        this.activeScreen = this.$cms.textField(item.link);
+      if (this.activeScreen.indexOf(this.$cms.textField(item.link)) < 0)
+        this.activeScreen.push(this.$cms.textField(item.link));
     }
   },
   mounted() {},

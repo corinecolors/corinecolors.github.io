@@ -1,6 +1,6 @@
 <template>
   <div id="index" :style="`background: url(${$puzzle.main_bg.url}); background-size; cover;
-  background-repeat: no-repeat; background-position: center;`">
+  background-repeat: no-repeat; background-position: center; ${$store.state.tool.src ? `cursor: none` : `cursor: default`}`">
     <router-view></router-view>
     <CursorThing />
   </div>
@@ -63,7 +63,7 @@ user-drag: none;
   font-family: Arial, Helvetica, sans-serif;
   /* margin-top: 60px; */
   overflow: hidden;
-  cursor: none;
+  // cursor: none;
   p, a, h1, h2, h3, h4, h5, span {
     font-family: Arial, Helvetica, sans-serif;
   }

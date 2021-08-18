@@ -195,10 +195,10 @@ h2 {
 }
 .close {
   color: white;
-  font-size: 70px;
+  font-size: 40px;
   position: fixed;
-  right: 60px;
-  top: 0;
+  right: 25%;
+  top: 50px;
 }
 p {
   color: white;

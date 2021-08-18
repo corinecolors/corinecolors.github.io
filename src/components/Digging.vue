@@ -1,10 +1,10 @@
 <template>
-  <div class="digging" ref="digging">
-    <div class="previewtext" v-if="!hidePreviewTextAltogether">
-      <span v-if="showPreviewText">{{
+  <div class="digging" ref="digging" @mouseout="mouseout">
+    <div class="previewtext">
+      <h3 class="text" v-if="showPreviewText">{{
         $cms.textField(data.data.puzzle_preview_message)
-      }}</span>
-      <span class="questionmark" v-else><img :src="imgSrc(data.i)"/></span>
+      }}</h3>
+      <p class="questionmark" v-else><img :src="imgSrc(data.i)"/></p>
     </div>
     <canvas
       :id="`canvas${data.i}B`"
@@ -17,18 +17,18 @@
       :style="`${Asolved ? `opacity: 0; pointer-events: none;` : ``}`"
     />
     <!-- <div class="playbutton" :style="`${Asolved ? `opacity: 1; cursor: pointer;` : `pointer-events: none`}`" @click="handlePlayButton"></div> -->
-    <span @mousedown="handlePlayButton">
+    <span @mousedown="handlePlayButton" @mouseover="handleHover">
       <Playbutton
         :fill="$cms.textField(this.data.data.playbuttom_color)"
         :style="`${
-          Asolved ? `opacity: .75; cursor: pointer;` : `pointer-events: none`
+          Asolved ? `opacity: .75; cursor: pointer;` : ``
         }`"
       />
     </span>
     <canvas
       :id="`canvas${data.i}AA`"
       class="aa"
-      :style="`${AAsolved ? `opacity: 0; pointer-events: none;` : ``}`"
+      :style="`${AAsolved  ? `opacity: 0; pointer-events: none;` : ``}`"
     />
   </div>
 </template>
@@ -57,12 +57,15 @@ export default {
       Aprohibited: true,
       digType: null,
       showPreviewText: false,
-      hidePreviewTextAltogether: false,
-      offset: 100
+      Aoffset: 1000,
+      AAoffset: 15,
+      etch: "Etch",
+      reveal: "Reveal"
+
     };
   },
   computed: {
-    ...mapState(["tool"]),
+    ...mapState(["tool", "mouse"]),
   },
   components: {
     Playbutton,
@@ -89,10 +92,16 @@ export default {
   },
   watch: {
     tool() {
-      if (this.activei === this.tool.i && this.i === this.tool.i) {
+      console.log(this.whArray);
+      if 
+      ((this.tool.digType === "Etch" && !this.AAsolved  || 
+      this.AAsolved && this.tool.digType === "Reveal") 
+      && this.i === this.activei) 
+      {
         this.digType = this.$store.state.tool.digType;
         this.showPreviewText = true;
         this.$refs.digging.style = "pointer-events: auto";
+        console.log("do!");
       } else {
         this.$refs.digging.style = "pointer-events: none";
         // { emit nudge move }
@@ -101,15 +110,17 @@ export default {
     AAsolved() {
       if (this.AAsolved) {
         //Remove previous mouse listeners
+      this.$store.commit('AAsolved', true);
+
         this.active.removeEventListener("mousedown", this.mousedown);
         this.active.removeEventListener("mousemove", this.mousemove);
         this.active.removeEventListener("mouseup", this.mouseup);
         //update the active canvas
         this.active = document.getElementById(`canvas${this.data.i}A`);
         //re-introduce moue listener to the new active canvas
-        this.mouseEvents();
-        this.$store.commit("digMoreMessage", true);
       this.$store.commit("mouse", {mouseevent: "mouseup", e: "none"});
+        this.mouseEvents();
+
 
       }
     },
@@ -119,7 +130,6 @@ export default {
         this.active.removeEventListener("mousemove", this.mousemove);
         this.active.removeEventListener("mouseup", this.mouseup);
         this.$store.commit("isDigging", false);
-        this.$store.commit("pressPlayMessage", true);
         this.$store.commit("mouse", {mouseevent: "mouseup", e: "none"});
         if (this.data.i=== 7) {
           this.$store.commit("donePuzzle", true);
@@ -130,11 +140,19 @@ export default {
     },
   },
   methods: {
+    handleHover() {
+      if (!this.Asolved) {
+        this.$store.commit("digMoreMessage", true);
+      } else if (this.AAsolved) {
+        this.$store.commit("pressPlayMessage", true);
+
+      }
+    },
     imgSrc(i) {
       return require(`../assets/QuestionMarks/qm${i + 1}.png`)
     },
     handlePlayButton() {
-      this.$emit("solved", this.data);
+      if (this.Asolved) this.$emit("solved", this.data);
     },
     setArray(e) {
       this.whArray = [];
@@ -153,16 +171,15 @@ export default {
       }
       //DETERMINE IF SCRUBBED ENOUGH
       if (
-        this.whArray.length < this.offset &&
+        this.whArray.length < this.AAoffset &&
         this.active === document.getElementById(`canvas${this.data.i}AA`)
       ) {
-        console.log("width and height", this.width, this.height);
         this.setArray({ width: this.width, height: this.height });
         this.AAsolved = true;
       }
 
       if (
-        this.whArray.length < this.offset &&
+        this.whArray.length < this.Aoffset &&
         this.active === document.getElementById(`canvas${this.data.i}A`)
       ) {
         this.Asolved = true;
@@ -238,7 +255,7 @@ export default {
       this.active.addEventListener("mouseup", this.mouseup);
     },
     mousedown(e) {
-      this.hidePreviewTextAltogether = true;
+      console.log("mouesdown");
       this.$store.commit("isDigging", true);
       this.active.addEventListener("mousemove", this.mousemove);
       this.isPress = true;
@@ -253,6 +270,9 @@ export default {
       this.$store.commit("isDigging", false);
       this.$store.commit("mouse", {mouseevent: "mouseup", e: e});
 
+    },
+    mouseout() {
+      this.$store.commit("mouse", {mouseevent: "mouseup", e: "none"})
     },
     mousemove(e) {
       if (this.isPress) {
@@ -271,7 +291,7 @@ export default {
         }
 
         // ---- Circle
-        if (this.digType === "Magnify") {
+        if (this.digType === "Magnify" || this.digType === "Reveal") {
           this.ctx.arc(x, y, this.range, 0, 2 * Math.PI);
           this.ctx.fill();
         }
@@ -598,7 +618,7 @@ export default {
   mounted() {
     this.active = document.getElementById(`canvas${this.data.i}AA`);
     this.dig();
-    console.log(this.data, "data");
+    // console.log(this.data, "data");
   },
 };
 </script>
@@ -668,14 +688,31 @@ export default {
   color: white;
   position: absolute;
   left: 50%;
-  top: 50%;
-  transform: translateX(-50%) translateY(-50%);
+  transform: translateX(-50%);
+  height: 100%;
   z-index: 10;
   pointer-events: none;
   user-select: none;
+  text-shadow: 0px 0px 10px rgba(0,0,0,1);
+  // font-weight: bold;
+  width: 80%;
+  text-align: center;
+  .text {
+    margin: 0;
+    position: absolute;
+    width: 100%;
+    top: 20%;
+    left: 50%;
+    transform: translateX(-50%);
+  }
 }
 .questionmark {
   font-size: 40px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translateX(-50%) translateY(-50%);
+
  img {
     width: 50px
  }

@@ -1,5 +1,6 @@
 <template>
   <div id="app" ref="app">
+    <Nav/>
     <div class="app-inner" v-if="ww > 1000">
       <transition appear name="section" >
         <PostDisclaimerVideo 
@@ -49,10 +50,10 @@
           v-if="$store.state.screens['Toolbar']"
         />
       </transition>
-      <Desktop class="section Desktop" />
-      <transition appear name="section">
+      <Desktop class="section Desktop" v-if="!$store.state.screens['Toolbar']"/>
+      <!-- <transition appear name="section">
         <WarningSurveillance v-if="!$store.state.screens.Toolbar" />
-      </transition>
+      </transition> -->
     </div>
     <div v-else class="mobile">
       <h1>Please view this experience  on desktop.</h1>
@@ -65,6 +66,7 @@
 // import Puzzle from './components/Puzzle.vue'
 import AudioPlayer from './components/AudioPlayer.vue'
 import PostDisclaimerVideo from './components/PostDisclaimerVideo.vue'
+import Nav from './components/Nav.vue'
 
 import ChooseLanguage from "./components/ChooseLanguage.vue";
 import Desktop from "./components/Desktop.vue";
@@ -73,7 +75,7 @@ import Curtain from "./components/Curtain.vue";
 import Disclaimer from "./components/Disclaimer.vue";
 // import Digging from "./components/Digging.vue";
 import Toolbar from "./components/Toolbar.vue";
-import WarningSurveillance from "./components/WarningSurveillance.vue";
+// import WarningSurveillance from "./components/WarningSurveillance.vue";
 import Puzzle from "./components/Puzzle.vue";
 import FinalScreen from "./components/FinalScreen.vue";
 
@@ -91,11 +93,12 @@ export default {
     Disclaimer,
     // Digging,
     Toolbar,
-    WarningSurveillance,
+    // WarningSurveillance,
     Puzzle,
     AudioPlayer,
     FinalScreen,
-    PostDisclaimerVideo
+    PostDisclaimerVideo,
+    Nav
   },
   computed: {
     ...mapState(["emailsRead", "allEmailsRead","donePuzzle", "localizationData", "activePiece"]),

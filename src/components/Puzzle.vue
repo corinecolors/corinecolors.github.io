@@ -48,10 +48,12 @@ export default {
   watch: {},
   methods: {
     handleSolved(e) {
-      //do other stuff first, then this is called.
+
+      console.log("e", e);
       this.showVid = true;
       this.activei = e.i + 1;
       this.$store.commit("activePiece", this.$puzzle.piece[this.activei]);
+      this.$store.commit('AAsolved', false);
       // console.log(this.$store.state.activePiece);
     },
   },

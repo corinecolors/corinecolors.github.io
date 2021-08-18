@@ -21,15 +21,18 @@ export default {
     return {};
   },
   computed: {
-    ...mapState(["digMoreMessage", "pressPlayMessage", "activePiece"]),
+    ...mapState(["digMoreMessage", "pressPlayMessage", "activePiece", "AAsolved"]),
   },
   components: {
     DebrisChoppings,
   },
   props: {},
   watch: {
-    activePiece() {
-      console.log("this.activePiece", this.activePiece.cta_more);
+    AAsolved() {
+      this.$store.commit("tool", {
+      src: null,
+      digType: "",
+    })
     },
     pressPlayMessage() {
       setTimeout(() => {
@@ -62,11 +65,11 @@ export default {
   position: fixed;
   z-index: 1000000;
   pointer-events: none;
-  left: -30px;
-  top: -30px;
+  left: -50px;
+  top: -50px;
 }
 img {
-  max-height: 60px;
+  max-height: 100px;
 }
 .debris {
   width: 100px;
@@ -77,10 +80,10 @@ img {
 .cursor-wrapper {
   color: white;
   font-weight: bold;
-  color: rgb(211, 134, 247);
+  color: rgb(237, 201, 253);
 }
 .digmore,
 .pressPlayMessage {
-  text-shadow: 0px 0px 10px rgba(0, 0, 0, 1);
+  text-shadow: 0px 0px 8px rgba(0, 0, 0, 1);
 }
 </style>

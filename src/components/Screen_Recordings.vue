@@ -1,8 +1,16 @@
 <template>
-  <div class="screen email">
+  <div class="screen recordings">
       <Closebar @close="close"/>
       <div class="screeninner">
-      
+      <!-- <img class="sidebar" src="../assets/recordingsidebar.jpg"/> -->
+      <div class="main">
+        <video class="vid" autoplay ref="video" id="video">
+          <source :src="$desktopcontent.screenrecordings.primary.main_video.url" type="video/mp4" />
+          Your browser does not support the video tag.
+        </video>
+        <div class="play" @click.prevent="handlePlay"><Playbutton /></div>
+        <div class="rewind" ref="rewind"></div>
+        </div>
       </div>
 
   </div>
@@ -10,11 +18,16 @@
 
 <script>
 import Closebar from "./Closebar.vue";
+import Playbutton from "./Playbutton.vue";
 
 export default {
   name: "Screen_Email",
   components: {
-Closebar
+Closebar,
+Playbutton
+  },
+  beforeDestroy() {
+    this.$refs.video.pause();
   },
   data() {
     return {
@@ -41,24 +54,45 @@ Closebar
         },
       ],
       currentEmail: null,
+      isPlaying: true,
+      rewindWidth: 0
       
     };
   },
   props: {},
   watch: {},
   methods: {
-    activeEmail(email, i) {
-      this.currentEmail = email;
-
-      if (this.$store.state.emailsRead[i] === false) {
-        this.$store.commit("emailsRead", {idx: i, boole: true});
+    handlePlay() {
+      if (this.isPlaying) {
+        this.$refs.video.pause();
+        this.isPlaying = false;
+      } else {
+        this.$refs.video.play();
+        this.isPlaying = true;
       }
+
+    },
+    rewindCapability(e) {
+      this.isPlaying = true;
+
+      
+      // console.log(this.$refs.video.currentTime, this.rewindWidth, e.offsetX);
+      this.$refs.video.currentTime = e.offsetX * (29 / this.rewindWidth);
+      this.$refs.video.play();
+
     },
     close(i) {
       this.$emit("close", i)
     }
   },
-  mounted() {},
+  mounted() {
+    // this.$refs.video.addEventListener('ended', () => {
+    //   this.$store.commit("emailNotif", true);
+    // })
+    // this.rewindCapability();
+    this.rewindWidth = this.$refs.rewind.getBoundingClientRect().width;
+    this.$refs.rewind.addEventListener("mousedown", this.rewindCapability);
+  },
 };
 </script>
 
@@ -71,8 +105,9 @@ Closebar
 }
 .screen {
     position: fixed;
-    width: 70vw;
-    height: 70vh;
+    height: 410px;
+    width: 720px;
+    display: inline-block;
     background: white;
     left: 50%;
     top: 50%;
@@ -81,153 +116,41 @@ Closebar
     overflow: hidden;
     padding-bottom: 22px;
 }
-.logo {
-  h1, img {
-    display: inline-block;
-    vertical-align: middle;
-  }
-  img {
-    width: 50px;
-    padding-right: 10px;
-  }
-}
-.sidebar {
-  background: lightgray;
-  width: 25%;
-  height: 100%;
-  position: fixed;
-  z-index: 10;
-}
-.sidebar, .thread {
+
+
+.sidebar, .main {
   display: inline-block;
+  vertical-align: top;
 }
-.thread {
-  width: 75%;
-  position: absolute;
-  top: 0;
-  margin-left: 25%;
-}
-.menu {
-  p {
-    display: inline-block;
-    vertical-align: middle;
-  }
-  img {
-    vertical-align: middle;
-    display: inline-block;
-    width: 25px;
-    padding: 0 10px 5px;
-  }
-}
-p {
-    color: black;
-}
-.headline {
-  width: 35%;
-}
-table {
+.main {
+  // height: 450px;
+  // width: 512px;
   width: 100%;
-  border-spacing: 0;
-}
-.row p {
-  padding: 10px 0;
-}
-td {
-  padding: 0;
-}
-.row{
- 
-  background: white;
-  transition: background .25s ease;
-  cursor: pointer;
-  &:hover {
-    background: lightgray;
-    transition: background .25s ease;
-  }
-    position: relative;
-    &:after {
-      content: '';
-      position: absolute;
-      bottom: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      border-bottom: 1px solid lightgray;
-      pointer-events: none;
-    }
-    &:first-child:after {
-      border-top: 1px solid lightgray; 
-    }
-}
-.emailthread-enter-to, .emailthread-leave{
-  transform: translateX(0%);
-  transition: transform .5s ease;
-}
-.emailthread-enter, .emailthread-leave-to {
-  transform: translateX(-100%);
-  transition: transform .5s ease;
-}
-.openedemail {
+  // margin-top: 50px;
+  text-align: center;
   position: absolute;
-  padding: 20px;
-  transform: translateX(0%);
-  width: calc(100% - 40px);
-  top: 0;
+  height: 500px;
+  width: 720px;
 }
-.openedemail-enter-to {
-  transform: translateX(0%);
-  transition: transform .5s ease;
-}
-.openedemail-enter, .openedemail-leave-to, .openedemail-leave {
-  transform: translateX(100%);
-  transition: transform .5s ease;
-}
-.back {
-  cursor: pointer;
-  padding-bottom: 20px;
-  display: inline-block;
-}
-.senderinfo {
-  padding-left: 10px;
-}
-.senderInformation {
-  position: relative;
-  .dp {
-    vertical-align: middle;
-    display: inline-block;
-    height: 50px;
-    width: 50px;
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-    border-radius: 100px;
-  }
-  p {
-    display: inline-block;
-    vertical-align: middle;
-  }
-  .icons {
-    position: absolute;
-    right: 0;
-    top: 0;
-    img {
-      width: 15px;
-      padding: 0 10px;
-    }
-  }
-}
-.starredthread {
-  img {
-    width: 20px;
-    padding-left: 20px;
-  }
-}
-.bg {
-  background: white;
-  position: fixed;
-  left: 0;
-  top: 0;
-  height: 100vh;
+.vid {
   width: 100%;
+  // padding-top: 30px;
+  margin-top: -40px;
+}
+.play {
+  width: 60px;
+  position: absolute;
+  right: 210px;
+  top: 335px;
+}
+
+.rewind {
+  width: 370px;
+  height: 40px;
+  background: green;
+  position: absolute;
+  top: 178px;
+  left: 300px;
+  opacity: 0;
 }
 </style>

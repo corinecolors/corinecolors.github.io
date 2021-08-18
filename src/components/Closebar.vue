@@ -1,6 +1,8 @@
 <template>
-  <div class="closebar" @click="action('close')">
-      <div class="button close" />
+  <div class="closebar" >
+      <div class="close-wrapper" @click="action('close')">
+        <div class="button close"/>
+      </div>
       <div class="button min"/>
       <div class="button exp"/>
   </div>
@@ -36,6 +38,23 @@ export default {
     margin: 5px;
     border-radius: 100px;
     display: inline-block;
+}
+.close-wrapper {
+    display: inline-block;
+    cursor: pointer;
+    height: 22px;
+    width: 22px;
+    position: relative;
+    &:hover  {
+        &:after {
+            content: '✕';
+            font-size: 8px;
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translateX(-50%) translateY(-50%);
+        }
+    }
 }
 .close {
     background: #ed6a5f;

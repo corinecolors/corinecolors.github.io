@@ -131,9 +131,9 @@ export default {
         this.active.removeEventListener("mouseup", this.mouseup);
         this.$store.commit("isDigging", false);
         this.$store.commit("mouse", {mouseevent: "mouseup", e: "none"});
-        if (this.data.i=== 7) {
-          this.$store.commit("donePuzzle", true);
-        }
+        // if (this.data.i=== 7) {
+        //   this.$store.commit("donePuzzle", true);
+        // }
 
         //   this.$emit('solved', this.data.i)
       }

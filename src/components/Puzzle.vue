@@ -52,7 +52,7 @@ export default {
       console.log("e", e);
       this.showVid = true;
       this.activei = e.i + 1;
-      this.$store.commit("activePiece", this.$puzzle.piece[this.activei]);
+      this.$store.commit("activePiece", {activepiece: this.$puzzle.piece[this.activei], i: e.i});
       this.$store.commit('AAsolved', false);
       // console.log(this.$store.state.activePiece);
     },

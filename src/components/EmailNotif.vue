@@ -66,6 +66,7 @@ export default {
 
   p {
     display: block;
+    cursor: pointer;
     height: 20px;
     padding: 10px 0;
     &:first-child {
@@ -83,14 +84,14 @@ export default {
   height: 80px;
   border-radius: 10px;
   position: fixed;
-  top: 20px;
+  top: 10px;
   overflow: hidden;
   // right: 0;
 } 
 .emailNotif {
   z-index: 1000;
-  padding-top: 20px;
-  padding-right: 20px;
+  padding-top: 10px;
+  padding-right: 10px;
 }
 .small {
   font-size: 12px;

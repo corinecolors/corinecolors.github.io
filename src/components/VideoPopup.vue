@@ -85,8 +85,7 @@ export default {
   },
   props: {
     desc: {
-      type: String,
-      default: "description",
+      type: String, //default for now
     },
     data: {
       type: Object,
@@ -108,6 +107,9 @@ export default {
   methods: {
     closeVid() {
       this.$emit("closeVid", true);
+        if (this.$store.state.activePiece.i === 7) {
+          this.$store.commit("donePuzzle", true);
+        }
     },
     copytoclipboard() {
       var url = this.$refs.url;
@@ -148,6 +150,7 @@ export default {
     },
   },
   mounted() {
+    // console.log(this.$store.state.activePiece.i);
     // Will have to change later, if this url changes
     this.url = `https://corinecolors.github.io/#/video/${
       this.data.video.name.split(".")[0]

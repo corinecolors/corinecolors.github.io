@@ -1,6 +1,5 @@
 <template>
   <div id="app" ref="app">
-    <Nav/>
     <div class="app-inner" v-if="ww > 1000">
         <transition appear name="EmailNotif" v-if="emailNotif && showEmailThread">
             <EmailNotif 
@@ -83,7 +82,6 @@
 // import Puzzle from './components/Puzzle.vue'
 import AudioPlayer from './components/AudioPlayer.vue'
 // import PostDisclaimerVideo from './components/PostDisclaimerVideo.vue'
-import Nav from './components/Nav.vue'
 
 import ChooseLanguage from "./components/ChooseLanguage.vue";
 import Desktop from "./components/Desktop.vue";
@@ -116,7 +114,6 @@ export default {
     AudioPlayer,
     FinalScreen,
     // PostDisclaimerVideo,
-    Nav,
     EmailNotif
   },
   computed: {
@@ -353,7 +350,7 @@ button {
   }
 }
 .EmailNotif, .bgg {
-  left: calc(100% - 20px);
+  left: calc(100% - 10px);
   transition: transform 1s ease ;
   // showing
   transform: translateX(-100%);

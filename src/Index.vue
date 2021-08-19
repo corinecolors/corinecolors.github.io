@@ -3,11 +3,15 @@
   background-repeat: no-repeat; background-position: center; ${$store.state.tool.src ? `cursor: none` : `cursor: default`}`">
     <router-view></router-view>
     <CursorThing />
+    <Nav/>
+
   </div>
 </template>
 
 <script>
 import CursorThing from "./components/Cursor.vue";
+import Nav from './components/Nav.vue'
+
 export default {
   name: "Index",
   metaInfo: {
@@ -28,6 +32,7 @@ export default {
 
   components: {
     CursorThing,
+    Nav
   },
   props: {},
   watch: {},

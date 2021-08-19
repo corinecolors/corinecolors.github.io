@@ -12,7 +12,7 @@
     </div>
     <div class="screenarea" v-if="activeScreen && activeScreen.length">
       <transition v-for="(item, i) in activeScreen" :key="i">
-       <component  :is="item" @close="handleClose(i)"/>
+       <component  :is="item" @close="handleClose(i)" :class="item" @click.native="showOnTop(item)" :ref="item"/>
       </transition>
       </div>
   </div>
@@ -21,23 +21,46 @@
 <script>
 import ScreenEmail from "../components/Screen_Email.vue";
 import ScreenRecordings from "../components/Screen_Recordings.vue";
+import ScreenImage from "../components/Screen_Image.vue";
 
 export default {
   components: {
     ScreenEmail,
-    ScreenRecordings
+    ScreenRecordings,
+    ScreenImage
   },
   name: "Desktop",
   data() {
     return {
-      activeScreen: [],
+      activeScreen: ['ScreenRecordings', 'ScreenImage'],
     };
   },
-  props: {},
-  watch: {},
+  props: {
+    openEmailScreen: {
+      type: Boolean,
+      default: false
+    }
+  },
+  watch: {
+    openEmailScreen: {
+      handler(e) {
+        if (e) {
+          console.log(e);
+          this.activeScreen.push("ScreenEmail");
+        }
+      },
+      deep: true 
+    }
+  },
   methods: {
     handleClose(i) {
       this.activeScreen.splice(i, 1);
+    },
+    showOnTop(item) {
+      for (let i = 0; i < this.activeScreen.length; i++) {
+        this.$refs[this.activeScreen[i]][0].$el.style=" z-index: 0"
+      }
+      this.$refs[item][0].$el.style=" z-index: 1";
     },
     goTo(item) {
       if (this.activeScreen.indexOf(this.$cms.textField(item.link)) < 0)
@@ -56,5 +79,12 @@ export default {
   left: 0;
   width: 100vw;
   height: 100vh;
+}
+.ScreenRecordings {
+  transform: translateY(-300px) translateX(-600px);
+  z-index: 1;
+}
+.ScreenImage {
+    transform: translateY(-100px) translateX(-100px);
 }
 </style>

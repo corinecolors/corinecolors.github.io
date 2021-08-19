@@ -52,6 +52,10 @@ export default new (class Prismic {
         Vue.prototype.$desktopcontent.screenrecordings = Vue.prototype.$desktopcontent.body.filter(
           (i) => i.slice_type === "screenrecordings"
         )[0];
+        Vue.prototype.$desktopcontent.screenimage = Vue.prototype.$desktopcontent.body.filter(
+          (i) => i.slice_type === "screen_image"
+        )[0];
+        console.log(Vue.prototype.$desktopcontent);
         // console.log(Vue.prototype.$desktopcontent);
 
         //Assign to Eng object- --------–––––––––––––––––––––––––––––––––––––––––––––

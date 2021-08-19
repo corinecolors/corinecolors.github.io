@@ -22,12 +22,17 @@ export default Vue.prototype.$store = new Vuex.Store({
     mouse: {},
     donePuzzle: false,
     AAsolved: false,
+    showEmailThread: false,
     // active:
   },
   mutations: {
     emailsRead(state, obj) {
       this.state.emailsRead[obj.idx] = obj.boole;
       Vue.set(state, obj.idx, obj.boole);
+    },
+    showEmailThread(state, showEmailThread) {
+      state.showEmailThread = showEmailThread;
+      Vue.set(state, showEmailThread);
     },
     localizationData(state, data) {
       state.data = data;

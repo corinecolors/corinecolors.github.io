@@ -14,9 +14,9 @@
               </div>
             </div>
         </div>
-        <div class="thread">
+        <div class="thread" v-if="$store.state.showEmailThread">
           <transition appear name="emailthread" v-if="!currentEmail">
-            <div class="threadlist">
+            <div class="threadlist" >
               <div class="bg"/>
               <table v-if="$emails && $emails.length">
                 <transition  v-for="(item, i) in $emails" :key="i">
@@ -65,6 +65,9 @@
                       </div>
                 </transition>
           </div>
+          <div v-else class="thread empty">
+            Your inbox is clean!
+            </div>
           
       </div>
 
@@ -318,5 +321,9 @@ td {
     background: grey;
     transition: background .5s ease;
   }
+}
+.empty {
+  text-align: center;
+  padding-top: 20px;
 }
 </style>

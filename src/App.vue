@@ -2,25 +2,38 @@
   <div id="app" ref="app">
     <Nav/>
     <div class="app-inner" v-if="ww > 1000">
-      <transition appear name="section" >
+        <transition appear name="EmailNotif" v-if="emailNotif && showEmailThread">
+            <EmailNotif 
+            class="EmailNotif" 
+            @closeNotif="handlecloseNotif"
+            @openEmail="handleopenEmail"/>
+        </transition>
+
+      <!-- <transition appear name="section" >
         <PostDisclaimerVideo 
         class="section PostDisclaimerVideo"
         v-show="PostDisclaimerVideo"
         :playVid="PostDisclaimerVideo"
         @videoEnded="handleNext"/>
-        </transition>
+        </transition> -->
+
       <audio ref="disclaimervoice" v-if="disclaimervoiceUrl">
           <source :src="disclaimervoiceUrl" type="audio/mpeg" />
       </audio>
+
       <transition  v-if="finalscreen" appear name="section">
         <FinalScreen class="section FinalScreen"/>
         </transition>
-      <!-- <Popup/> -->
+
+
       <AudioPlayer/>
+
       <transition appear name="section">
         <Puzzle class="section Puzzle" v-if="$store.state.screens['Toolbar']" />
       </transition>
+
       <Curtain />
+
       <transition appear name="section">
         <ChooseLanguage
           @next="handleNext"
@@ -28,6 +41,7 @@
           v-if="ChooseLanguage"
         />
       </transition>
+
       <transition appear name="section">
         <IntroVideo
           :playVid="playVid"
@@ -36,6 +50,7 @@
           v-if="IntroVideo"
         />
       </transition>
+
       <transition appear name="section">
         <Disclaimer
           @next="handleNext"
@@ -43,20 +58,22 @@
           v-if="Disclaimer"
         />
       </transition>
-      <!-- <Digging class="section Digging"/> -->
+
       <transition appear name="section">
         <Toolbar
           class="section Toolbar"
-          v-if="$store.state.screens['Toolbar']"
+          v-if="$store.state.screens['Toolbar'] "
         />
       </transition>
-      <Desktop class="section Desktop" v-if="!$store.state.screens['Toolbar']"/>
-      <!-- <transition appear name="section">
-        <WarningSurveillance v-if="!$store.state.screens.Toolbar" />
-      </transition> -->
+
+      <Desktop 
+      class="section Desktop" 
+      v-if="!$store.state.screens['Toolbar'] && !Disclaimer"
+      :openEmailScreen="openEmailScreen"/>
+
     </div>
-    <div v-else class="mobile">
-      <h1>Please view this experience  on desktop.</h1>
+      <div v-else class="mobile">
+        <h1>Please view this experience  on desktop.</h1>
       </div>
   </div>
 </template>
@@ -65,7 +82,7 @@
 // import FlippyImage from './components/FlippyImage.vue'
 // import Puzzle from './components/Puzzle.vue'
 import AudioPlayer from './components/AudioPlayer.vue'
-import PostDisclaimerVideo from './components/PostDisclaimerVideo.vue'
+// import PostDisclaimerVideo from './components/PostDisclaimerVideo.vue'
 import Nav from './components/Nav.vue'
 
 import ChooseLanguage from "./components/ChooseLanguage.vue";
@@ -78,6 +95,7 @@ import Toolbar from "./components/Toolbar.vue";
 // import WarningSurveillance from "./components/WarningSurveillance.vue";
 import Puzzle from "./components/Puzzle.vue";
 import FinalScreen from "./components/FinalScreen.vue";
+import EmailNotif from "./components/EmailNotif.vue";
 
 import { mapState } from "vuex";
 export default {
@@ -97,11 +115,12 @@ export default {
     Puzzle,
     AudioPlayer,
     FinalScreen,
-    PostDisclaimerVideo,
-    Nav
+    // PostDisclaimerVideo,
+    Nav,
+    EmailNotif
   },
   computed: {
-    ...mapState(["emailsRead", "allEmailsRead","donePuzzle", "localizationData", "activePiece"]),
+    ...mapState(["emailsRead", "allEmailsRead","donePuzzle", "localizationData", "activePiece", "showEmailThread"]),
   },
   watch: {
      
@@ -143,7 +162,9 @@ export default {
       finalscreen: false,
       disclaimervoiceUrl: null,
       PostDisclaimerVideo: false,
-      ww: null
+      ww: null,
+      emailNotif:true,
+      openEmailScreen: false
     };
   },
   methods: {
@@ -164,6 +185,13 @@ export default {
       if (e === "disclaimerVidDissapear") {
         this.PostDisclaimerVideo = false;
       }
+    },
+    handleopenEmail() {
+      this.openEmailScreen = true;
+      this.emailNotif = false;
+    },
+    handlecloseNotif() {
+      this.emailNotif = false;
     },
     clickndrag() {
       this.$refs.app.addEventListener("mousedown", (e) => {
@@ -323,5 +351,19 @@ button {
     width: 80%;
     transform: translateX(-50%) translateY(-50%);
   }
+}
+.EmailNotif, .bgg {
+  left: calc(100% - 20px);
+  transition: transform 1s ease ;
+  // showing
+  transform: translateX(-100%);
+}
+.EmailNotif-enter-to, .EmailNotif-leave-to {
+  transform: translateX(-100%);
+  transition: transform 1s ease ;
+}
+.EmailNotif-enter, .EmailNotif-leave, .EmailNotif-leave-active {
+  transition: transform 1s ease ;
+  transform: translateX(calc(0% + 20px));
 }
 </style>

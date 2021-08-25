@@ -1,9 +1,10 @@
 <template>
   <div id="index" :style="`background: url(${$puzzle.main_bg.url}); background-size; cover;
   background-repeat: no-repeat; background-position: center; ${$store.state.tool.src ? `cursor: none` : `cursor: default`}`">
-    <router-view></router-view>
+    <router-view
+    @finalscreen="handlefinalscreen"></router-view>
     <CursorThing />
-  <FooterItem class="section FooterItem" />
+  <FooterItem ref="footer" class="section FooterItem" />
   </div>
 </template>
 
@@ -37,7 +38,11 @@ export default {
   },
   props: {},
   watch: {},
-  methods: {},
+  methods: {
+    handlefinalscreen() {
+      this.$refs.footer.$el.className += ` fin`;
+    }
+  },
   computed: {},
   mounted() {},
 };

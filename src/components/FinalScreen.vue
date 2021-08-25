@@ -164,6 +164,10 @@ export default {
 h2, p {
     color: white;
     text-align: center;
+    margin-top: 0;
+}
+h2 {
+    margin-bottom: 10px;
 }
 .desc {
     position: fixed;

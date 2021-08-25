@@ -193,4 +193,15 @@ button {
 .socials {
   display: inline-block;
 }
+.fin {
+  .socials,.newsletters {
+    display: block;
+  }
+  .newsletter input {
+      margin-right: 0;
+    }
+    bottom: 100px;
+    z-index: 100;
+    opacity: 1;
+}
 </style>

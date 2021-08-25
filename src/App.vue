@@ -22,10 +22,10 @@
       </transition>
 
       <audio ref="disclaimervoice" v-if="disclaimervoiceUrl">
-          <source :src="disclaimervoiceUrl" type="audio/mpeg" />
+        <source :src="disclaimervoiceUrl" type="audio/mpeg" />
       </audio>
-<!--  -->
-      <transition  v-if="finalscreen" appear name="section">
+
+      <transition v-if="finalscreen" appear name="section">
         <FinalScreen class="section FinalScreen"/>
         </transition>
 
@@ -130,17 +130,15 @@ export default {
     ...mapState(["emailsRead", "allEmailsRead","donePuzzle", "localizationData", "activePiece", "showEmailThread"]),
   },
   watch: {
-     
-    // localizationData: {
-     
-    //   },
-      deep:true
-    },
-    donePuzzle() {
-      if (this.donePuzzle) {
-        console.log("done puzzle!");
-        this.finalscreen = true;
-      }
+     donePuzzle: {
+       handler() {
+        if (this.donePuzzle) {
+          console.log("done puzzle!");
+          this.finalscreen = true;
+          this.$emit("finalscreen", this.finalscreen);
+        }
+       },
+      deep: true,
     },
     emailsRead: {
       handler(e) {
@@ -151,6 +149,8 @@ export default {
       },
       deep: true,
     },
+  },
+    
   data() {
     return {
       offsetX: 0,
@@ -249,7 +249,6 @@ export default {
     window.addEventListener('resize', () => {
       this.ww = window.innerWidth;
     })
-
       // this.$store.commit('screens', {what: "Toolbar", bool: true});//temp
 
     // console.log(this.$puzzle.debris_bg.url);

@@ -111,6 +111,7 @@ export default {
   watch: {},
   methods: {
     closeVid() {
+      console.log("closing vie on 7");
       this.$emit("closeVid", true);
         if (this.$store.state.activePiece.i === 7) {
           this.$store.commit("donePuzzle", true);

@@ -202,6 +202,7 @@ h2 {
   position: fixed;
   right: 25%;
   top: 50px;
+  cursor: pointer;
 }
 p {
   color: white;

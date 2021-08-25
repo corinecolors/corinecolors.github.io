@@ -5,13 +5,21 @@
               <li><a target="_blank" href="/">Home</a></li>
           </ul>
       </div>
-      <img :class="`hamburger ${showNav ? `openHamburger` : `closedHamburger`}`" @click.prevent="showNav = !showNav" src="../assets/Hamburger.svg" />
+      <!-- <img 
+      :class="`hamburger ${showNav ? `openHamburger` : `closedHamburger`}`" 
+      @click.prevent="showNav = !showNav" 
+      src="../assets/HouseIcon.svg" /> -->
+      <a href="/" target="_blank">
+     <img 
+      class="hamburger" 
+      src="../assets/HouseIcon.svg" />
+      </a>
   </div>
 </template>
 
 <script>
 export default {
-  name: "Template",
+  name: "Nav",
   data() {
     return {
         showNav: false

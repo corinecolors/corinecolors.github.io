@@ -1,12 +1,13 @@
 <template>
   <div id="app" ref="app">
     <div class="app-inner" v-if="ww > 1000">
-        <transition appear name="EmailNotif" v-if="emailNotif && showEmailThread">
-            <EmailNotif 
-            class="EmailNotif" 
-            @closeNotif="handlecloseNotif"
-            @openEmail="handleopenEmail"/>
-        </transition>
+      <transition appear name="EmailNotif" v-if="emailNotif && showEmailThread">
+          <EmailNotif 
+          class="EmailNotif" 
+          @closeNotif="handlecloseNotif"
+          @openEmail="handleopenEmail"/>
+      </transition>
+     <Nav v-if="!ChooseLanguage"/>
 
       <!-- <transition appear name="section" >
         <PostDisclaimerVideo 
@@ -15,6 +16,7 @@
         :playVid="PostDisclaimerVideo"
         @videoEnded="handleNext"/>
         </transition> -->
+
 
       <audio ref="disclaimervoice" v-if="disclaimervoiceUrl">
           <source :src="disclaimervoiceUrl" type="audio/mpeg" />
@@ -55,6 +57,7 @@
           @next="handleNext"
           class="section Disclaimer"
           v-if="Disclaimer"
+          @muteDisclaimer="handlemuteDisclaimer"
         />
       </transition>
 
@@ -88,6 +91,7 @@ import Desktop from "./components/Desktop.vue";
 import IntroVideo from "./components/IntroVideo.vue";
 import Curtain from "./components/Curtain.vue";
 import Disclaimer from "./components/Disclaimer.vue";
+import Nav from "./components/Nav.vue";
 // import Digging from "./components/Digging.vue";
 import Toolbar from "./components/Toolbar.vue";
 // import WarningSurveillance from "./components/WarningSurveillance.vue";
@@ -104,6 +108,7 @@ export default {
     // Puzzle
     ChooseLanguage,
     Desktop,
+    Nav,
     IntroVideo,
     Curtain,
     Disclaimer,
@@ -161,10 +166,15 @@ export default {
       PostDisclaimerVideo: false,
       ww: null,
       emailNotif:true,
-      openEmailScreen: false
+      openEmailScreen: false,
+      muteDisclaimer: false
     };
   },
   methods: {
+    handlemuteDisclaimer(e) {
+      if (e) this.$refs.disclaimervoice.pause();
+      else this.$refs.disclaimervoice.play();
+    },
     handleNext(e) {
       // console.log(e);
       if (e === "langDissapear") {
@@ -287,6 +297,13 @@ button {
   padding: 20px;
   border-radius: 10px;
   cursor: pointer;
+  transition: background .5s ease, color .5s ease;
+  &:hover {
+  transition: background .5s ease, color .5s ease;
+    background: white;
+    color: black;
+  
+  }
 }
 .Digging {
   z-index: 4;
@@ -363,4 +380,5 @@ button {
   transition: transform 1s ease ;
   transform: translateX(calc(0% + 20px));
 }
+
 </style>

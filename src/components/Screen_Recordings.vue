@@ -8,7 +8,7 @@
           <source :src="$desktopcontent.screenrecordings.primary.main_video.url" type="video/mp4" />
           Your browser does not support the video tag.
         </video>
-        <div class="play" @click.prevent="handlePlay"><Playbutton /></div>
+        <div class="play" @click.prevent="handlePlay"><Playbutton :fill="`#83475d`"/></div>
         <div class="rewind" ref="rewind"></div>
         <div class="rwd" @click="rwd"></div>
         <div class="fwd" @click="fwd"></div>
@@ -56,7 +56,7 @@ Playbutton
         },
       ],
       currentEmail: null,
-      isPlaying: true,
+      isPlaying: false,
       rewindWidth: 0,
       
     };
@@ -81,12 +81,11 @@ Playbutton
 
     },
     rewindCapability(e) {
-      this.isPlaying = true;
 
       
       // console.log(this.$refs.video.currentTime, this.rewindWidth, e.offsetX);
       this.$refs.video.currentTime = e.offsetX * (29 / this.rewindWidth);
-      this.$refs.video.play();
+      // this.$refs.video.play();
 
     },
     close(i) {
@@ -101,9 +100,9 @@ Playbutton
     // this.rewindCapability();
     this.rewindWidth = this.$refs.rewind.getBoundingClientRect().width;
     this.$refs.rewind.addEventListener("mousedown", this.rewindCapability);
-    setTimeout(() => {
-      this.$refs.video.play();
-    }, 1000)
+    // setTimeout(() => {
+    //   this.$refs.video.play();
+    // }, 1000)
   },
 };
 </script>
@@ -116,12 +115,13 @@ Playbutton
     position: relative;
 }
 .screen {
+    margin-left: 100px;
     position: fixed;
     height: 410px;
     width: 720px;
     display: inline-block;
     background: white;
-    left: 50%;
+    left: 700px;
     top: 50%;
     transform: translateX(-50%) translateY(-50%);
     border-radius: 5px;

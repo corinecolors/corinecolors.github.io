@@ -3,14 +3,14 @@
   background-repeat: no-repeat; background-position: center; ${$store.state.tool.src ? `cursor: none` : `cursor: default`}`">
     <router-view></router-view>
     <CursorThing />
-    <Nav/>
-
+  <FooterItem class="section FooterItem" />
   </div>
 </template>
 
 <script>
 import CursorThing from "./components/Cursor.vue";
-import Nav from './components/Nav.vue'
+// import Nav from './components/Nav.vue'
+import FooterItem from "./components/FooterItem.vue";
 
 export default {
   name: "Index",
@@ -32,7 +32,8 @@ export default {
 
   components: {
     CursorThing,
-    Nav
+    // Nav,
+    FooterItem
   },
   props: {},
   watch: {},
@@ -79,5 +80,13 @@ body {
   height: 100%;
   /* overflow: hidden; */
   overscroll-behavior-y: none;
+}
+.FooterItem {
+  z-index: 20;
+  position: fixed;
+  bottom: 0;
+  
+  right: 0;
+  // background: green;
 }
 </style>

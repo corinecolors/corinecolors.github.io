@@ -3,16 +3,25 @@
     <div class="bg" />
     <div class="msg" v-if="$store.state.data.disclaimer && $store.state.data.disclaimer.length">
       <div v-html="$cms.htmlField($store.state.data.disclaimer)"/>
+      <button class="mute" @click="handleMute"><iconMute :mute="mute" class="iconMute"/></button>
         <button class="disclaimerbutton" @click="handleLang('agree')">I Agree</button>
       </div>
+      
   </div>
 </template>
 
 <script>
+import iconMute from "./iconMute";
+
 export default {
   name: "Disclaimer",
+  components: {
+  iconMute
+  },
   data() {
-    return {};
+    return {
+      mute: true
+    };
   },
   props: {},
   watch: {
@@ -20,6 +29,10 @@ export default {
   methods: {
     handleLang() {
       this.$emit("next", "disclaimerDissapear", "localizationData");
+    },
+    handleMute() {
+      this.$emit("muteDisclaimer", this.mute);
+      this.mute = !this.mute;
     }
   },
   mounted() {
@@ -56,5 +69,17 @@ export default {
 }
 .disclaimerbutton {
   margin-top: 20px;
+}
+.iconMute {
+  width: 20px;
+  height: 20px;
+
+}
+.mute {
+   &:hover {
+      &::v-deep svg g path{
+      fill: black !important;
+    }
+ }
 }
 </style>

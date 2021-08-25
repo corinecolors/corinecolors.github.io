@@ -7,15 +7,22 @@
       <p class="questionmark" v-else><img :src="imgSrc(data.i)"/></p>
     </div>
     <canvas
+      v-if="data.data.c.url"
+      :id="`canvas${data.i}C`"
+      class="c"
+      :style="`${Csolved ? `opacity: 1;` : ``}`"
+    />
+    <canvas
       :id="`canvas${data.i}B`"
       class="b"
-      :style="`${Asolved ? `opacity: 1;` : ``}`"
+      :style="`${Bsolved ? `opacity: 0; pointer-events: none;` : ``}`"
     />
     <canvas
       :id="`canvas${data.i}A`"
       class="a"
       :style="`${Asolved ? `opacity: 0; pointer-events: none;` : ``}`"
     />
+    <div class="lightbox" @click="handleLightbox"><img src="../assets/magnifying_icon.svg"/></div>
     <!-- <div class="playbutton" :style="`${Asolved ? `opacity: 1; cursor: pointer;` : `pointer-events: none`}`" @click="handlePlayButton"></div> -->
     <span @mousedown="handlePlayButton" @mouseover="handleHover">
       <Playbutton
@@ -49,6 +56,8 @@ export default {
       range: 40,
       AAsolved: false,
       Asolved: false,
+      Bsolved: false,
+      Csolved: false,
       isPress: false,
       ctx: null,
       old: null,
@@ -60,7 +69,9 @@ export default {
       Aoffset: 1000,
       AAoffset: 15,
       etch: "Etch",
-      reveal: "Reveal"
+      reveal: "Reveal",
+      imgA: null,
+      imgB: null
 
     };
   },
@@ -131,6 +142,12 @@ export default {
         this.active.removeEventListener("mouseup", this.mouseup);
         this.$store.commit("isDigging", false);
         this.$store.commit("mouse", {mouseevent: "mouseup", e: "none"});
+        if (this.data.data.c.url) {
+          this.active = document.getElementById(`canvas${this.data.i}B`);
+          this.$store.commit("mouse", {mouseevent: "mouseup", e: "none"});
+          this.mouseEvents();
+        }
+
         // if (this.data.i=== 7) {
         //   this.$store.commit("donePuzzle", true);
         // }
@@ -140,6 +157,9 @@ export default {
     },
   },
   methods: {
+    handleLightbox() {
+
+    },
     handleHover() {
       if (!this.Asolved) {
         this.$store.commit("digMoreMessage", true);
@@ -184,21 +204,45 @@ export default {
       ) {
         this.Asolved = true;
       }
+
+      if (
+        this.whArray.length < this.Aoffset &&
+        this.active === document.getElementById(`canvas${this.data.i}B`)
+      ) {
+        this.Bsolved = true;
+      }
+
+       if (
+        this.whArray.length < this.AAoffset &&
+        this.active === document.getElementById(`canvas${this.data.i}C`)
+      ) {
+        this.Csolved = true;
+      }
     },
     dig() {
       if (this.data.data) {
         var urlA = this.data.data.a.url;
         var urlB = this.data.data.b.url;
+        if (this.data.data.c.url) var urlC = this.data.data.c.url;
       } else {
         urlA = this.image;
       }
       var canvasA = document.getElementById(`canvas${this.data.i}A`);
       var canvasB = document.getElementById(`canvas${this.data.i}B`);
+      
       var canvasAA = document.getElementById(`canvas${this.data.i}AA`);
 
       var ctxA = canvasA.getContext("2d");
       var ctxB = canvasB.getContext("2d");
       var ctxAA = canvasAA.getContext("2d");
+
+      if (this.data.data.c.url) {
+        var canvasC = document.getElementById(`canvas${this.data.i}C`);
+        var ctxC = canvasC.getContext("2d");
+        var imgC = new Image();
+        imgC.src = urlC;
+        this.imgC = imgC.src;
+      }
 
       var imgA = new Image();
       var imgB = new Image();
@@ -206,6 +250,8 @@ export default {
 
       imgA.src = urlA;
       imgB.src = urlB;
+      this.imgA = imgA.src;
+      this.imgB = imgB.src;
       cover.src = this.data.data.cover.url;
 
       new Promise((resolve) => {
@@ -226,7 +272,8 @@ export default {
             canvasAA.width = this.width;
             canvasAA.height = this.height;
             ctxAA.drawImage(cover, 0, 0, this.width, this.height);
-          
+
+      
 
           resolve({ width: this.width, height: this.height });
         };
@@ -242,6 +289,13 @@ export default {
         canvasB.height = this.height;
         ctxB.drawImage(imgB, 0, 0, this.width, this.height);
       };
+      if (this.data.data.c.url)  imgC.onload = function () {
+        this.width = (window.innerHeight / 2 / imgC.height) * imgC.width;
+        this.height = window.innerHeight / 2;
+        canvasC.width = this.width;
+        canvasC.height = this.height;
+        ctxC.drawImage(imgC, 0, 0, this.width, this.height);
+      };
       
 
       //   console.log(this.width, this.height);
@@ -255,9 +309,25 @@ export default {
       this.active.addEventListener("mouseup", this.mouseup);
     },
     mousedown(e) {
-      console.log("mouesdown");
       this.$store.commit("isDigging", true);
-      this.active.addEventListener("mousemove", this.mousemove);
+      if (this.active === document.getElementById(`canvas${this.data.i}AA`)) {
+        this.active.addEventListener("mousemove", this.mousemove);
+      } else {
+        var x = e.offsetX;
+        var y = e.offsetY;
+        this.ctx.globalCompositeOperation = "destination-out";
+
+        this.ctx.beginPath();
+        if (this.digType) {
+          this.ctx.moveTo(this.old.x, this.old.y);
+          this.ctx.lineTo(x, y);
+          this.ctx.stroke();
+
+          this.old = { x: x, y: y };
+          this.calcArray(this.old);
+        }
+      }
+      
       this.isPress = true;
       this.old = { x: e.offsetX, y: e.offsetY };
         this.$store.commit("mouse", {mouseevent: "mousedown", e: e});
@@ -618,7 +688,7 @@ export default {
   mounted() {
     this.active = document.getElementById(`canvas${this.data.i}AA`);
     this.dig();
-    // console.log(this.data, "data");
+    console.log(this.data, "data");
   },
 };
 </script>
@@ -646,12 +716,14 @@ export default {
   z-index: 4;
   // background: black;
 }
-.b {
-  opacity: 0.7;
+.c {
+  position: absolute;
+  left: 1px;
+  z-index: -1;
 }
 .a,
 .b,
-.aa {
+.aa, .c {
   height: 50vh;
 }
 .playbutton {
@@ -659,8 +731,8 @@ export default {
   z-index: 1;
   left: 50%;
   top: 50%;
-  width: 70px;
-  height: 70px;
+  width: 40px;
+  height: 40px;
   opacity: 0.25;
   transform: translateX(-50%) translateY(-50%);
 }
@@ -722,5 +794,18 @@ export default {
   -webkit-box-shadow: 0px 0px 15px 0px rgba(0,0,0,0.46); 
   box-shadow: 0px 0px 15px 0px rgba(0,0,0,0.46);
   padding: 1px;
+}
+.lightbox {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  z-index: 5;
+  color: white;
+  cursor: pointer;
+  img {
+    width: 20px;
+    height: 20px;
+    padding: 10px;
+  }
 }
 </style>

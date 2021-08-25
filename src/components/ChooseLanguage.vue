@@ -76,4 +76,13 @@ button {
 .eng {
   margin-right: 20px;
 }
+.eng, .arabic {
+    transition: background .5s ease, color .5s ease;
+
+  &:hover {
+    background: white;
+    color: black;
+    transition: background .5s ease, color .5s ease;
+  }
+}
 </style>

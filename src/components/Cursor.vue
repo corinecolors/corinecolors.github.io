@@ -2,7 +2,7 @@
   <div class="cursor-wrapper">
     <div class="cursor" ref="cursor">
       <img :src="$store.state.tool.src" />
-      <DebrisChoppings class="debris" />
+      <!-- <DebrisChoppings class="debris" /> -->
       <div class="digmore" v-if="$store.state.digMoreMessage">{{$cms.textField(activePiece.cta_more)}}</div>
       <div class="pressPlayMessage" v-if="$store.state.pressPlayMessage">
         Press play to continue!
@@ -12,7 +12,7 @@
 </template>
 
 <script>
-import DebrisChoppings from "./Debris_Choppings";
+// import DebrisChoppings from "./Debris_Choppings";
 import { mapState } from "vuex";
 
 export default {
@@ -24,7 +24,7 @@ export default {
     ...mapState(["digMoreMessage", "pressPlayMessage", "activePiece", "AAsolved"]),
   },
   components: {
-    DebrisChoppings,
+    // DebrisChoppings,
   },
   props: {},
   watch: {

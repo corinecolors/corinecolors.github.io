@@ -14,7 +14,7 @@
               </div>
             </div>
         </div>
-        <div class="thread" v-if="$store.state.showEmailThread">
+        <div class="thread">
           <transition appear name="emailthread" v-if="!currentEmail">
             <div class="threadlist" >
               <div class="bg"/>
@@ -65,9 +65,9 @@
                       </div>
                 </transition>
           </div>
-          <div v-else class="thread empty">
+          <!-- <div v-else class="thread empty">
             Your inbox is clean!
-            </div>
+            </div> -->
           
       </div>
 

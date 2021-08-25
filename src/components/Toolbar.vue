@@ -13,10 +13,14 @@
              <div class="tools">
             <div class="tool">
                 <!-- :style="$store.state.activePiece === $puzzle.piece[item] ? `opacity: 1` : `opacity: .25; pointer-events: none;`" -->
+                
+                <!-- Etch -->
                 <img 
                 :style="!$store.state.AAsolved ? `opacity: 1` : `opacity: .25; pointer-events: none;`"
                 :src="$puzzle.scraper.url" 
                 @click="assignTool({src: $puzzle.scraper.url,  digType: etch})"/>
+
+                <!-- Reveal -->
                 <img 
                 :style="$store.state.AAsolved ? `opacity: 1` : `opacity: .25; pointer-events: none;`"
                 :src="$puzzle.revealer.url" 
@@ -69,7 +73,7 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="scss">
 .bar {
-    position: fixed;
+    // position: fixed;
     overflow: hidden;
     border-radius: 0 20px 20px 0;
     /* left: -50px; */

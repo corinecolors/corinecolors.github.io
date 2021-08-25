@@ -1,6 +1,5 @@
 <template>
   <div class="videopopup">
-    <div class="bg" />
     <div class="inner">
       <div class="close" v-if="showX" @click="closeVid">X</div>
       <div class="videopopup-inner">
@@ -91,6 +90,12 @@ export default {
       type: Object,
       default: null,
     },
+  },
+  beforeCreate() {
+    this.$store.commit('screens', {what: "Toolbar", bool: false});
+  },
+  beforeDestroy() {
+    this.$store.commit('screens', {what: "Toolbar", bool: true});
   },
   computed: {
     // player() {
@@ -191,6 +196,7 @@ export default {
   width: 100%;
   overflow: scroll;
   height: 100%;
+  background: rgb(0,0,0,.75);
 }
 h2 {
   color: white;
@@ -225,8 +231,6 @@ p {
     vertical-align: top;
     display: inline-block;
   }
-}
-.inner {
 }
 .bg {
   position: fixed;

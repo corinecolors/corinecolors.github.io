@@ -73,7 +73,6 @@ export default {
 .iconMute {
   width: 20px;
   height: 20px;
-
 }
 .mute {
    &:hover {

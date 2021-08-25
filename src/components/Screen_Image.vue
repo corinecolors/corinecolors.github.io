@@ -18,7 +18,7 @@ export default {
 Closebar,
   },
   beforeDestroy() {
-    this.$refs.video.pause();
+    if (this.$refs.video) this.$refs.video.pause();
   },
   data() {
     return {

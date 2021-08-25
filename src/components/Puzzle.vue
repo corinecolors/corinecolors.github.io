@@ -49,11 +49,12 @@ export default {
   methods: {
     handleSolved(e) {
 
-      console.log("e", e);
+      // console.log("e", e);
       this.showVid = true;
+      if (this.activei === e.i) this.$store.commit('AAsolved', false);
       this.activei = e.i + 1;
       this.$store.commit("activePiece", {activepiece: this.$puzzle.piece[this.activei], i: e.i});
-      this.$store.commit('AAsolved', false);
+      
       // console.log(this.$store.state.activePiece);
     },
   },

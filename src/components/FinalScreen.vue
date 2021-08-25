@@ -1,6 +1,10 @@
 <template>
   <div class="finalscreen">
       <div class="cracks">
+        <audio  loop ref="alarmsound">
+            <source :src="$fin.alarm_sound.url" type="audio/mpeg" />
+            Your browser does not support the audio element.
+        </audio> 
         <div class="bg"/>
         <div class="crack crack1" ref="crack1">
             <img src="../assets/Cracks/crack1.svg"/>
@@ -21,22 +25,37 @@
             :src="getImage(i)" 
             :refs="`lever-${i}`"/>
         </transition>
+        <button class="mute" @click="handleMute"><iconMute :mute="!mute" class="iconMute"/></button>
+        <div class="desc" v-if="pulled">
+            <h2>{{$cms.textField($fin.header)}}</h2>
+            <p>{{$cms.textField($fin.text)}}</p>
+        </div>
         </div>
     </div>
   </div>
 </template>
 
 <script>
+import iconMute from "./iconMute";
+
 export default {
-  name: "Template",
+  name: "FinalScreen",
+  components: {
+    iconMute
+  },
   data() {
     return {
         startTimer: false,
         animtick: 0,
-        showAlarm: false
+        showAlarm: false,
+        mute: false,
+        pulled:false
     };
   },
   props: {},
+  beforeCreate() {
+    this.$store.commit('screens', {what: "Toolbar", bool: false});
+  },
   watch: {
       startTimer() {
         var timer = setInterval(() => {
@@ -48,6 +67,10 @@ export default {
       }
   },
   methods: {
+    handleMute() {
+      this.mute = !this.mute;
+      this.$refs.alarmsound.muted = this.mute;
+    },
       getImage(i) {
           return require(`../assets/firealarm/${i}.png`);
       }
@@ -55,7 +78,10 @@ export default {
   mounted() {
       this.$refs.alarm.addEventListener("mousedown", () => {
           this.startTimer = true;
+          this.$refs.alarmsound.play();
+          this.pulled = true;
       })
+      console.log(this.$fin.alarm_sound.url, this.$refs.alarm);
   setTimeout(() => {
                 this.$refs.crack1.className += " show";
        }, 500);
@@ -113,10 +139,10 @@ export default {
     opacity: .5;
 }
 .firealarm {
-    width: 20%;
+    width: 15%;
     position: fixed;
     left: 50vw;
-    top: 50vh;
+    top: 40vh;
     transform: translateX(-50%) translateY(-50%);
 }
 .show {
@@ -124,5 +150,24 @@ export default {
 }
 .hide {
     opacity: 0;
+}
+.iconMute {
+  width: 20px;
+  height: 20px;
+}
+.mute {
+    position: fixed;
+    left: 50%;
+    top: 55%;
+    transform: translateX(-50%);
+}
+h2, p {
+    color: white;
+    text-align: center;
+}
+.desc {
+    position: fixed;
+    top: 65%;
+    width: 100%;
 }
 </style>

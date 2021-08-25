@@ -1,9 +1,9 @@
 <template>
   <div class="cursor-wrapper">
     <div class="cursor" ref="cursor">
-      <img :src="$store.state.tool.src" />
+      <img :src="$store.state.tool.src" v-if="$store.state.tool.src"/>
       <!-- <DebrisChoppings class="debris" /> -->
-      <div class="digmore" v-if="$store.state.digMoreMessage">{{$cms.textField(activePiece.cta_more)}}</div>
+      <div class="digmore" v-if="$store.state.digMoreMessage">Use the light to reveal the next image!</div>
       <div class="pressPlayMessage" v-if="$store.state.pressPlayMessage">
         Press play to continue!
       </div>
@@ -30,7 +30,7 @@ export default {
   watch: {
     AAsolved() {
       this.$store.commit("tool", {
-      src: null,
+      src: '',
       digType: "",
     })
     },

@@ -1,17 +1,23 @@
 <template>
   <div class="video">
     <video ref="video" :src="src" />
+    <button class="mute" @click="handleMute"><iconMute :mute="!mute" class="iconMute"/></button>
   </div>
 </template>
 
 <script>
 import {mapState} from 'vuex';
+import iconMute from "./iconMute";
 
 export default {
   name: "IntroVideo",
+  components: {
+    iconMute
+  },
   data() {
     return {
       src: "https://media.istockphoto.com/videos/storm-coming-in-over-lake-erie-time-lapse-video-id589466152",
+      mute: false
     };
   },
   props: {
@@ -36,6 +42,10 @@ export default {
     },
   },
   methods: {
+    handleMute() {
+      this.mute = !this.mute;
+      this.$refs.video.muted = this.mute;
+    },
     watchEndVideo() {
       this.$refs.video.addEventListener("ended", () => {
         setTimeout(() => {
@@ -62,6 +72,20 @@ export default {
   top: 0;
 }
 video {
-  width: 100%;
+  height: 100vh;
+  width: 100vw;
+  text-align: center;
+}
+.iconMute {
+  width: 20px;
+  height: 20px;
+}
+.mute {
+  position: absolute;
+  top: 80%;
+  left: 50%;
+  transform: translateX(-50%) translateY(-50%);
+  margin: 10px;
+  background: rgb(0,0,0,.5);
 }
 </style>

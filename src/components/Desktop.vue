@@ -57,10 +57,12 @@ export default {
       this.activeScreen.splice(i, 1);
     },
     showOnTop(item) {
-      for (let i = 0; i < this.activeScreen.length; i++) {
-        this.$refs[this.activeScreen[i]][0].$el.style=" z-index: 0"
+      if (this.$refs[this.activeScreen[0]][0]) {
+        for (let i = 0; i < this.activeScreen.length; i++) {
+          this.$refs[this.activeScreen[i]][0].$el.style=" z-index: 0"
+        }
+        this.$refs[item][0].$el.style=" z-index: 1";
       }
-      this.$refs[item][0].$el.style=" z-index: 1";
     },
     goTo(item) {
       if (this.activeScreen.indexOf(this.$cms.textField(item.link)) < 0)

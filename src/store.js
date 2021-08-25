@@ -10,6 +10,7 @@ export default Vue.prototype.$store = new Vuex.Store({
     allEmailsRead: false,
     screens: {
       Toolbar: false,
+      showPuzzle: false,
     },
     tool: {
       src: null,

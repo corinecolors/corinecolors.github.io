@@ -45,6 +45,10 @@ export default new (class Prismic {
           (e) => e.type === "puzzle"
         ).data;
 
+        Vue.prototype.$fin = resp.results.find((e) => e.type === "fin").data;
+
+        console.log(Vue.prototype.$fin);
+
         // desktopcontent
         Vue.prototype.$desktopcontent = resp.results.find(
           (e) => e.type === "desktopcontent"
@@ -55,7 +59,7 @@ export default new (class Prismic {
         Vue.prototype.$desktopcontent.screenimage = Vue.prototype.$desktopcontent.body.filter(
           (i) => i.slice_type === "screen_image"
         )[0];
-        console.log(Vue.prototype.$desktopcontent);
+        // console.log(Vue.prototype.$desktopcontent);
         // console.log(Vue.prototype.$desktopcontent);
 
         //Assign to Eng object- --------–––––––––––––––––––––––––––––––––––––––––––––
@@ -83,7 +87,7 @@ export default new (class Prismic {
         ).data.disclaimer_voice_eng;
         Vue.prototype.$eng = this.eng;
 
-        console.log(Vue.prototype.$puzzle);
+        // console.log(Vue.prototype.$puzzle);
 
         //Assign to Arabic object- --------–––––––––––––––––––––––––––––––––––––––––––––
         this.arabic.disclaimer = resp.results.find(

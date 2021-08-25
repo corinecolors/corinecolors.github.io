@@ -17,11 +17,14 @@
         @videoEnded="handleNext"/>
         </transition> -->
 
+       <transition appear name="section" v-if="$store.state.screens['showPuzzle'] && PrePuzzleScreen">
+        <PrePuzzleScreen class="section PrePuzzleScreen" @exit="handlePrePuzzleScreen"/>
+      </transition>
 
       <audio ref="disclaimervoice" v-if="disclaimervoiceUrl">
           <source :src="disclaimervoiceUrl" type="audio/mpeg" />
       </audio>
-
+<!--  -->
       <transition  v-if="finalscreen" appear name="section">
         <FinalScreen class="section FinalScreen"/>
         </transition>
@@ -30,7 +33,7 @@
       <AudioPlayer/>
 
       <transition appear name="section">
-        <Puzzle class="section Puzzle" v-if="$store.state.screens['Toolbar']" />
+        <Puzzle class="section Puzzle" v-if="$store.state.screens['showPuzzle']" />
       </transition>
 
       <Curtain />
@@ -61,7 +64,7 @@
         />
       </transition>
 
-      <transition appear name="section">
+      <transition appear name="toolbar">
         <Toolbar
           class="section Toolbar"
           v-if="$store.state.screens['Toolbar'] "
@@ -70,12 +73,12 @@
 
       <Desktop 
       class="section Desktop" 
-      v-if="!$store.state.screens['Toolbar'] && !Disclaimer"
+      v-if="!$store.state.screens['showPuzzle'] && !Disclaimer"
       :openEmailScreen="openEmailScreen"/>
 
     </div>
       <div v-else class="mobile">
-        <h1>Please view this experience  on desktop.</h1>
+        <h1>Please view this experience on desktop.</h1>
       </div>
   </div>
 </template>
@@ -92,6 +95,7 @@ import IntroVideo from "./components/IntroVideo.vue";
 import Curtain from "./components/Curtain.vue";
 import Disclaimer from "./components/Disclaimer.vue";
 import Nav from "./components/Nav.vue";
+import PrePuzzleScreen from "./components/PrePuzzleScreen.vue";
 // import Digging from "./components/Digging.vue";
 import Toolbar from "./components/Toolbar.vue";
 // import WarningSurveillance from "./components/WarningSurveillance.vue";
@@ -119,20 +123,17 @@ export default {
     AudioPlayer,
     FinalScreen,
     // PostDisclaimerVideo,
-    EmailNotif
+    EmailNotif,
+    PrePuzzleScreen
   },
   computed: {
     ...mapState(["emailsRead", "allEmailsRead","donePuzzle", "localizationData", "activePiece", "showEmailThread"]),
   },
   watch: {
      
-    localizationData: {
-      handler() {
-        this.disclaimervoiceUrl = this.$store.state.data.disclaimervoice.url;
-        setTimeout(() => {
-          if (this.Disclaimer) this.$refs.disclaimervoice.play();
-        }, 2500)
-      },
+    // localizationData: {
+     
+    //   },
       deep:true
     },
     donePuzzle() {
@@ -150,7 +151,6 @@ export default {
       },
       deep: true,
     },
-  },
   data() {
     return {
       offsetX: 0,
@@ -167,10 +167,15 @@ export default {
       ww: null,
       emailNotif:true,
       openEmailScreen: false,
-      muteDisclaimer: false
+      muteDisclaimer: false,
+      PrePuzzleScreen: false
     };
   },
   methods: {
+    handlePrePuzzleScreen() {
+      this.PrePuzzleScreen = false;
+      this.$store.commit('screens', {what: "Toolbar", bool: true});
+    },
     handlemuteDisclaimer(e) {
       if (e) this.$refs.disclaimervoice.pause();
       else this.$refs.disclaimervoice.play();
@@ -183,9 +188,14 @@ export default {
       }
       if (e === "vidDissapear") {
         this.IntroVideo = false;
+         this.disclaimervoiceUrl = this.$store.state.data.disclaimervoice.url;
+        setTimeout(() => {
+          if (this.Disclaimer) this.$refs.disclaimervoice.play();
+        }, 1000)
       }
       if (e === "disclaimerDissapear") {
         this.Disclaimer = false;
+        this.PrePuzzleScreen = true;
         this.PostDisclaimerVideo = true;
         this.$refs.disclaimervoice.pause();
       }
@@ -239,6 +249,9 @@ export default {
     window.addEventListener('resize', () => {
       this.ww = window.innerWidth;
     })
+
+      // this.$store.commit('screens', {what: "Toolbar", bool: true});//temp
+
     // console.log(this.$puzzle.debris_bg.url);
     //Set default FB meta tag Title
     // document.querySelector('meta[name="fbtitle"]').setAttribute("content", this.$cms.textField(this.$puzzle.fb_default_title));
@@ -302,7 +315,6 @@ button {
   transition: background .5s ease, color .5s ease;
     background: white;
     color: black;
-  
   }
 }
 .Digging {
@@ -322,9 +334,7 @@ button {
 .Disclaimer {
   z-index: 2;
 }
-.Toolbar {
-  z-index: 100;
-}
+
 .Desktop {
   z-index: 0;
 }
@@ -381,4 +391,18 @@ button {
   transform: translateX(calc(0% + 20px));
 }
 
+.PrePuzzleScreen {
+  position: fixed;
+  z-index: 6;
+}
+.Toolbar {
+  z-index: 100;
+}
+.toolbar-enter-active, .toolbar-leave-to {
+  transform: translateX(-100%) !important;
+  transition: transform .75s ease;
+}
+.toolbar-enter-to  {
+  transform: translateX(0%) !important;
+}
 </style>

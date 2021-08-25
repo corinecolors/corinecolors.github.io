@@ -124,7 +124,7 @@ Closebar
       this.$emit("close", i)
     },
     handleClick() {
-      this.$store.commit('screens', {what: "Toolbar", bool: true});
+      this.$store.commit('screens', {what: "showPuzzle", bool: true});
     }
   },
   mounted() {},

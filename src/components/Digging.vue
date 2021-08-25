@@ -1,5 +1,13 @@
 <template>
   <div class="digging" ref="digging" @mouseout="mouseout">
+    <transition appear name="section">
+    <div class="lightboximage" v-if="lightboxImage && showlightboxImage">
+      <div class="lightboximageinner">
+        <img :src="lightboxImage"/>
+        <div class="x" @click="showlightboxImage = false">X</div>
+      </div>
+    </div>
+    </transition>
     <div class="previewtext">
       <h3 class="text" v-if="showPreviewText">{{
         $cms.textField(data.data.puzzle_preview_message)
@@ -71,7 +79,9 @@ export default {
       etch: "Etch",
       reveal: "Reveal",
       imgA: null,
-      imgB: null
+      imgB: null,
+      lightboxImage: null,
+      showlightboxImage: false
 
     };
   },
@@ -103,25 +113,24 @@ export default {
   },
   watch: {
     tool() {
-      console.log(this.whArray);
       if 
-      ((this.tool.digType === "Etch" && !this.AAsolved  || 
+      (((this.tool.digType === "Etch" && !this.AAsolved  || 
       this.AAsolved && this.tool.digType === "Reveal") 
-      && this.i === this.activei) 
+      && this.activei === this.i) ||  (this.activei > this.i) )
       {
         this.digType = this.$store.state.tool.digType;
         this.showPreviewText = true;
         this.$refs.digging.style = "pointer-events: auto";
-        console.log("do!");
       } else {
         this.$refs.digging.style = "pointer-events: none";
         // { emit nudge move }
       }
     },
     AAsolved() {
-      if (this.AAsolved) {
+      if (this.AAsolved && this.activei === this.i) {
+        this.lightboxImage = this.imgB;
         //Remove previous mouse listeners
-      this.$store.commit('AAsolved', true);
+        this.$store.commit('AAsolved', true);
 
         this.active.removeEventListener("mousedown", this.mousedown);
         this.active.removeEventListener("mousemove", this.mousemove);
@@ -136,7 +145,7 @@ export default {
       }
     },
     Asolved() {
-      if (this.Asolved) {
+      if (this.Asolved && this.activei === this.i) {
         this.active.removeEventListener("mousedown", this.mousedown);
         this.active.removeEventListener("mousemove", this.mousemove);
         this.active.removeEventListener("mouseup", this.mouseup);
@@ -158,14 +167,16 @@ export default {
   },
   methods: {
     handleLightbox() {
-
+      console.log(this.lightboxImage);
+      this.showlightboxImage = true;
     },
     handleHover() {
       if (!this.Asolved) {
         this.$store.commit("digMoreMessage", true);
       } else if (this.AAsolved) {
         this.$store.commit("pressPlayMessage", true);
-
+      } else {
+        this.$store.commit("digMoreMessage", true);
       }
     },
     imgSrc(i) {
@@ -253,6 +264,7 @@ export default {
       this.imgA = imgA.src;
       this.imgB = imgB.src;
       cover.src = this.data.data.cover.url;
+      this.lightboxImage = this.imgA;
 
       new Promise((resolve) => {
         imgA.onload = function () {
@@ -688,7 +700,6 @@ export default {
   mounted() {
     this.active = document.getElementById(`canvas${this.data.i}AA`);
     this.dig();
-    console.log(this.data, "data");
   },
 };
 </script>
@@ -766,6 +777,7 @@ export default {
   pointer-events: none;
   user-select: none;
   text-shadow: 0px 0px 10px rgba(0,0,0,1);
+  font-size: 12px;
   // font-weight: bold;
   width: 80%;
   text-align: center;
@@ -801,11 +813,52 @@ export default {
   bottom: 0;
   z-index: 5;
   color: white;
+  opacity: .5;
+  transition: opacity .25s ease;
   cursor: pointer;
+  &:hover {
+  transition: opacity .25s ease;
+    opacity: 1;
+  }
   img {
     width: 20px;
     height: 20px;
     padding: 10px;
+  }
+}
+.lightboximage {
+  position: fixed;
+  background: rgb(255,255,255,.5);
+  max-width: 100vw;
+  z-index: 20;
+  width: 100%;
+  left: 0;
+  height: 100%;
+  .lightboximageinner {
+    position: fixed;
+     max-height: 100vh;
+    max-width: 100vw;
+    left: 50%;
+    top: 50%;
+    transform: translateX(-50%) translateY(-50%);
+  }
+  img {
+    height: 600px;
+   
+    display: inline-block;
+
+  }
+  .x {
+    display: inline-block;
+    right: 0;
+    top: 0;
+    color: black;
+    font-size: 60px;
+    vertical-align: top;
+    position: absolute;
+    right: 0;
+    transform: translateX(100%) translateY(-100%);
+    cursor: pointer;
   }
 }
 </style>

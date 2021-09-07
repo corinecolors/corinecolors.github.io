@@ -45,7 +45,6 @@ export default {
     openEmailScreen: {
       handler(e) {
         if (e) {
-          console.log(e);
           this.activeScreen.push("ScreenEmail");
         }
       },

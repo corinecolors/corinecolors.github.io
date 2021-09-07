@@ -4,14 +4,11 @@
       <div class="close" v-if="showX" @click="closeVid">X</div>
       <div class="videopopup-inner">
         <h2>{{ $cms.textField(data.video_title) }}</h2>
-        <video class="vid" controls ref="video" id="video">
-          <source :src="data.video.url" type="video/mp4" />
+        <video class="vid" controls controlsList="nodownload" oncontextmenu="return false;" ref="video" id="video">
+          <source :src="blobVideo(data.video.url)" type="video/mp4" />
           Your browser does not support the video tag.
         </video>
-        <!-- <iframe ref="video" id="video" class="vid" :src="activeVidData.url" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-      <br/> -->
-
-        <!-- <youtube video-id="video" ref="youtube" :width="width" :height="height"></youtube> -->
+       <!-- <canvas class="vid" id="video" ref="video"/> -->
         <div class="infobar">
           <div class="info">
             <InfoIcon />
@@ -111,11 +108,17 @@ export default {
   watch: {},
   methods: {
     closeVid() {
-      console.log("closing vie on 7");
+      // console.log("closing vie on 7");
       this.$emit("closeVid", true);
         if (this.$store.state.activePiece.i === 7) {
           this.$store.commit("donePuzzle", true);
         }
+    },
+    blobVideo(url) {
+      // var file = new Blob([url], {"type" : "video/mp4"});
+      // return URL.createObjectURL(file);
+      return url;
+
     },
     copytoclipboard() {
       var url = this.$refs.url;
@@ -154,6 +157,10 @@ export default {
         .querySelector('meta[name="fburl"]')
         .setAttribute("content", this.url);
     },
+    // loadVid() {
+    //   var canvas = this.$refs.video;
+    //   var ctx = canvas.getContext('2d');
+    // }
   },
   mounted() {
     // console.log(this.$store.state.activePiece.i);
@@ -164,6 +171,7 @@ export default {
     // console.log("Popp Video data ", this.data);
     this.updateFbMetaTags();
     this.watchEndVideo();
+    // this.loadVid();
   },
 };
 </script>

@@ -4,14 +4,14 @@
     <router-view
     @finalscreen="handlefinalscreen"></router-view>
     <CursorThing />
-  <FooterItem ref="footer" class="section FooterItem" />
+  <!-- <FooterItem ref="footer" class="section FooterItem" /> -->
   </div>
 </template>
 
 <script>
 import CursorThing from "./components/Cursor.vue";
 // import Nav from './components/Nav.vue'
-import FooterItem from "./components/FooterItem.vue";
+// import FooterItem from "./components/FooterItem.vue";
 
 export default {
   name: "Index",
@@ -34,7 +34,7 @@ export default {
   components: {
     CursorThing,
     // Nav,
-    FooterItem
+    // FooterItem
   },
   props: {},
   watch: {},
@@ -86,12 +86,12 @@ body {
   /* overflow: hidden; */
   overscroll-behavior-y: none;
 }
-.FooterItem {
-  z-index: 20;
-  position: fixed;
-  bottom: 0;
+// .FooterItem {
+//   z-index: 20;
+//   position: fixed;
+//   bottom: 0;
   
-  right: 0;
-  // background: green;
-}
+//   right: 0;
+//   // background: green;
+// }
 </style>

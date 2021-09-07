@@ -4,9 +4,9 @@
       <img :src="$store.state.tool.src" v-if="$store.state.tool.src"/>
       <!-- <DebrisChoppings class="debris" /> -->
       <div class="digmore" v-if="$store.state.digMoreMessage">Use the light to reveal the next image!</div>
-      <div class="pressPlayMessage" v-if="$store.state.pressPlayMessage">
+      <!-- <div class="pressPlayMessage" v-if="$store.state.pressPlayMessage">
         Press play to continue!
-      </div>
+      </div> -->
     </div>
   </div>
 </template>
@@ -28,21 +28,11 @@ export default {
   },
   props: {},
   watch: {
-    AAsolved() {
-      this.$store.commit("tool", {
-      src: '',
-      digType: "",
-    })
-    },
-    pressPlayMessage() {
-      setTimeout(() => {
-        this.$store.commit("pressPlayMessage", false);
-      }, 2000);
-    },
-    digMoreMessage() {
-      setTimeout(() => {
-        this.$store.commit("digMoreMessage", false);
-      }, 2000);
+      AAsolved() {
+        this.$store.commit("tool", {
+        src: '',
+        digType: "",
+      })
     },
   },
   methods: {
@@ -78,11 +68,16 @@ img {
   z-index: -1;
 }
 .cursor-wrapper {
-  color: white;
-  font-weight: bold;
-  color: rgb(237, 201, 253);
+  color: black;
+  font-size: 12px;
 }
-.digmore,
+.digmore {
+  background: white;
+  padding: 1px 5px;
+  border: 1px solid black;
+  margin-top: 80px;
+}
+
 .pressPlayMessage {
   text-shadow: 0px 0px 8px rgba(0, 0, 0, 1);
 }

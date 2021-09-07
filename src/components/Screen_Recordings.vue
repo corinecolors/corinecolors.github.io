@@ -4,7 +4,7 @@
       <div class="screeninner">
       <!-- <img class="sidebar" src="../assets/recordingsidebar.jpg"/> -->
       <div class="main">
-        <video class="vid" :poster="$desktopcontent.screenrecordings.primary.video_thumb.url" ref="video" id="video">
+        <video controlsList="nodownload" oncontextmenu="return false;" class="vid" :poster="$desktopcontent.screenrecordings.primary.video_thumb.url" ref="video" id="video">
           <source :src="$desktopcontent.screenrecordings.primary.main_video.url" type="video/mp4" />
           Your browser does not support the video tag.
         </video>

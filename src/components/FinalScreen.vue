@@ -7,16 +7,23 @@
         </audio> 
         <div class="bg"/>
         <div class="crack crack1" ref="crack1">
-            <img src="../assets/Cracks/crack1.svg"/>
+            <!-- <img src="../assets/Cracks/crack1.svg"/> -->
+            <img src="../assets/texture.png"/>
         </div>
         <div class="crack crack2" ref="crack2">
-            <img src="../assets/Cracks/crack2.svg"/>
+            <!-- <img src="../assets/Cracks/crack2.svg"/> -->
+            <img src="../assets/texture.png"/>
+
         </div>
         <div class="crack crack3" ref="crack3">
-            <img src="../assets/Cracks/crack3.svg"/>
+            <!-- <img src="../assets/Cracks/crack3.svg"/> -->
+            <img src="../assets/texture.png"/>
+
         </div>
         <div class="crack crack4" ref="crack4">
-            <img src="../assets/Cracks/crack4.svg"/>
+            <!-- <img src="../assets/Cracks/crack4.svg"/> -->
+            <img src="../assets/texture.png"/>
+
         </div>
         <div class="alarm" ref="alarm" v-show="showAlarm">
           <img class="firealarm" src="../assets/firealarm/firealarm.png"/>
@@ -104,12 +111,19 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="scss">
 // .cracks {}
+@import "../main.scss";
 .crack {
     position: absolute;
     left: 50vw;
     top: 50vh;
     transform: translateX(-50%) translateY(-50%);
     opacity: 0;
+    background-size: contain;
+    background-position: center;
+    background-repeat: no-repeat;
+    // mask-size: 100%;
+    mask-repeat: no-repeat;
+    mask-position: center;
 }
 .show {
     opacity: 1;  
@@ -124,15 +138,24 @@ export default {
 }
 .crack1 {
     width: 20%;
+    mask-image: url("../assets/Cracks/crack1.svg");
+    background: $maroon;
+
 }
 .crack2 {
     width: 20%;
+    mask-image: url("../assets/Cracks/crack2.svg");
+    background: $maroon;
 }
 .crack3 {
-    width: 40%;
+    width: 30%;
+    mask-image: url("../assets/Cracks/crack3.svg");
+    background: $maroon;
 }
 .crack4 {
-    width: 50%;
+    width: 80%;
+    mask-image: url("../assets/Cracks/crack4.svg");
+    background: $maroon;
 }
 .bg {
     background: black;

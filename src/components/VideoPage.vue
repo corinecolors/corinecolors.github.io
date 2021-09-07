@@ -6,6 +6,7 @@
       <div class="videowrapper">
         <h2 v-if="vid">{{$cms.textField(vid.video_title)}}</h2>
           <video 
+          controlsList="nodownload" oncontextmenu="return false;"
           v-if="vid"
           class="vid" 
           controls 

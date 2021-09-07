@@ -24,6 +24,7 @@ export default Vue.prototype.$store = new Vuex.Store({
     donePuzzle: false,
     AAsolved: false,
     showEmailThread: false,
+    emailNotif: true,
     // active:
   },
   mutations: {
@@ -78,6 +79,10 @@ export default Vue.prototype.$store = new Vuex.Store({
     donePuzzle(state, donePuzzle) {
       state.donePuzzle = donePuzzle;
       Vue.set(state, donePuzzle);
+    },
+    emailNotif(state, emailNotif) {
+      state.emailNotif = emailNotif;
+      Vue.set(state, emailNotif);
     },
   },
   actions: {

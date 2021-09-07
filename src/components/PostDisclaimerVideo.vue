@@ -1,6 +1,6 @@
 <template>
   <div class="post_disclaimer_video">
-    <video ref="video" :src="src" />
+    <video controlsList="nodownload" oncontextmenu="return false;" ref="video" :src="src" />
   </div>
 </template>
 

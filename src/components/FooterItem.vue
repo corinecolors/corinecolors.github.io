@@ -1,18 +1,21 @@
 <template>
-  <div class="footer">
+  <div class="footer navOpen">
     <div class="newsletter">
       <form @submit.prevent="submit">
-        <!-- <h3>Subscribe to the newsletter!</h3> -->
-        <input type="text" ref="newsletter" placeholder="Sign up for the newsletter!"/>
+        <h3 class="navOpen">Subscribe to the newsletter!</h3>
+        <input class="navOpen" type="text" ref="newsletter" placeholder="Email address"/>
       </form>
     </div>
-    <div class="socials">
-    <div class="copiedMsg" v-if="showCopiedMsg">
+    <div class="socials navOpen">
+    <div class="copiedMsg navOpen" v-if="showCopiedMsg">
       Link copied to clipboard!
       </div>
+      <div class="share navOpen">
+        Share
+        </div>
        <transition v-for="(item, i) in socials" :key="i">
             <ShareNetwork
-            class="social"
+            class="social navOpen"
             :network="item.name"
             :url="url"
             :title="title"
@@ -24,11 +27,19 @@
             <component class="icon" :is="item.component" :fill="`#FFFFFF`"/>
             </ShareNetwork>
         </transition>
-        <div class="instagram"><a target="_blank" href="http://www.instagram.com"><iconInstagram class="ig"/></a></div>
+        <!-- <div class="instagram navOpen"><a target="_blank" href="http://www.instagram.com"><iconInstagram class="ig navOpen"/></a></div> -->
         <button @click="copytoclipboard" class="copy">
-            <iconCopyLink class="iconCopyLink"/>
+            <iconCopyLink class="iconCopyLink navOpen"/>
             <input type="text" class="url" ref="url" :value="url" />
           </button>
+    </div>
+     <div class="socials navOpen">
+      <div class="share navOpen">
+        Page
+        </div>
+       <transition v-for="(item, i) in pagesocials" :key="i">
+            <div class="social navOpen"><a target="_blank" :href="item.link"><component :is="item.component" class="pagesocial"/></a></div>
+        </transition>
     </div>
   </div>
 </template>
@@ -56,7 +67,7 @@ export default {
       url: "https://corinecolors.github.io/#/",
       title: "The First Lady",
       desc: "description text blah blah blah",
-        socials: [
+      socials: [
         {
           name: "facebook",
           component: "iconFacebook",
@@ -70,6 +81,23 @@ export default {
         {
           name: "whatsapp",
           component: "iconWhatsapp",
+        },
+      ],
+      pagesocials: [
+        {
+          name: "facebook",
+          component: "iconFacebook",
+          link: "http://www.facebook.com"
+        },
+        {
+          name: "twitter",
+          component: "iconTwitter",
+          link: "http://www.twitter.com"
+        },
+        {
+          name: "instagram",
+          component: "iconInstagram",
+          link: "http://www.instagram.com"
         },
       ],
     };
@@ -99,6 +127,7 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="scss">
+@import "../main.scss";
 .icon {
   width: 25px;
   vertical-align: middle;
@@ -107,8 +136,12 @@ export default {
 }
 .footer {
   text-align: center;
+  position: absolute;
+  bottom: 40px;
+  left: 0;
+  width: 100%;
   // margin-right: 25px;
-  opacity: .35;
+  // opacity: .35;
   transition: opacity .5s ease;
   &:hover {
   transition: opacity .5s ease;
@@ -116,7 +149,7 @@ export default {
   }
   width: 100%;
 }
-.ig {
+.pagesocial {
   padding: 5px;
   width: 25px;
   &::v-deep svg  {
@@ -125,21 +158,24 @@ export default {
 }
 .instagram {
   vertical-align: middle;
-  display: inline-block;
+  // display: inline-block;
   cursor: pointer;
 }
 .social {
+  display: inline-block;
   &::v-deep svg g path {
     fill: white !important;
+    pointer-events: none;
   }
   &::v-deep svg g .st0 {
     fill: black !important;
   }
+ 
 }
 .copy {
   text-align: right;
   color: white;
-  margin-top: 10px;
+  // margin-top: 10px;
   position: relative;
   vertical-align: middle;
   display: inline-block;
@@ -153,8 +189,11 @@ export default {
   padding: 10px;
   color: white;
   position: absolute;
-  right: 0;
-  bottom: 0;
+  left: 50%;
+  bottom: -20px;
+  width: 100%;
+  font-size: 10px;
+  transform: translateX(-50%);
 }
 button {
   padding: 0;
@@ -166,23 +205,34 @@ button {
   display: inline-block;
   padding: 5px;
   width: 25px;
+   &::v-deep svg {
+    background: black;
+    border-radius: 4px;
+  }
 }
 .newsletter {
   display: inline-block;
   vertical-align: middle;
   text-align: center;
+  width: 90%;
+  margin-bottom: 20px;
   h3 {
     color: white;
     margin-bottom: 10px;
   }
   input {
+    background: white;
+    // &::-webkit-input-placeholder {
+    //   color: white;
+    // }
     &:focus {
       outline: none;
     }
     border-style: none;
     height: 30px;
     border-radius: 10px;
-    width: 300px;
+    // width: 300px;
+    width: calc(100% - 20px);
     // margin-bottom: 30px;
     padding: 0 10px;
     margin-right: 30px;
@@ -192,6 +242,12 @@ button {
 }
 .socials {
   display: inline-block;
+  width: 100%;
+   &::v-deep svg {
+    background: black;
+    border-radius: 4px;
+    pointer-events: none;
+  }
 }
 .fin {
   .socials,.newsletters {

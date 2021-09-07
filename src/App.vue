@@ -1,7 +1,7 @@
 <template>
   <div id="app" ref="app">
     <div class="app-inner" v-if="ww > 1000">
-      <transition appear name="EmailNotif" v-if="emailNotif && showEmailThread">
+      <transition appear name="EmailNotif" v-if="emailNotif && showEmailThread && showEmailNotifOnce">
           <EmailNotif 
           class="EmailNotif" 
           @closeNotif="handlecloseNotif"
@@ -127,9 +127,16 @@ export default {
     PrePuzzleScreen
   },
   computed: {
-    ...mapState(["emailsRead", "allEmailsRead","donePuzzle", "localizationData", "activePiece", "showEmailThread"]),
+    ...mapState(["emailsRead", "allEmailsRead","donePuzzle", "localizationData", "activePiece", "showEmailThread", "emailNotif"]),
   },
   watch: {
+    showEmailThread() {
+      if (this.showEmailThread && this.emailNotif) {
+        setTimeout(() => {
+          this.showEmailNotifOnce = false;
+        }, 5000);
+      }
+    },
      donePuzzle: {
        handler() {
         if (this.donePuzzle) {
@@ -160,15 +167,15 @@ export default {
       ChooseLanguage: true,
       playVid: false,
       IntroVideo: true,
-      Disclaimer: true,
+      Disclaimer: false,
       finalscreen: false,
       disclaimervoiceUrl: null,
       PostDisclaimerVideo: false,
       ww: null,
-      emailNotif:true,
       openEmailScreen: false,
       muteDisclaimer: false,
-      PrePuzzleScreen: false
+      PrePuzzleScreen: false,
+      showEmailNotifOnce: true
     };
   },
   methods: {
@@ -187,6 +194,7 @@ export default {
         this.ChooseLanguage = false;
       }
       if (e === "vidDissapear") {
+        this.Disclaimer = true;
         this.IntroVideo = false;
          this.disclaimervoiceUrl = this.$store.state.data.disclaimervoice.url;
         setTimeout(() => {
@@ -205,10 +213,13 @@ export default {
     },
     handleopenEmail() {
       this.openEmailScreen = true;
-      this.emailNotif = false;
+      // this.emailNotif = false;
+      this.$store.commit("emailNotif", false);
     },
     handlecloseNotif() {
-      this.emailNotif = false;
+      // this.emailNotif = false;
+      this.$store.commit("emailNotif", false);
+
     },
     clickndrag() {
       this.$refs.app.addEventListener("mousedown", (e) => {
@@ -403,5 +414,8 @@ button {
 }
 .toolbar-enter-to  {
   transform: translateX(0%) !important;
+}
+.ScreenEmail {
+  z-index: 1;
 }
 </style>

@@ -19,12 +19,15 @@
                 :style="!$store.state.AAsolved ? `opacity: 1` : `opacity: .25; pointer-events: none;`"
                 :src="$puzzle.scraper.url" 
                 @click="assignTool({src: $puzzle.scraper.url,  digType: etch})"/>
+                <p>Unmasking Tool</p>
 
                 <!-- Reveal -->
                 <img 
                 :style="$store.state.AAsolved ? `opacity: 1` : `opacity: .25; pointer-events: none;`"
                 :src="$puzzle.revealer.url" 
                 @click="assignTool({src: $puzzle.revealer.url,  digType: reveal})"/>
+                <p>Light Tool</p>
+
             </div>
         </div>
     </div>
@@ -103,7 +106,7 @@ export default {
 }
 .tool img{
     width: 80px;
-    padding: 60px 0;
+    padding: 80px 0 0;
 }
 .tool {
     z-index: 2;
@@ -112,5 +115,11 @@ export default {
 .tools {
     margin-top: 40vh;
     transform: translateY(-50%);
+}
+p {
+    color: white;
+    font-size: 10px;
+    text-align: center;
+    padding: 0 0 80px;
 }
 </style>

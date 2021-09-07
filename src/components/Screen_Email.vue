@@ -127,7 +127,10 @@ Closebar
       this.$store.commit('screens', {what: "showPuzzle", bool: true});
     }
   },
-  mounted() {},
+  mounted() {
+    this.$store.commit("showEmailThread", true);
+    this.$store.commit("emailNotif", true);
+  },
 };
 </script>
 
@@ -168,7 +171,7 @@ h2 {
   width: 25%;
   height: 100%;
   position: fixed;
-  z-index: 10;
+  z-index: 11;
 }
 .sidebar, .thread {
   display: inline-block;

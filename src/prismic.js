@@ -38,7 +38,10 @@ export default new (class Prismic {
   }
   prismic() {
     return new Promise((res) => {
-      const client = this.p.client("https://firstlady.cdn.prismic.io/api/v2");
+      const client = this.p.client("https://firstlady.cdn.prismic.io/api/v2", {
+        accessToken:
+          "MC5ZVGR0WWhBQUFDRUFZdG5N.IAzvv715KQR9Oy5z77-977-977-9JGXvv73vv73vv70zQe-_ve-_ve-_ve-_ve-_ve-_vWMWTu-_ve-_vWs",
+      });
       client.query("").then((resp) => {
         // console.log(resp.results);
         Vue.prototype.$puzzle = resp.results.find(

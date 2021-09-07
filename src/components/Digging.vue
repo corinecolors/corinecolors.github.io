@@ -1,10 +1,10 @@
 <template>
   <div class="digging" ref="digging" @mouseout="mouseout">
     <transition appear name="section">
-    <div class="lightboximage" v-if="lightboxImage && showlightboxImage">
-      <div class="lightboximageinner">
-        <img :src="lightboxImage"/>
-        <div class="x" @click="showlightboxImage = false">X</div>
+    <div class="lightboximage" v-if="lightboxImage && showlightboxImage" >
+      <div class="lightboximageinner" >
+        <img :src="lightboxImage" @mousedown="handleChangingImages"/>
+        <div class="x" @click="closeLightbox">X</div>
       </div>
     </div>
     </transition>
@@ -30,16 +30,23 @@
       class="a"
       :style="`${Asolved ? `opacity: 0; pointer-events: none;` : ``}`"
     />
-    <div class="lightbox" @click="handleLightbox"><img src="../assets/magnifying_icon.svg"/></div>
+    <div class="lightbox" @click="handleLightbox" 
+    :style="!Asolved && !AAsolved && activei === i ? `pointer-events: none` : `pointer-events: auto`">
+      <img class="mg" src="../assets/magnifying_icon.svg"/>
+      <img class="glow" v-if="showGlow && activei === i && AAsolved" src="../assets/debris/Glow.svg"/>
+      </div>
     <!-- <div class="playbutton" :style="`${Asolved ? `opacity: 1; cursor: pointer;` : `pointer-events: none`}`" @click="handlePlayButton"></div> -->
-    <span @mousedown="handlePlayButton" @mouseover="handleHover">
+    <span @mousedown="handlePlayButton" @mouseover="handleHover" @mouseout="handleOutHover">
       <Playbutton
         :fill="$cms.textField(this.data.data.playbuttom_color)"
         :style="`${
           Asolved ? `opacity: .75; cursor: pointer;` : ``
-        }`"
+        }${playButtonNoClick ? `pointer-events: none;` : ``}`"
       />
     </span>
+    <div class="info">
+      information
+    </div>
     <canvas
       :id="`canvas${data.i}AA`"
       class="aa"
@@ -72,7 +79,6 @@ export default {
       showBlurb: false,
       active: null,
       Aprohibited: true,
-      digType: null,
       showPreviewText: false,
       Aoffset: 1000,
       AAoffset: 15,
@@ -81,7 +87,9 @@ export default {
       imgA: null,
       imgB: null,
       lightboxImage: null,
-      showlightboxImage: false
+      showlightboxImage: false,
+      playButtonNoClick: false,
+      showGlow: true
 
     };
   },
@@ -113,22 +121,19 @@ export default {
   },
   watch: {
     tool() {
-      if 
-      (((this.tool.digType === "Etch" && !this.AAsolved  || 
-      this.AAsolved && this.tool.digType === "Reveal") 
-      && this.activei === this.i) ||  (this.activei > this.i) )
-      {
-        this.digType = this.$store.state.tool.digType;
-        this.showPreviewText = true;
-        this.$refs.digging.style = "pointer-events: auto";
-      } else {
-        this.$refs.digging.style = "pointer-events: none";
-        // { emit nudge move }
+      this.handlePlayButtonUnclickable();
+    },
+    Bsolved() {
+      if (this.Bsolved) {
+        this.$store.commit("tool", {
+          src: '',
+          digType: "",
+        });
       }
     },
     AAsolved() {
       if (this.AAsolved && this.activei === this.i) {
-        this.lightboxImage = this.imgB;
+        this.lightboxImage = this.imgA;
         //Remove previous mouse listeners
         this.$store.commit('AAsolved', true);
 
@@ -140,12 +145,19 @@ export default {
         //re-introduce moue listener to the new active canvas
       this.$store.commit("mouse", {mouseevent: "mouseup", e: "none"});
         this.mouseEvents();
-
-
       }
+     
     },
     Asolved() {
       if (this.Asolved && this.activei === this.i) {
+        this.lightboxImage = this.imgB;
+        this.playButtonNoClick = false;
+        if (!this.imgC) {
+          this.$store.commit("tool", {
+            src: '',
+            digType: "",
+          });
+        }
         this.active.removeEventListener("mousedown", this.mousedown);
         this.active.removeEventListener("mousemove", this.mousemove);
         this.active.removeEventListener("mouseup", this.mouseup);
@@ -156,19 +168,61 @@ export default {
           this.$store.commit("mouse", {mouseevent: "mouseup", e: "none"});
           this.mouseEvents();
         }
-
-        // if (this.data.i=== 7) {
-        //   this.$store.commit("donePuzzle", true);
-        // }
-
-        //   this.$emit('solved', this.data.i)
       }
     },
   },
   methods: {
+    handleMouseDown() {
+
+  //  this.handlePlayButtonUnclickable();
+  //     console.log(this.tool.digType);
+  //     if 
+  //     (((this.tool.digType === "Etch" && !this.AAsolved  || 
+  //     this.AAsolved && this.tool.digType === "Reveal") 
+  //     && this.activei === this.i) ||  (this.activei > this.i))
+  //     {
+  //       this.tool.digType = this.$store.state.tool.digType;
+  //       this.showPreviewText = true;
+  //       this.$refs.digging.style = "pointer-events: auto";
+  //       document.getElementById(`canvas${this.data.i}A`).style="pointer-events: auto";
+
+  //     } else {
+  //       if (!document.getElementById(`canvas${this.data.i}A`).style.toString().includes("pointer-events: none;")) document.getElementById(`canvas${this.data.i}A`).style="pointer-events: none;";
+  //       // { emit nudge move }
+  //     }
+
+      if (this.tool.digType === "Etch") {
+        this.showPreviewText = true;
+      }
+    },
+    closeLightbox() {
+      this.showlightboxImage = false
+      this.$store.commit("tool", {
+          src: '',
+          digType: "",
+        });
+    },
+    handleChangingImages() {
+      if (this.lightboxImage === this.imgA) {
+        this.lightboxImage = this.imgB;
+      }
+      else if (this.lightboxImage === this.imgB && this.imgC) {
+        this.lightboxImage = this.imgC;
+      } else {
+        this.lightboxImage = this.imgA;
+      }
+    },
     handleLightbox() {
-      console.log(this.lightboxImage);
+      // console.log(this.lightboxImage);
+      if (this.activei !== this.i) {
+        return;
+      }
+      this.showGlow = false;
       this.showlightboxImage = true;
+        this.$store.commit("tool", {
+          src: this.$puzzle.revealer.url,
+          digType: "Etch",
+        });
     },
     handleHover() {
       if (!this.Asolved) {
@@ -177,6 +231,15 @@ export default {
         this.$store.commit("pressPlayMessage", true);
       } else {
         this.$store.commit("digMoreMessage", true);
+      }
+    },
+    handleOutHover() {
+      if (!this.Asolved) {
+        this.$store.commit("digMoreMessage", false);
+      } else if (this.AAsolved) {
+        this.$store.commit("pressPlayMessage", false);
+      } else {
+        this.$store.commit("digMoreMessage", false);
       }
     },
     imgSrc(i) {
@@ -238,9 +301,9 @@ export default {
       } else {
         urlA = this.image;
       }
+
       var canvasA = document.getElementById(`canvas${this.data.i}A`);
       var canvasB = document.getElementById(`canvas${this.data.i}B`);
-      
       var canvasAA = document.getElementById(`canvas${this.data.i}AA`);
 
       var ctxA = canvasA.getContext("2d");
@@ -257,50 +320,60 @@ export default {
 
       var imgA = new Image();
       var imgB = new Image();
-      var cover = new Image();
+      var imgAA = new Image();
 
       imgA.src = urlA;
       imgB.src = urlB;
       this.imgA = imgA.src;
       this.imgB = imgB.src;
-      cover.src = this.data.data.cover.url;
-      this.lightboxImage = this.imgA;
+      imgAA.src = this.data.data.cover.url;
 
-      new Promise((resolve) => {
-        imgA.onload = function () {
+      var A = new Promise((resolve) => {
+        imgA.onload = () => {
           this.width = (window.innerHeight / 2 / imgA.height) * imgA.width;
           this.height = window.innerHeight / 2;
-
           canvasA.width = this.width;
           canvasA.height = this.height;
-
           ctxA.drawImage(imgA, 0, 0, this.width, this.height);
-
-          //-------- Establishing the AA canvas here
-          // canvasAA.width = this.width;
-          // canvasAA.height = this.height;
-          // ctxAA.fillStyle = "rgba(255, 255, 255, 0)";
-          // ctxAA.fillRect(0, 0, this.width, this.height);
-            canvasAA.width = this.width;
-            canvasAA.height = this.height;
-            ctxAA.drawImage(cover, 0, 0, this.width, this.height);
-
-      
+          this.lightboxImage = this.imgA;
 
           resolve({ width: this.width, height: this.height });
         };
-      }).then((e) => {
-        this.setArray(e);
+      })
+      var AA = new Promise((resolve) => {
+        imgAA.onload = () => {
+          console.log(imgAA.width);
+          this.width = (window.innerHeight / 2 / imgAA.height) * imgAA.width;
+          this.height = window.innerHeight / 2;
+          canvasAA.width = this.width;
+          canvasAA.height = this.height;
+          ctxAA.drawImage(imgAA, 0, 0, this.width, this.height);
+
+          resolve({ width: this.width, height: this.height });
+        };
+      })
+      var B = new Promise((resolve) => {
+        imgB.onload = () => {
+          this.width = (window.innerHeight / 2 / imgB.height) * imgB.width;
+          this.height = window.innerHeight / 2;
+          canvasB.width = this.width;
+          canvasB.height = this.height;
+          ctxB.drawImage(imgB, 0, 0, this.width, this.height);
+
+          resolve({ width: this.width, height: this.height });
+        };
+      })
+      
+
+      Promise.all([A, AA, B]).then((e) => {
+        console.log("e", e);
+        this.setArray(e[0]);
         this.width = e.width;
         this.height = e.height;
+        this.mouseEvents();
+
       });
-      imgB.onload = function () {
-        this.width = (window.innerHeight / 2 / imgB.height) * imgB.width;
-        this.height = window.innerHeight / 2;
-        canvasB.width = this.width;
-        canvasB.height = this.height;
-        ctxB.drawImage(imgB, 0, 0, this.width, this.height);
-      };
+
       if (this.data.data.c.url)  imgC.onload = function () {
         this.width = (window.innerHeight / 2 / imgC.height) * imgC.width;
         this.height = window.innerHeight / 2;
@@ -308,19 +381,21 @@ export default {
         canvasC.height = this.height;
         ctxC.drawImage(imgC, 0, 0, this.width, this.height);
       };
-      
-
-      //   console.log(this.width, this.height);
-
-      this.mouseEvents();
     },
     mouseEvents() {
       this.ctx = this.active.getContext("2d");
-
       this.active.addEventListener("mousedown", this.mousedown);
       this.active.addEventListener("mouseup", this.mouseup);
     },
+    handlePlayButtonUnclickable() {
+    // When you have to light tool, don't let play button get in the way
+      if (this.tool.digType === "Reveal" && this.activei === this.i) {
+        this.playButtonNoClick = true;
+      }
+    },
     mousedown(e) {
+      this.handleMouseDown();
+      
       this.$store.commit("isDigging", true);
       if (this.active === document.getElementById(`canvas${this.data.i}AA`)) {
         this.active.addEventListener("mousemove", this.mousemove);
@@ -330,7 +405,7 @@ export default {
         this.ctx.globalCompositeOperation = "destination-out";
 
         this.ctx.beginPath();
-        if (this.digType) {
+        if (this.tool.digType) {
           this.ctx.moveTo(this.old.x, this.old.y);
           this.ctx.lineTo(x, y);
           this.ctx.stroke();
@@ -367,30 +442,30 @@ export default {
         this.ctx.beginPath();
 
         // ---- Spirals
-        if (this.digType === "Spirals") {
+        if (this.tool.digType === "Spirals") {
           this.ctx.lineWidth = 5;
           this.ctx.arc(x, y, this.range, 0, 2 * Math.PI);
         }
 
         // ---- Circle
-        if (this.digType === "Magnify" || this.digType === "Reveal") {
+        if (this.tool.digType === "Magnify" || this.tool.digType === "Reveal") {
           this.ctx.arc(x, y, this.range, 0, 2 * Math.PI);
           this.ctx.fill();
         }
 
         // ---- Etch
-        if (this.digType === "Etch") {
+        if (this.tool.digType === "Etch") {
           this.ctx.rect(x - 40, y - 25, 80, 50);
           this.ctx.fill();
         }
 
         // ---- Sponge
-        if (this.digType === "Sponge") {
+        if (this.tool.digType === "Sponge") {
           this.ctx.lineWidth = 30;
         }
 
         // ---- Snip
-        if (this.digType === "Snip") {
+        if (this.tool.digType === "Snip") {
           this.ctx.moveTo(this.old.x - 30, this.old.y - 30);
           this.ctx.lineTo(x + 30, y + 30);
           this.ctx.lineWidth = 5;
@@ -398,13 +473,13 @@ export default {
         }
 
         // ---- Axe
-        if (this.digType === "Axe") {
+        if (this.tool.digType === "Axe") {
           this.ctx.rotate(Math.PI / 5);
           this.ctx.lineWidth = 100;
         }
 
         // ---- Paint
-        if (this.digType === "Paint") {
+        if (this.tool.digType === "Paint") {
           this.ctx.moveTo(x + 5 - 30, y + 9);
           this.ctx.lineTo(x + 5 - 30, y + 9);
           this.ctx.lineTo(x + 5 - 30, y + 9);
@@ -613,7 +688,7 @@ export default {
         }
 
         // ---- Dig
-        if (this.digType === "Dig") {
+        if (this.tool.digType === "Dig") {
           this.ctx.moveTo(x + 25 - 30, y + 39);
           this.ctx.lineTo(x + 25 - 30, y + 39);
           this.ctx.lineTo(x + 25 - 30, y + 38);
@@ -686,7 +761,7 @@ export default {
           this.ctx.fill();
         }
 
-        if (this.digType) {
+        if (this.tool.digType) {
           this.ctx.moveTo(this.old.x, this.old.y);
           this.ctx.lineTo(x, y);
           this.ctx.stroke();
@@ -704,6 +779,8 @@ export default {
 };
 </script>
 <style scoped lang="scss">
+@import "../main.scss";
+
 .digging {
   position: relative;
 }
@@ -725,6 +802,7 @@ export default {
 }
 .aa {
   z-index: 4;
+  width: calc(100% - 2px);
   // background: black;
 }
 .c {
@@ -787,6 +865,7 @@ export default {
     width: 100%;
     top: 20%;
     left: 50%;
+    font-family: $gh !important;
     transform: translateX(-50%);
   }
 }
@@ -807,19 +886,22 @@ export default {
   box-shadow: 0px 0px 15px 0px rgba(0,0,0,0.46);
   padding: 1px;
 }
+.mg {
+  // opacity: .5;
+   &:hover {
+    transition: opacity .25s ease;
+    opacity: 1;
+  }
+}
 .lightbox {
   position: absolute;
   right: 0;
   bottom: 0;
   z-index: 5;
   color: white;
-  opacity: .5;
   transition: opacity .25s ease;
   cursor: pointer;
-  &:hover {
-  transition: opacity .25s ease;
-    opacity: 1;
-  }
+ 
   img {
     width: 20px;
     height: 20px;
@@ -860,5 +942,21 @@ export default {
     transform: translateX(100%) translateY(-100%);
     cursor: pointer;
   }
+}
+.glow {
+  position: absolute;
+  left: -30px;
+  top: -30px;
+  width: 80px !important;
+  height: 80px !important;
+  mix-blend-mode: difference;
+}
+.nopointer {
+  pointer-events: none;
+}
+.info {
+  position: absolute;
+  bottom: 0;
+  color: white;
 }
 </style>

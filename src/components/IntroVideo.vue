@@ -1,6 +1,6 @@
 <template>
   <div class="video">
-    <video ref="video" :src="src" />
+    <video controlsList="nodownload" oncontextmenu="return false;" ref="video" :src="src" />
     <button class="mute" @click="handleMute"><iconMute :mute="!mute" class="iconMute"/></button>
   </div>
 </template>
@@ -70,6 +70,7 @@ export default {
   height: 100%;
   left: 0;
   top: 0;
+  background: black;
 }
 video {
   height: 100vh;

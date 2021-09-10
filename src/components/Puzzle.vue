@@ -17,9 +17,7 @@
             :key="i"
             @solved="handleSolved"
             :data="{ data: item, i: i }"
-            :class="`${activei === i ? `active` : `inactive`} ${
-              i < activei ? `solvedPuz` : ``
-            }`"
+            :class="`${activei >= i ? `active` : `inactive`}`"
           />
         </div>
       </transition>
@@ -35,9 +33,9 @@ export default {
   name: "Puzzle",
   data() {
     return {
-      activei: 0,
       showVid: false,
       activeVidData: {},
+      activei: this.$store.state.activePiece.i 
     };
   },
   components: {
@@ -48,19 +46,17 @@ export default {
   watch: {},
   methods: {
     handleSolved(e) {
-
-      // console.log("e", e);
       this.showVid = true;
-      if (this.activei === e.i) this.$store.commit('AAsolved', false);
+      this.$store.commit("activePiece", {activepiece: this.$puzzle.piece[e.i + 1], i: e.i + 1});
       this.activei = e.i + 1;
-      this.$store.commit("activePiece", {activepiece: this.$puzzle.piece[this.activei], i: e.i});
-      
-      // console.log(this.$store.state.activePiece);
+      console.log("this.$store.state.activePiece", this.$store.state.activePiece.i );
+      console.log("this.activei", this.activei )
     },
   },
   mounted() {
     //   console.log(this.$puzzle.piece);
-    this.$store.commit("activePiece", this.$puzzle.piece[0]);
+    this.$store.commit("activePiece", {activepiece: this.$puzzle.piece[this.activei], i: this.activei});
+    // this.handleSolved({i: this.$store.state.completedPuzzles});
   },
 };
 </script>

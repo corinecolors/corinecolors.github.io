@@ -7,7 +7,16 @@
           @closeNotif="handlecloseNotif"
           @openEmail="handleopenEmail"/>
       </transition>
-     <Nav v-if="!ChooseLanguage"/>
+     <Nav />
+     <div class="backarrow"
+     v-html="`<`"
+     v-if="$store.state.screens['showPuzzle'] && !$store.state.hideBack"
+     @mousedown="handleBack"></div>
+     <div class="frontarrow"
+     v-html="`>`"
+     v-if="showFront"
+     @mousedown="handleFront"></div>
+     <!-- v-if="!ChooseLanguage" -->
 
       <!-- <transition appear name="section" >
         <PostDisclaimerVideo 
@@ -67,8 +76,9 @@
       <transition appear name="toolbar">
         <Toolbar
           class="section Toolbar"
-          v-if="$store.state.screens['Toolbar'] "
+          v-if="$store.state.screens['Toolbar'] && !finalscreen"
         />
+        <!-- v-if="$store.state.screens['Toolbar'] && !finalscreen" -->
       </transition>
 
       <Desktop 
@@ -130,6 +140,9 @@ export default {
     ...mapState(["emailsRead", "allEmailsRead","donePuzzle", "localizationData", "activePiece", "showEmailThread", "emailNotif"]),
   },
   watch: {
+    $router() {
+      console.log(this.$router);
+    },
     showEmailThread() {
       if (this.showEmailThread && this.emailNotif) {
         setTimeout(() => {
@@ -175,7 +188,8 @@ export default {
       openEmailScreen: false,
       muteDisclaimer: false,
       PrePuzzleScreen: false,
-      showEmailNotifOnce: true
+      showEmailNotifOnce: true,
+      showFront:false
     };
   },
   methods: {
@@ -247,9 +261,26 @@ export default {
       });
     },
     setStore() {
-      for (let i = 0; i < this.$emails.length; i++) {
+      for (let i = 0; i < this.$desktopcontent.screenemail.items.length; i++) {
         this.$store.state.emailsRead.push(false);
       }
+    },
+    handleBack() {
+      if (this.$store.state.screens['showPuzzle'] && !this.finalscreen) {
+       this.$store.commit('screens', {what: "showPuzzle", bool: false});
+       this.$store.commit('screens', {what: "Toolbar", bool: false});
+         this.$store.commit("tool", {
+          src: '',
+          digType: "",
+        })
+      } else {
+        this.finalscreen = false;
+        this.showFront = true;
+      }
+    },
+    handleFront() {
+      this.finalscreen = true;
+      this.showFront = false;
     },
   },
   mounted() {
@@ -260,6 +291,8 @@ export default {
     window.addEventListener('resize', () => {
       this.ww = window.innerWidth;
     })
+    this.$store.commit("completedPuzzles", 0);
+    // this.$router.push({path: `/#nice`});
       // this.$store.commit('screens', {what: "Toolbar", bool: true});//temp
 
     // console.log(this.$puzzle.debris_bg.url);
@@ -369,7 +402,7 @@ button {
   font-size: 12px;
 }
 .FinalScreen {
-  z-index: 100;
+  z-index: 98;
   width: 100%;
   height: 100%;
   position: fixed;
@@ -406,7 +439,7 @@ button {
   z-index: 6;
 }
 .Toolbar {
-  z-index: 100;
+  z-index: 98;
 }
 .toolbar-enter-active, .toolbar-leave-to {
   transform: translateX(-100%) !important;
@@ -417,5 +450,17 @@ button {
 }
 .ScreenEmail {
   z-index: 1;
+}
+.backarrow, .frontarrow {
+  color: white;
+  position: fixed;
+  z-index: 99;
+  font-size: 80px;
+  cursor: pointer;
+  top: 50%;
+  transform: translateY(-50%);
+}
+.front {
+  right: 0;
 }
 </style>

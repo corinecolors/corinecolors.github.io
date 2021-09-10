@@ -12,11 +12,15 @@ export default Vue.prototype.$store = new Vuex.Store({
       Toolbar: false,
       showPuzzle: false,
     },
+    completedPuzzles: null,
     tool: {
       src: null,
       digType: "",
     },
-    activePiece: {},
+    activePiece: {
+      activepiece: null,
+      i: 0,
+    },
     isDigging: false,
     digMoreMessage: false,
     pressPlayMessage: false,
@@ -25,9 +29,15 @@ export default Vue.prototype.$store = new Vuex.Store({
     AAsolved: false,
     showEmailThread: false,
     emailNotif: true,
+    puzzleScreenOpen: false,
+    hideBack: false,
     // active:
   },
   mutations: {
+    hideBack(state, hideBack) {
+      state.hideBack = hideBack;
+      Vue.set(state, hideBack);
+    },
     emailsRead(state, obj) {
       this.state.emailsRead[obj.idx] = obj.boole;
       Vue.set(state, obj.idx, obj.boole);
@@ -84,6 +94,14 @@ export default Vue.prototype.$store = new Vuex.Store({
       state.emailNotif = emailNotif;
       Vue.set(state, emailNotif);
     },
+    puzzleScreenOpen(state, puzzleScreenOpen) {
+      state.puzzleScreenOpen = puzzleScreenOpen;
+      Vue.set(state, puzzleScreenOpen);
+    },
+    completedPuzzles(state, completedPuzzles) {
+      state.completedPuzzles = completedPuzzles;
+      Vue.set(state, completedPuzzles);
+    },
   },
   actions: {
     setEmailsRead(context, obj) {
@@ -94,6 +112,9 @@ export default Vue.prototype.$store = new Vuex.Store({
     },
     setAllEmailsRead(context, data) {
       context.commit("allEmailsRead", data);
+    },
+    completedPuzzles(context, data) {
+      context.commit("completedPuzzles", data);
     },
   },
 });

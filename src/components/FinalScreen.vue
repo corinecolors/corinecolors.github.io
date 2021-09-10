@@ -162,6 +162,7 @@ export default {
     opacity: .5;
 }
 .firealarm {
+    cursor: pointer;
     width: 15%;
     position: fixed;
     left: 50vw;
@@ -181,7 +182,7 @@ export default {
 .mute {
     position: fixed;
     left: 50%;
-    top: 55%;
+    top: 60%;
     transform: translateX(-50%);
 }
 h2, p {
@@ -194,7 +195,7 @@ h2 {
 }
 .desc {
     position: fixed;
-    top: 65%;
+    top: 70%;
     width: 100%;
 }
 </style>

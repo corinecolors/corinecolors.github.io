@@ -10,10 +10,10 @@
         </video>
        <!-- <canvas class="vid" id="video" ref="video"/> -->
         <div class="infobar">
-          <div class="info">
+          <!-- <div class="info">
             <InfoIcon />
             <p>{{ $cms.textField(data.info) }}</p>
-          </div>
+          </div> -->
           <div class="socialicons" v-if="url">
             <transition v-for="(item, i) in socials" :key="i">
               <ShareNetwork
@@ -110,9 +110,12 @@ export default {
     closeVid() {
       // console.log("closing vie on 7");
       this.$emit("closeVid", true);
-        if (this.$store.state.activePiece.i === 7) {
-          this.$store.commit("donePuzzle", true);
-        }
+        // if (this.$store.state.activePiece.i === 8) {
+        //   this.$store.commit("donePuzzle", true);
+        // }
+        // if (this.$store.state.activePiece.i === 8) {
+        //   this.$store.commit("donePuzzle", true);
+        // }
     },
     blobVideo(url) {
       // var file = new Blob([url], {"type" : "video/mp4"});
@@ -259,7 +262,9 @@ p {
 .socialicons {
   vertical-align: top;
   display: inline-block;
-  text-align: right;
+  // text-align: right;
+  text-align: center;
+
   margin-left: auto;
   width: 50%;
 }
@@ -273,6 +278,11 @@ p {
   position: relative;
   display: inline-block;
   width: auto;
+  &:hover {
+    transition: background .5s ease, color .5s ease;
+    background: none;
+    color: none;
+  }
 }
 .url {
   position: absolute;

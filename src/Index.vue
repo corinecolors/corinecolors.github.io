@@ -50,13 +50,18 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="scss">
-img {
--webkit-user-drag: none;
--khtml-user-drag: none;
--moz-user-drag: none;
--o-user-drag: none;
-user-drag: none;
-}
+img, p, h1, h2, h3, h4, h5, h6, div {
+    -webkit-user-drag: none;
+    -khtml-user-drag: none;
+    -moz-user-drag: none;
+    -o-user-drag: none;
+    user-drag: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -o-user-select: none;
+    user-select: none;
+  }
 #index {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;

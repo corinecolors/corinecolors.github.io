@@ -8,7 +8,7 @@ Vue.use(VueRouter);
 // Initialize router
 const router = new VueRouter({
   base: "",
-  // mode: "history",
+  mode: "history",
   routes: [
     {
       path: "/",

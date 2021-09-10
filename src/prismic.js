@@ -27,13 +27,7 @@ export default new (class Prismic {
   //temp hardcoded
   all() {
     return new Promise((res) => {
-      Promise.all([this.Emails(), this.prismic()]).then(() => res());
-    });
-  }
-  Emails() {
-    return new Promise((res) => {
-      Vue.prototype.$emails = this.emails;
-      res(Vue.prototype.$emails);
+      Promise.all([this.prismic()]).then(() => res());
     });
   }
   prismic() {
@@ -50,8 +44,7 @@ export default new (class Prismic {
 
         Vue.prototype.$fin = resp.results.find((e) => e.type === "fin").data;
 
-        console.log(Vue.prototype.$fin);
-
+        // console.log(Vue.prototype.$fin);
         // desktopcontent
         Vue.prototype.$desktopcontent = resp.results.find(
           (e) => e.type === "desktopcontent"
@@ -62,7 +55,11 @@ export default new (class Prismic {
         Vue.prototype.$desktopcontent.screenimage = Vue.prototype.$desktopcontent.body.filter(
           (i) => i.slice_type === "screen_image"
         )[0];
-        // console.log(Vue.prototype.$desktopcontent);
+        Vue.prototype.$desktopcontent.screenemail = Vue.prototype.$desktopcontent.body.filter(
+          (i) => i.slice_type === "screenemail"
+        )[0];
+
+        console.log(Vue.prototype.$desktopcontent.screenemail);
         // console.log(Vue.prototype.$desktopcontent);
 
         //Assign to Eng object- --------–––––––––––––––––––––––––––––––––––––––––––––

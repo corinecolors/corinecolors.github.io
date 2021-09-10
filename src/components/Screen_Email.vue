@@ -18,17 +18,18 @@
           <transition appear name="emailthread" v-if="!currentEmail">
             <div class="threadlist" >
               <div class="bg"/>
-              <table v-if="$emails && $emails.length">
-                <transition  v-for="(item, i) in $emails" :key="i">
-                  <tr class="row" :style="$store.state.emailsRead[i] === true ? `background: lightgrey;` : ``" @click="activeEmail(item, i)">
+              <table v-if="$desktopcontent.screenemail.items  && $desktopcontent.screenemail.items.length">
+                <transition>
+                  v-for="(item, i) in $desktopcontent.screenemail.items " :key="i"
+                  <tr class="row" :style="$store.state.emailsRead[0] === true ? `background: lightgrey;` : ``" @click="activeEmail($desktopcontent.screenemail.items[0], 0)">
                     <td class="starredthread">
                       <img src='../assets/starred.png'/>
                     </td>
                     <td class="headline">
-                      <p>{{item.headline}}</p>
+                      <p>{{$cms.textField($desktopcontent.screenemail.items[0].email_title)}}</p>
                     </td>
                     <td class="subject">
-                      <p>{{item.subject}}</p>
+                      <p>{{$cms.textField($desktopcontent.screenemail.items[0].email_body)}}</p>
                     </td>
                   </tr>
                 </transition>
@@ -41,13 +42,13 @@
                           <img src='../assets/back.png'/>
                         </div>
 
-                        <div class="thread_singular" v-for="(item, i) in 3" :key="i">
+                        <div class="thread_singular" v-for="(item, i) in $desktopcontent.screenemail.items" :key="i">
                           <div class="senderInformation">
-                            <div class="dp" :style="`background-image: url(${currentEmail.dp})`">
+                            <div class="dp" :style="`background-image: url(${item.sender_image.url})`">
                             </div>
-                            <p class="senderinfo">Sent from <b>{{currentEmail.sender}}</b> &lt;{{currentEmail.from}}&gt;
+                            <p class="senderinfo">Sent from <b>{{$cms.textField(item.sender_name)}}</b> &lt;{{$cms.textField(item.sender_email)}}&gt;
                             <br/>
-                              <span class="smol">To me</span>
+                              <span class="smol">To {{$cms.textField(item.to_who)}}</span>
                             </p>
                             <div class="icons">
                               <img src='../assets/forward.png'/>
@@ -56,8 +57,8 @@
                             </div>
 
                           </div>
-                            <h2>{{currentEmail.headline}}</h2>
-                            <p v-html="currentEmail.body"></p>
+                            <h2 v-if="item.email_title.length">{{$cms.textField(item.email_title)}}</h2>
+                            <p class="emailBody" v-html="$cms.htmlField(item.email_body)"></p>
                       </div>
                         <div class="link">
                           <div class="linkinner" @click="handleClick">The Deep State Files</div>
@@ -89,22 +90,22 @@ Closebar
           title: "Inbox",
           src: require('../assets/inbox.png')
         },
-        {
-          title: "Starred",
-          src: require('../assets/starred.png')
-        },
-        {
-          title: "Sent",
-          src: require('../assets/sent.png')
-        },
-        {
-          title: "Drafts",
-          src: require('../assets/drafts.png')
-        },
-        {
-          title: "Trash",
-          src: require('../assets/trash.png')
-        },
+        // {
+        //   title: "Starred",
+        //   src: require('../assets/starred.png')
+        // },
+        // {
+        //   title: "Sent",
+        //   src: require('../assets/sent.png')
+        // },
+        // {
+        //   title: "Drafts",
+        //   src: require('../assets/drafts.png')
+        // },
+        // {
+        //   title: "Trash",
+        //   src: require('../assets/trash.png')
+        // },
       ],
       currentEmail: null,
       
@@ -125,6 +126,7 @@ Closebar
     },
     handleClick() {
       this.$store.commit('screens', {what: "showPuzzle", bool: true});
+      this.$store.commit('screens', {what: "Toolbar", bool: true});
     }
   },
   mounted() {
@@ -140,7 +142,9 @@ Closebar
     overflow: scroll;
     height: 70vh;
     position: relative;
+    
 }
+
 .screen {
     position: fixed;
     width: 70vw;
@@ -152,6 +156,7 @@ Closebar
     border-radius: 5px;
     overflow: hidden;
     padding-bottom: 22px;
+   
 }
 h2 {
   margin: 20px 0 10px;
@@ -199,6 +204,7 @@ p {
 }
 .headline {
   width: 35%;
+  padding-left: 20px;
 }
 table {
   width: 100%;
@@ -328,5 +334,22 @@ td {
 .empty {
   text-align: center;
   padding-top: 20px;
+}
+.subject p {
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;  
+  overflow: hidden;
+  word-break: break-word;
+  text-overflow: ellipsis;
+  width: 400px;
+  margin: 20px;
+  padding: 0;
+}
+.emailBody {
+   &::v-deep p {
+      color: black !important;
+      margin-bottom: 10px !important;
+    }
 }
 </style>

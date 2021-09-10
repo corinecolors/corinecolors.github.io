@@ -2,9 +2,22 @@
   <div class="digging" ref="digging" @mouseout="mouseout">
     <transition appear name="section">
     <div class="lightboximage" v-if="lightboxImage && showlightboxImage" >
-      <div class="lightboximageinner" >
-        <img :src="lightboxImage" @mousedown="handleChangingImages"/>
-        <div class="x" @click="closeLightbox">X</div>
+      <div class="lightboximage-inner">
+        <div class="lightboximageinner" >
+          <span @mousedown="handlePlayButton" @mouseover="handleHover" @mouseout="handleOutHover"  class="play">
+            <Playbutton
+              :fill="$cms.textField(this.data.data.playbuttom_color)"
+              :style="`${
+                Asolved ? `opacity: .75; cursor: pointer;` : ``
+              }`"
+              
+            />
+            <img class="glow" v-if="activei === i && Asolved" src="../assets/debris/Glow.svg"/>
+          </span>
+          <img :src="lightboxImage" @mousedown="handleChangingImages"/>
+        </div>
+        <div class="info"><p>{{$cms.textField(data.data.info)}}</p></div>
+        <div class="x" v-if="Asolved" @click="closeLightbox">X</div>
       </div>
     </div>
     </transition>
@@ -21,35 +34,29 @@
       :style="`${Csolved ? `opacity: 1;` : ``}`"
     />
     <canvas
+      @mousedown="handleLightbox"
+      @click.prevent="handleLightbox"
       :id="`canvas${data.i}B`"
       class="b"
       :style="`${Bsolved ? `opacity: 0; pointer-events: none;` : ``}`"
     />
     <canvas
       :id="`canvas${data.i}A`"
+      ref="a"
       class="a"
       :style="`${Asolved ? `opacity: 0; pointer-events: none;` : ``}`"
     />
-    <div class="lightbox" @click="handleLightbox" 
+    <!-- <div class="lightbox" @click="handleLightbox" 
     :style="!Asolved && !AAsolved && activei === i ? `pointer-events: none` : `pointer-events: auto`">
       <img class="mg" src="../assets/magnifying_icon.svg"/>
       <img class="glow" v-if="showGlow && activei === i && AAsolved" src="../assets/debris/Glow.svg"/>
-      </div>
+      </div> -->
     <!-- <div class="playbutton" :style="`${Asolved ? `opacity: 1; cursor: pointer;` : `pointer-events: none`}`" @click="handlePlayButton"></div> -->
-    <span @mousedown="handlePlayButton" @mouseover="handleHover" @mouseout="handleOutHover">
-      <Playbutton
-        :fill="$cms.textField(this.data.data.playbuttom_color)"
-        :style="`${
-          Asolved ? `opacity: .75; cursor: pointer;` : ``
-        }${playButtonNoClick ? `pointer-events: none;` : ``}`"
-      />
-    </span>
-    <div class="info">
-      information
-    </div>
+ 
     <canvas
       :id="`canvas${data.i}AA`"
       class="aa"
+      ref="aa"
       :style="`${AAsolved  ? `opacity: 0; pointer-events: none;` : ``}`"
     />
   </div>
@@ -89,7 +96,7 @@ export default {
       lightboxImage: null,
       showlightboxImage: false,
       playButtonNoClick: false,
-      showGlow: true
+      preventPopup: false
 
     };
   },
@@ -123,14 +130,14 @@ export default {
     tool() {
       this.handlePlayButtonUnclickable();
     },
-    Bsolved() {
-      if (this.Bsolved) {
-        this.$store.commit("tool", {
-          src: '',
-          digType: "",
-        });
-      }
-    },
+    // Bsolved() {
+    //   if (this.Bsolved) {
+    //     this.$store.commit("tool", {
+    //       src: '',
+    //       digType: "",
+    //     });
+    //   }
+    // },
     AAsolved() {
       if (this.AAsolved && this.activei === this.i) {
         this.lightboxImage = this.imgA;
@@ -146,18 +153,19 @@ export default {
       this.$store.commit("mouse", {mouseevent: "mouseup", e: "none"});
         this.mouseEvents();
       }
+      if (!this.preventPopup) this.handleLightbox();
      
     },
     Asolved() {
       if (this.Asolved && this.activei === this.i) {
         this.lightboxImage = this.imgB;
         this.playButtonNoClick = false;
-        if (!this.imgC) {
-          this.$store.commit("tool", {
-            src: '',
-            digType: "",
-          });
-        }
+        // if (!this.imgC) {
+        //   this.$store.commit("tool", {
+        //     src: '',
+        //     digType: "",
+        //   });
+        // }
         this.active.removeEventListener("mousedown", this.mousedown);
         this.active.removeEventListener("mousemove", this.mousemove);
         this.active.removeEventListener("mouseup", this.mouseup);
@@ -196,15 +204,26 @@ export default {
       }
     },
     closeLightbox() {
-      this.showlightboxImage = false
+      this.showlightboxImage = false;
+        if (this.$store.state.activePiece.i === 8) {
+          this.$store.commit("donePuzzle", true);
+        }
+      this.$store.commit("hideBack", false);
+      this.$store.commit("puzzleScreenOpen", false);
       this.$store.commit("tool", {
           src: '',
           digType: "",
         });
+        this.$store.commit("AAsolved", false);
     },
     handleChangingImages() {
+      if (this.tool.digType !== "Reveal") {
+        return;
+      }
       if (this.lightboxImage === this.imgA) {
         this.lightboxImage = this.imgB;
+        this.Asolved = true;
+        this.$store.commit("pressPlayMessage", true);
       }
       else if (this.lightboxImage === this.imgB && this.imgC) {
         this.lightboxImage = this.imgC;
@@ -214,15 +233,15 @@ export default {
     },
     handleLightbox() {
       // console.log(this.lightboxImage);
-      if (this.activei !== this.i) {
+      // if (this.activei !== this.i) {
+      //   return;
+      // }
+      if (this.tool.digType === "Etch" && this.activei !== this.i) {
         return;
       }
-      this.showGlow = false;
+      this.$store.commit("hideBack", true);
+      this.$store.commit("puzzleScreenOpen", true);
       this.showlightboxImage = true;
-        this.$store.commit("tool", {
-          src: this.$puzzle.revealer.url,
-          digType: "Etch",
-        });
     },
     handleHover() {
       if (!this.Asolved) {
@@ -246,7 +265,9 @@ export default {
       return require(`../assets/QuestionMarks/qm${i + 1}.png`)
     },
     handlePlayButton() {
-      if (this.Asolved) this.$emit("solved", this.data);
+      if (this.Asolved) {
+        this.$emit("solved", this.data);
+      }
     },
     setArray(e) {
       this.whArray = [];
@@ -342,7 +363,7 @@ export default {
       })
       var AA = new Promise((resolve) => {
         imgAA.onload = () => {
-          console.log(imgAA.width);
+          // console.log(imgAA.width);
           this.width = (window.innerHeight / 2 / imgAA.height) * imgAA.width;
           this.height = window.innerHeight / 2;
           canvasAA.width = this.width;
@@ -366,7 +387,7 @@ export default {
       
 
       Promise.all([A, AA, B]).then((e) => {
-        console.log("e", e);
+        // console.log("e", e);
         this.setArray(e[0]);
         this.width = e.width;
         this.height = e.height;
@@ -775,6 +796,17 @@ export default {
   mounted() {
     this.active = document.getElementById(`canvas${this.data.i}AA`);
     this.dig();
+    if (this.i < this.$store.state.activePiece.i) {
+      this.$refs.a.style="opacity: 0; pointer-events: none;";
+      this.$refs.aa.style="opacity: 0; pointer-events: none;";
+      this.showPreviewText = true;
+      this.preventPopup = true;
+      this.AAsolved = true;
+      this.Asolved = true;
+      this.Csolved = true;
+    }
+    this.$store.commit("AAsolved", false);
+    this.$store.commit("puzzleScreenOpen", false);
   },
 };
 </script>
@@ -809,6 +841,9 @@ export default {
   position: absolute;
   left: 1px;
   z-index: -1;
+}
+.b {
+  cursor: pointer;
 }
 .a,
 .b,
@@ -847,10 +882,8 @@ export default {
 }
 .previewtext {
   color: white;
-  position: absolute;
-  left: 50%;
-  transform: translateX(-50%);
-  height: 100%;
+
+  // height: 100%;
   z-index: 10;
   pointer-events: none;
   user-select: none;
@@ -863,9 +896,12 @@ export default {
     margin: 0;
     position: absolute;
     width: 100%;
-    top: 20%;
+    top: 10%;
     left: 50%;
     font-family: $gh !important;
+    position: absolute;
+    left: 50%;
+    z-index: 7;
     transform: translateX(-50%);
   }
 }
@@ -875,7 +911,9 @@ export default {
   top: 50%;
   left: 50%;
   transform: translateX(-50%) translateY(-50%);
-
+  position: absolute;
+  left: 50%;
+  z-index: 7;
  img {
     width: 50px
  }
@@ -910,19 +948,43 @@ export default {
 }
 .lightboximage {
   position: fixed;
-  background: rgb(255,255,255,.5);
+  z-index: 100;
+  top: 0;
+  background: rgb(0,0,0,.75);
   max-width: 100vw;
-  z-index: 20;
   width: 100%;
   left: 0;
   height: 100%;
-  .lightboximageinner {
-    position: fixed;
-     max-height: 100vh;
-    max-width: 100vw;
+   .lightboximage-inner {
+    display: inline-block;
+    position: absolute;
     left: 50%;
     top: 50%;
     transform: translateX(-50%) translateY(-50%);
+    width: calc(100vh * 1.52);
+  }
+  .info {
+    // top: 50%;
+    pointer-events: none;
+    p {
+      color: white;
+    }
+    max-width: 40%;
+    white-space: wrap;
+    word-wrap: break-word;
+    display: inline-block;
+    vertical-align: middle;
+    padding: 40px;
+  }
+  .lightboximageinner {
+    vertical-align: middle;
+    display: inline-block;
+    // position: fixed;
+     max-height: 100vh;
+     position: relative;
+    padding: 20px;
+    // max-width: 100vw;
+    // transform:  translateY(-50%);
   }
   img {
     height: 600px;
@@ -933,30 +995,32 @@ export default {
   .x {
     display: inline-block;
     right: 0;
-    top: 0;
-    color: black;
+    top: 10%;
+    color: white;
     font-size: 60px;
     vertical-align: top;
     position: absolute;
-    right: 0;
-    transform: translateX(100%) translateY(-100%);
+    // right: 0;
+    right: 10%;
+
+    // transform: translateX(100%) translateY(-100%);
     cursor: pointer;
   }
 }
 .glow {
   position: absolute;
-  left: -30px;
-  top: -30px;
+  // left: -30px;
+  // top: -30px;
+  top: 50%;
+  left: 50%;
+  transform: translateX(-50%) translateY(-50%);
+  z-index: 0;
   width: 80px !important;
   height: 80px !important;
-  mix-blend-mode: difference;
+  // mix-blend-mode: difference;
 }
 .nopointer {
   pointer-events: none;
 }
-.info {
-  position: absolute;
-  bottom: 0;
-  color: white;
-}
+
 </style>

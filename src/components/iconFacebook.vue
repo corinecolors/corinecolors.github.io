@@ -31,6 +31,8 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="scss">
-	.st0{fill:#FFFFFF;}
-	.st1{fill:#1777F2;}
+	.st0{fill:#000;}
+	// .st1{fill:#1777F2;}
+	.st1{fill:#fff;}
+
 </style>

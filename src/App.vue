@@ -34,9 +34,11 @@
         <source :src="disclaimervoiceUrl" type="audio/mpeg" />
       </audio>
 
-      <transition v-if="finalscreen" appear name="section">
-        <FinalScreen class="section FinalScreen"/>
-        </transition>
+      <transition-group v-if="finalscreen" appear name="section">
+        <FinalScreen @showWarning="showWarning=true" class="section FinalScreen" :key="finalscreen"/>
+        <WarningText v-if="showWarning" :key="finalscreen"/>
+        <WarningText v-if="showWarning" class="bottomWarningText" :key="finalscreen"/>
+        </transition-group>
 
 
       <AudioPlayer/>
@@ -112,7 +114,7 @@ import Toolbar from "./components/Toolbar.vue";
 import Puzzle from "./components/Puzzle.vue";
 import FinalScreen from "./components/FinalScreen.vue";
 import EmailNotif from "./components/EmailNotif.vue";
-
+import WarningText from "./components/WarningText.vue";
 import { mapState } from "vuex";
 export default {
   name: "App",
@@ -121,6 +123,7 @@ export default {
     // FlippyImage,
     // Puzzle
     ChooseLanguage,
+    WarningText,
     Desktop,
     Nav,
     IntroVideo,
@@ -189,7 +192,8 @@ export default {
       muteDisclaimer: false,
       PrePuzzleScreen: false,
       showEmailNotifOnce: true,
-      showFront:false
+      showFront:false,
+      showWarning:false
     };
   },
   methods: {
@@ -462,5 +466,8 @@ button {
 }
 .front {
   right: 0;
+}
+.bottomWarningText {
+  bottom: 0;
 }
 </style>

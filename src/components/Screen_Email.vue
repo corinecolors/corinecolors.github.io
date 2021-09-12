@@ -59,10 +59,11 @@
                           </div>
                             <h2 v-if="item.email_title.length">{{$cms.textField(item.email_title)}}</h2>
                             <p class="emailBody" v-html="$cms.htmlField(item.email_body)"></p>
+                            <div class="link" v-if="item.link">
+                              <div class="linkinner" @click="handleClick">#The-FirstLady Records</div>
+                            </div>
                       </div>
-                        <div class="link">
-                          <div class="linkinner" @click="handleClick">The Deep State Files</div>
-                        </div>
+                        
                       </div>
                 </transition>
           </div>
@@ -138,6 +139,7 @@ Closebar
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="scss">
+@import "../main.scss";
 .screeninner {
     overflow: scroll;
     height: 70vh;
@@ -159,7 +161,7 @@ Closebar
    
 }
 h2 {
-  margin: 20px 0 10px;
+  margin: 10px 0;
 }
 .logo {
   h2,  h1, img {
@@ -273,6 +275,7 @@ td {
 }
 .senderInformation {
   position: relative;
+  padding-bottom: 10px;
   .dp {
     vertical-align: middle;
     display: inline-block;
@@ -312,16 +315,17 @@ td {
   width: 100%;
 }
 .thread_singular {
-  padding-bottom: 40px;
+  padding-bottom: 10px;
   margin-bottom: 20px;
   border-bottom: 1px solid rgb(231, 231, 231);
 }
 .link {
-  padding-bottom: 50px;
+  padding-bottom: 10px;
   padding-left: 0;
+  position: relative;
 }
 .linkinner {
-  background: black;
+  background: $maroon;
   padding: 20px;
   color: white;
     transition: background .5s ease;

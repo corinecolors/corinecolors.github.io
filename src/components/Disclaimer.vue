@@ -3,8 +3,11 @@
     <div class="bg" />
     <div class="msg" v-if="$store.state.data.disclaimer && $store.state.data.disclaimer.length">
       <div v-html="$cms.htmlField($store.state.data.disclaimer)"/>
-      <button class="mute" @click="handleMute"><iconMute :mute="mute" class="iconMute"/></button>
-        <button class="disclaimerbutton" @click="handleLang('agree')">I Agree</button>
+        <button class="disclaimerbutton" @click="handleLang('agree')">Agree</button>
+        <button class="disclaimerbutton" @click="handleLang('leave')">Leave</button>
+        <br/>
+        <button class="mute" @click="handleMute"><iconMute :mute="mute" class="iconMute"/></button>
+        <p>USE HEADPHONES FOR AN OPTIMAL EXPERIENCE.</p>
       </div>
       
   </div>
@@ -27,8 +30,9 @@ export default {
   watch: {
   },
   methods: {
-    handleLang() {
-      this.$emit("next", "disclaimerDissapear", "localizationData");
+    handleLang(e) {
+      if (e === "agree") this.$emit("next", "disclaimerDissapear", "localizationData");
+      else window.location.href="/";
     },
     handleMute() {
       this.$emit("muteDisclaimer", this.mute);
@@ -51,6 +55,9 @@ export default {
   top: 0;
   text-align: center;
   color: white;
+  &::v-deep p {
+    margin: 10px 0;
+  }
 }
 .msg {
   width: 50%;
@@ -68,13 +75,17 @@ export default {
   opacity: 0.75;
 }
 .disclaimerbutton {
-  margin-top: 20px;
+  margin: 10px;
 }
 .iconMute {
   width: 20px;
   height: 20px;
+  transform: translateY(-8px) translateX(-10px);
 }
 .mute {
+  width: 20px;
+  height: 20px;
+  margin-bottom: 20px;
    &:hover {
       &::v-deep svg g path{
       fill: black !important;

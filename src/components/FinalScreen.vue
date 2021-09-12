@@ -87,6 +87,7 @@ export default {
           this.startTimer = true;
           this.$refs.alarmsound.play();
           this.pulled = true;
+          this.$emit("showWarning", true);
       })
       console.log(this.$fin.alarm_sound.url, this.$refs.alarm);
   setTimeout(() => {

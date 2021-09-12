@@ -807,6 +807,7 @@ export default {
     }
     this.$store.commit("AAsolved", false);
     this.$store.commit("puzzleScreenOpen", false);
+    this.$store.commit("donePuzzle", true); //temp
   },
 };
 </script>

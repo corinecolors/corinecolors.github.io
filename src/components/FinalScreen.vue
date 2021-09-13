@@ -32,10 +32,10 @@
             :src="getImage(i)" 
             :refs="`lever-${i}`"/>
         </transition>
-        <button class="mute" @click="handleMute"><iconMute :mute="!mute" class="iconMute"/></button>
         <div class="desc" v-if="pulled">
             <h2>{{$cms.textField($fin.header)}}</h2>
-            <p>{{$cms.textField($fin.text)}}</p>
+            <p v-html="$cms.htmlField($fin.text)"></p>
+            <button class="mute" @click="handleMute"><iconMute :mute="!mute" class="iconMute"/></button>
         </div>
         </div>
     </div>
@@ -111,7 +111,7 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="scss">
-// .cracks {}
+
 @import "../main.scss";
 .crack {
     position: absolute;
@@ -164,10 +164,10 @@ export default {
 }
 .firealarm {
     cursor: pointer;
-    width: 15%;
+    height: 200px;
     position: fixed;
     left: 50vw;
-    top: 40vh;
+    top: calc(50% - 100px);
     transform: translateX(-50%) translateY(-50%);
 }
 .show {
@@ -181,10 +181,10 @@ export default {
   height: 20px;
 }
 .mute {
-    position: fixed;
-    left: 50%;
-    top: 60%;
-    transform: translateX(-50%);
+ margin-left: 50%;
+transform: translateX(-50%);
+padding: 10px;
+margin-top: 20px;
 }
 h2, p {
     color: white;
@@ -196,7 +196,15 @@ h2 {
 }
 .desc {
     position: fixed;
-    top: 70%;
-    width: 100%;
+    top: 50%;
+    width: 50%;
+    left: 50%;
+    transform: translateX(-50%);
+    &::v-deep p {
+        margin: 10px 0;
+    }
+}
+.finalscreen {
+    background: rgb(0,0,0,0.8);
 }
 </style>

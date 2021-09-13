@@ -16,17 +16,22 @@
           </div> -->
           <div class="socialicons" v-if="url">
             <transition v-for="(item, i) in socials" :key="i">
-              <ShareNetwork
-                class="social"
-                :network="item.name"
-                :url="url"
-                :title="$cms.textField(data.video_title)"
-                :description="desc"
-                hashtags="#nice, #good"
-                :quote="`${$cms.textField(data.video_title)} – ${desc}`"
-              >
-                <component class="icon" :is="item.component" />
-              </ShareNetwork>
+                <span @mouseover="handleShareNetwork(item)">
+                <ShareNetwork
+                  class="social"
+                  :network="item.name"
+                  :url="url"
+                  :title="title"
+                  :description="desc"
+                  hashtags="#nice, #good"
+                  :ref="item.name"
+                  :quote="`${$cms.textField(data.video_title)} – ${desc}`"
+                >
+                  <component 
+                  class="icon" 
+                  :is="item.component" />
+                </ShareNetwork>
+                </span>
             </transition>
             <button @click="copytoclipboard" class="copy">
              <iconCopyLink/>
@@ -63,6 +68,8 @@ export default {
       url: null,
       showX: false,
       showCopiedMsg: false,
+      desc: `In the decade following the August 4, 2020 Port of Beirut Explosion, the Police State which Lebanon has become, intensified its crackdown on opposition and freedom of expression. The impoverished Lebanese people have become scarred and betrayed prisoners, being killed by their establishment. Refusing to stand idle, the First Lady jumps ship and becomes a dissident from the inside of the ruling class. This platform is a gateway into the mind of the woman who will startle the deep-state and set it off its domineering streak.`,
+      title: this.$cms.textField(this.data.video_title),
       socials: [
         {
           name: "facebook",
@@ -80,9 +87,6 @@ export default {
     };
   },
   props: {
-    desc: {
-      type: String, //default for now
-    },
     data: {
       type: Object,
       default: null,
@@ -107,6 +111,14 @@ export default {
   },
   watch: {},
   methods: {
+    handleShareNetwork(item) {
+      if (item.name === "twitter") {
+        this.title = `${this.$cms.textField(this.data.video_title)}
+In the decade following the August 4, 2020 Port of Beirut Explosion, the Police State which Lebanon has become, intensified its crackdown on opposition and freedom of expression...`;
+      } else {
+        this.title = this.$cms.textField(this.data.video_title);
+      }
+    },
     closeVid() {
       // console.log("closing vie on 7");
       this.$emit("closeVid", true);
@@ -174,7 +186,6 @@ export default {
     // console.log("Popp Video data ", this.data);
     this.updateFbMetaTags();
     this.watchEndVideo();
-    // this.loadVid();
   },
 };
 </script>
@@ -187,6 +198,7 @@ export default {
 .social {
   display: inline-block;
   padding: 0 5px;
+  // pointer-events: none;
 }
 #video {
   width: 800px;

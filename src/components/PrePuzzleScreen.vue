@@ -2,7 +2,12 @@
   <div class="prepuzzlescreen">
       <div class="message">
           <div class="x" @mousedown="close">X</div>
-          <p>Popup message yo Popup message yo Popup message yo Popup message yo Popup message yo Popup message yo Popup message yo Popup message yo Popup message yo Popup message yo Popup message yo Popup message yo Popup message yo Popup message yo Popup message yo</p>
+          <p>Authorities have raised walls to re-assert themselves that they are impregnable by enemies. <br/>
+But when authorities raise a wall inside a capital, and take shelter behind it, which enemy are they holding back? </p>
+<p>Can this wall do anything besides severing a city from its own self, and standing witness to the level of tyranny a government is willing to exert to maintain authority? Can it hold back the desire to demolish it? If not, how much is justified in the face of tyranny?
+</p><p>
+Use the tools to start scraping….
+</p>
       </div>
       <div class="exit" @mousedown="close" ref="exit"/>
   </div>
@@ -45,9 +50,11 @@ export default {
     z-index: 2;
     border-radius: 10px;
     max-width: 50%;
-    p {
+    text-align: center;
+    &::v-deep p {
         color: white;
         font-size: 16px;
+        margin: 10px 0;
     }
 }
 .exit {

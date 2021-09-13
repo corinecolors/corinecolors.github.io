@@ -102,6 +102,7 @@ import AudioPlayer from './components/AudioPlayer.vue'
 // import PostDisclaimerVideo from './components/PostDisclaimerVideo.vue'
 
 import ChooseLanguage from "./components/ChooseLanguage.vue";
+
 import Desktop from "./components/Desktop.vue";
 import IntroVideo from "./components/IntroVideo.vue";
 import Curtain from "./components/Curtain.vue";
@@ -137,7 +138,7 @@ export default {
     FinalScreen,
     // PostDisclaimerVideo,
     EmailNotif,
-    PrePuzzleScreen
+    PrePuzzleScreen,
   },
   computed: {
     ...mapState(["emailsRead", "allEmailsRead","donePuzzle", "localizationData", "activePiece", "showEmailThread", "emailNotif"]),
@@ -296,6 +297,7 @@ export default {
       this.ww = window.innerWidth;
     })
     this.$store.commit("completedPuzzles", 0);
+ 
     // this.$router.push({path: `/#nice`});
       // this.$store.commit('screens', {what: "Toolbar", bool: true});//temp
 

@@ -21,6 +21,7 @@ const router = new VueRouter({
       name: "VideoPage",
       component: VideoPage,
     },
+
     {
       path: "/video/:slug",
       name: "VideoPage",

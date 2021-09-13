@@ -72,7 +72,7 @@ export default {
   data() {
     return {
       showCopiedMsg: false,
-      url: "https://corinecolors.github.io/#/",
+      url: "",
       title: "The First Lady",
       desc: "description text blah blah blah",
       submissionMessage: null,
@@ -139,7 +139,11 @@ export default {
       }, 3000);
     },
   },
-  mounted() {},
+  mounted() {
+    if (!window.location.href.includes("localhost")) {
+      this.url = window.location.href;
+    }
+  },
 };
 </script>
 

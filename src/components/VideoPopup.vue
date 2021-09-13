@@ -180,7 +180,11 @@ In the decade following the August 4, 2020 Port of Beirut Explosion, the Police 
   mounted() {
     // console.log(this.$store.state.activePiece.i);
     // Will have to change later, if this url changes
-    this.url = `https://corinecolors.github.io/video/${
+    
+    // this.url = `https://corinecolors.github.io/video/${
+    //   this.data.video.name.split(".")[0]
+    // }`;
+    this.url = `https://corinecolors.github.io/#video_${
       this.data.video.name.split(".")[0]
     }`;
     // console.log("Popp Video data ", this.data);

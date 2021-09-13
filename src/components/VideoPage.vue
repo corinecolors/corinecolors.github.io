@@ -73,6 +73,7 @@ export default {
       vid: null,
       desc: null,
       showCopiedMsg:false,
+      hash: null,
       socials: [
         {
           name: "facebook",
@@ -127,6 +128,15 @@ export default {
     //     window.location.href="/";
     //   }
     // })
+    
+    //treats the special slugged # video hosting for when people share on fb, they don't get the 404 github error,
+    //before it redirects to the friendlier-structured URL with the video
+    if (window.location.hash.includes(`#video`)) {
+      this.hash = window.location.hash.split("_")[window.location.hash.split("_").length - 1];
+      this.vid = this.$puzzle.piece.filter((i) => i.video.name.split(".")[0] === this.hash)[0];
+      window.location.href = this.url = `https://corinecolors.github.io/video/${this.hash}`;
+    }
+    
     this.updateFbMetaTags();
   },
 };

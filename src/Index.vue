@@ -2,7 +2,8 @@
   <div id="index" :style="`background: url(${$puzzle.main_bg.url}); background-size; cover;
   background-repeat: no-repeat; background-position: center; ${$store.state.tool.src ? `cursor: none` : `cursor: default`}`">
     <router-view
-    @finalscreen="handlefinalscreen"></router-view>
+    @finalscreen="handlefinalscreen" v-if="!isVidScreen"></router-view>
+    <VideoPage v-else/>
     <CursorThing />
   <!-- <FooterItem ref="footer" class="section FooterItem" /> -->
   </div>
@@ -10,6 +11,7 @@
 
 <script>
 import CursorThing from "./components/Cursor.vue";
+import VideoPage from "./components/VideoPage.vue";
 // import Nav from './components/Nav.vue'
 // import FooterItem from "./components/FooterItem.vue";
 
@@ -28,11 +30,14 @@ export default {
   },
 
   data() {
-    return {};
+    return {
+      isVidScreen: false
+    };
   },
 
   components: {
     CursorThing,
+    VideoPage
     // Nav,
     // FooterItem
   },
@@ -44,7 +49,9 @@ export default {
     }
   },
   computed: {},
-  mounted() {},
+  mounted() {
+     this.isVidScreen = window.location.hash.includes(`#video`);
+  },
 };
 </script>
 

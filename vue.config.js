@@ -24,6 +24,4 @@ module.exports = {
   //       template: path.resolve('index.html'),
   //     }]);
   // },
-
-  // publicPath: process.env.NODE_ENV === "production" ? `./` : "",
 };

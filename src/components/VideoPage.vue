@@ -118,16 +118,15 @@ export default {
     this.slugarr = window.location.hash.split("/");
     this.currentslug = this.slugarr[this.slugarr.length - 1];
     this.vid = this.$puzzle.piece.filter((i) => i.video.name.split(".")[0] === this.currentslug)[0];
-    console.log(this.vid)
-    this.url = `https://corinecolors.github.io/#/video/${
+    this.url = `https://corinecolors.github.io/video/${
       this.currentslug
     }`;
     this.desc = "desc"; //default for now
-    this.$nextTick(() => {
-      if (!this.vid) {
-        window.location.href="/";
-      }
-    })
+    // this.$nextTick(() => {
+    //   if (!this.vid) {
+    //     window.location.href="/";
+    //   }
+    // })
     this.updateFbMetaTags();
   },
 };

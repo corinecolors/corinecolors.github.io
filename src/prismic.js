@@ -90,18 +90,31 @@ export default new (class Prismic {
         // console.log(Vue.prototype.$puzzle);
 
         //Assign to Arabic object- --------–––––––––––––––––––––––––––––––––––––––––––––
-        this.arabic.disclaimer = resp.results.find(
+        // this.arabic.disclaimer = resp.results.find(
+        //   (e) => e.type === "intro"
+        // ).data.disclaimer;
+        // this.arabic.desktop = resp.results
+        //   .find((e) => e.type === "desktop")
+        //   .data.desktop_links.map((e) => {
+        //     return {
+        //       icon: e.icon,
+        //       label: e.label,
+        //       link: e.link,
+        //     };
+        //   });
+        // this.arabic.introvid = resp.results.find(
+        //   (e) => e.type === "intro"
+        // ).data.intro_video_arabic;
+        // this.arabic.postdisclaimervid = resp.results.find(
+        //   (e) => e.type === "intro"
+        // ).data.post_disclaimer_video;
+        // this.arabic.disclaimervoice = resp.results.find(
+        //   (e) => e.type === "intro"
+        // ).data.disclaimer_voice_eng;
+        this.arabic = Object.assign({}, this.eng);
+        this.arabic.introvid = resp.results.find(
           (e) => e.type === "intro"
-        ).data.disclaimer_arabic;
-        this.arabic.desktop = resp.results
-          .find((e) => e.type === "desktop")
-          .data.desktop_links.map((e) => {
-            return {
-              icon: e.icon,
-              label: e.label_arabic,
-              link: e.link_arabic,
-            };
-          });
+        ).data.intro_video_arabic;
 
         Vue.prototype.$arabic = this.arabic;
 

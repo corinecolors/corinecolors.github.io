@@ -77,12 +77,13 @@ export default {
     right: 0;
     top: 0;
     transition: right .5s ease;
-    background: $maroon;
+    // background: $maroon;
+    background: rgb(255,255,255,.8);
     color: white;
     ul, a, li {
         text-decoration: none;
         list-style: none;
-        color: white;
+        color: black;
         font-weight: bold;
         font-size: 20px;
     }

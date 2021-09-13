@@ -459,10 +459,10 @@ button {
   color: white;
   position: fixed;
   z-index: 99;
-  font-size: 80px;
+  font-size: 40px;
   cursor: pointer;
-  top: 50%;
-  transform: translateY(-50%);
+  top: 0;
+  padding: 20px;
 }
 .front {
   right: 0;

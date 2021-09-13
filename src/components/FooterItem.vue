@@ -1,12 +1,13 @@
 <template>
   <div class="footer navOpen">
     <div class="newsletter">
-      <form @submit.prevent="submit">
-        <h3 class="navOpen">Subscribe to the newsletter!</h3>
+      <form @submit.prevent="submit"  ref="form">
+        <h3 class="navOpen">Subscribe to follow the story!</h3>
         <input class="navOpen" type="text" ref="newsletter" placeholder="Email address"/>
+        <div :style="`color: ${submissionMessage.color};`" class="copiedMsg navOpen" v-if="submissionMessage">{{submissionMessage.msg}}</div>
       </form>
     </div>
-    <div class="socials navOpen">
+    <!-- <div class="socials navOpen">
     <div class="copiedMsg navOpen" v-if="showCopiedMsg">
       Link copied to clipboard!
       </div>
@@ -27,19 +28,26 @@
             <component class="icon" :is="item.component" :fill="`#FFFFFF`"/>
             </ShareNetwork>
         </transition>
-        <!-- <div class="instagram navOpen"><a target="_blank" href="http://www.instagram.com"><iconInstagram class="ig navOpen"/></a></div> -->
+        
         <button @click="copytoclipboard" class="copy">
             <iconCopyLink class="iconCopyLink navOpen"/>
             <input type="text" class="url" ref="url" :value="url" />
           </button>
-    </div>
+    </div> -->
      <div class="socials navOpen">
       <div class="share navOpen">
-        Page
+        <h3>Page</h3>
         </div>
        <transition v-for="(item, i) in pagesocials" :key="i">
             <div class="social navOpen"><a target="_blank" :href="item.link"><component :is="item.component" class="pagesocial"/></a></div>
         </transition>
+        <button @click="copytoclipboard" class="copy">
+            <iconCopyLink class="iconCopyLink navOpen"/>
+            <input type="text" class="url" ref="url" :value="url" />
+          </button>
+          <div class="copiedMsg navOpen" v-if="showCopiedMsg">
+            Link copied to clipboard!
+          </div>
     </div>
   </div>
 </template>
@@ -67,6 +75,7 @@ export default {
       url: "https://corinecolors.github.io/#/",
       title: "The First Lady",
       desc: "description text blah blah blah",
+      submissionMessage: null,
       socials: [
         {
           name: "facebook",
@@ -109,6 +118,15 @@ export default {
       window.open(link);
     },
     submit() {
+      console.log("actio of submitting to newsletter goes here");
+      this.$refs.form.reset();
+      this.submissionMessage = {
+        color: "green",
+        msg: `Successfully submitted.`
+      };
+      setTimeout(() => {
+        this.submissionMessage = null;
+      }, 3000)
     },
     copytoclipboard() {
       var url = this.$refs.url;
@@ -153,7 +171,7 @@ export default {
   padding: 5px;
   width: 25px;
   &::v-deep svg  {
-    fill: white !important;
+    fill: black !important;
   }
 }
 .instagram {
@@ -164,20 +182,26 @@ export default {
 .social {
   display: inline-block;
   &::v-deep svg g path {
-    fill: white !important;
+    fill: black !important;
     pointer-events: none;
   }
   &::v-deep svg g .st0 {
-    fill: black !important;
+    fill: white !important;
   }
  
 }
+// .social, .copy {
+//   &::v-deep svg {
+//   -webkit-box-shadow: 0px 0px 8px 1px rgba(0,0,0,0.5); 
+//   box-shadow: 0px 0px 8px 1px rgba(0,0,0,0.5);
+//   }
+// }
 .copy {
   text-align: right;
-  color: white;
+  color: black;
   // margin-top: 10px;
   position: relative;
-  vertical-align: middle;
+  vertical-align: top;
   display: inline-block;
   width: auto;
 }
@@ -187,7 +211,7 @@ export default {
 }
 .copiedMsg {
   padding: 10px;
-  color: white;
+  color: black;
   position: absolute;
   left: 50%;
   bottom: -20px;
@@ -210,21 +234,25 @@ button {
     border-radius: 4px;
   }
 }
+ h3 {
+    color: black;
+    margin-bottom: 10px;
+    font-size: 14px;
+    font-weight: 100;
+  }
 .newsletter {
   display: inline-block;
   vertical-align: middle;
   text-align: center;
   width: 90%;
   margin-bottom: 20px;
-  h3 {
-    color: white;
-    margin-bottom: 10px;
-  }
+ 
   input {
-    background: white;
-    // &::-webkit-input-placeholder {
-    //   color: white;
-    // }
+    background: $maroon;
+    color: white;
+    &::-webkit-input-placeholder {
+      color: lightgrey;
+    }
     &:focus {
       outline: none;
     }
@@ -244,9 +272,14 @@ button {
   display: inline-block;
   width: 100%;
    &::v-deep svg {
-    background: black;
+    background: white;
     border-radius: 4px;
     pointer-events: none;
+  }
+  .copy {
+      &::v-deep .cls-1 {
+      fill: black;
+    }
   }
 }
 .fin {
@@ -259,5 +292,9 @@ button {
     bottom: 100px;
     z-index: 100;
     opacity: 1;
+}
+form {
+  position:relative;
+  padding-bottom: 5px;
 }
 </style>

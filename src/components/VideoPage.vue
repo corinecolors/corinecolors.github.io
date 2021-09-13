@@ -115,7 +115,7 @@ export default {
     },
   },
   mounted() {
-    this.slugarr = window.location.hash.split("/");
+    this.slugarr = window.location.pathname.split("/");
     this.currentslug = this.slugarr[this.slugarr.length - 1];
     this.vid = this.$puzzle.piece.filter((i) => i.video.name.split(".")[0] === this.currentslug)[0];
     this.url = `https://corinecolors.github.io/video/${

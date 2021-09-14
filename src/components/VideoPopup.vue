@@ -68,7 +68,7 @@ export default {
       url: null,
       showX: false,
       showCopiedMsg: false,
-      desc: `In the decade following the August 4, 2020 Port of Beirut Explosion, the Police State which Lebanon has become, intensified its crackdown on opposition and freedom of expression. The impoverished Lebanese people have become scarred and betrayed prisoners, being killed by their establishment. Refusing to stand idle, the First Lady jumps ship and becomes a dissident from the inside of the ruling class. This platform is a gateway into the mind of the woman who will startle the deep-state and set it off its domineering streak.`,
+      desc: this.$cms.textField(this.data.info),
       title: this.$cms.textField(this.data.video_title),
       socials: [
         {
@@ -114,10 +114,15 @@ export default {
     handleShareNetwork(item) {
       if (item.name === "twitter") {
         this.title = `${this.$cms.textField(this.data.video_title)}
-In the decade following the August 4, 2020 Port of Beirut Explosion, the Police State which Lebanon has become, intensified its crackdown on opposition and freedom of expression...`;
+${this.cutString(this.$cms.textField(this.data.info))}
+`;
       } else {
         this.title = this.$cms.textField(this.data.video_title);
       }
+    },
+    cutString(i) {
+      var limit = 280 - this.$cms.textField(this.data.video_title).length - this.url.length - 5;
+      return `${i.substr(0, limit)}...`;
     },
     closeVid() {
       // console.log("closing vie on 7");
@@ -178,16 +183,11 @@ In the decade following the August 4, 2020 Port of Beirut Explosion, the Police 
     // }
   },
   mounted() {
-    // console.log(this.$store.state.activePiece.i);
-    // Will have to change later, if this url changes
     
-    // this.url = `https://corinecolors.github.io/video/${
-    //   this.data.video.name.split(".")[0]
-    // }`;
     this.url = `https://corinecolors.github.io/#video_${
       this.data.video.name.split(".")[0]
     }`;
-    // console.log("Popp Video data ", this.data);
+    this.desc = this.$cms.textField(this.data.info);
     this.updateFbMetaTags();
     this.watchEndVideo();
      this.$store.commit("tool", {

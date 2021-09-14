@@ -122,7 +122,8 @@ export default {
     this.url = `https://corinecolors.github.io/video/${
       this.currentslug
     }`;
-    this.desc = "desc"; //default for now
+    console.log(this.vid);
+    this.desc = this.$cms.textField(this.vid.info); //default for now
     // this.$nextTick(() => {
     //   if (!this.vid) {
     //     window.location.href="/";

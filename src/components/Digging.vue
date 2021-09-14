@@ -984,12 +984,13 @@ export default {
      max-height: 100vh;
      position: relative;
     padding: 20px;
+    width: 40%;
     // max-width: 100vw;
     // transform:  translateY(-50%);
   }
   img {
-    height: 600px;
-   
+    // height: 600px;
+   max-width: 100%;
     display: inline-block;
 
   }

@@ -116,28 +116,29 @@ export default {
     },
   },
   mounted() {
-    this.slugarr = window.location.pathname.split("/");
-    this.currentslug = this.slugarr[this.slugarr.length - 1];
-    this.vid = this.$puzzle.piece.filter((i) => i.video.name.split(".")[0] === this.currentslug)[0];
-    this.url = `https://corinecolors.github.io/video/${
+    if (!window.location.hash.includes("#video")) {
+      this.slugarr = window.location.pathname.split("/");
+    }
+
+      console.log(window.location.pathname);
+    this.url = `https://corinecolors.github.io/#video_${
       this.currentslug
     }`;
-    console.log(this.vid);
-    this.desc = this.$cms.textField(this.vid.info); //default for now
-    // this.$nextTick(() => {
-    //   if (!this.vid) {
-    //     window.location.href="/";
-    //   }
-    // })
     
     //treats the special slugged # video hosting for when people share on fb, they don't get the 404 github error,
     //before it redirects to the friendlier-structured URL with the video
-    if (window.location.hash.includes(`#video`)) {
+    if (window.location.hash.includes("#video")) {
+      this.slugarr = window.location.href.split("_");
+      
+      console.log(this.slugarr);
       this.hash = window.location.hash.split("_")[window.location.hash.split("_").length - 1];
       this.vid = this.$puzzle.piece.filter((i) => i.video.name.split(".")[0] === this.hash)[0];
-      window.location.href = this.url = `https://corinecolors.github.io/video/${this.hash}`;
+      window.location.href =`https://corinecolors.github.io/video/${this.hash}`;
     }
     
+    this.currentslug = this.slugarr[this.slugarr.length - 1];
+      this.vid = this.$puzzle.piece.filter((i) => i.video.name.split(".")[0] === this.currentslug)[0];
+      this.desc = this.$cms.textField(this.vid.info);
     this.updateFbMetaTags();
   },
 };

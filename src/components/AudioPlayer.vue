@@ -4,6 +4,14 @@
         <source src="../assets/sounds/Etch.wav" type="audio/mpeg" />
         Your browser does not support the audio element.
       </audio> 
+      <audio ref="audiolight0">
+        <source src="../assets/sounds/Light/Click_0.wav" type="audio/mpeg" />
+        Your browser does not support the audio element.
+      </audio> 
+      <audio ref="audiolight1">
+        <source src="../assets/sounds/Light/Click_1.wav" type="audio/mpeg" />
+        Your browser does not support the audio element.
+      </audio> 
   </div>
 </template>
 
@@ -12,7 +20,9 @@ import { mapState } from "vuex";
 export default {
   name: "AudioPlayer",
   data() {
-    return {};
+    return {
+      counter: 3,
+    };
   },
   computed: {
     ...mapState(["tool", "mouse"]),
@@ -24,13 +34,19 @@ export default {
         if (e.mouseevent !== "mouseup" && this.tool.digType === "Etch") {
             this.$refs.audioetch.play();
         } else {
-            this.$refs.audioetch.pause();
-          }
+          this.$refs.audioetch.pause();
+        }
+        console.log(this.tool.digType, e);
+        if (e.mouseevent === "mousedown" && this.tool.digType === "Reveal" && e.e !== "none") {
+          this.counter ++;
+          this.$refs[`audiolight${this.counter % 2}`].play();
+        }
       }
     }
   },
   methods: {},
-  mounted() {},
+  mounted() {
+  },
 };
 </script>
 

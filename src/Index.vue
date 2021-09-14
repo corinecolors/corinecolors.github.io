@@ -57,6 +57,19 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="scss">
+@font-face {
+    font-family: 'Orator';
+    src: url('./assets/fonts/OratorStd.eot');
+    src: url('./assets/fonts/OratorStd.eot?#iefix') format('embedded-opentype'),
+        url('./assets/fonts/OratorStd.woff2') format('woff2'),
+        url('./assets/fonts/OratorStd.woff') format('woff'),
+        url('./assets/fonts/OratorStd.ttf') format('truetype');
+    font-weight: 500;
+    font-style: normal;
+    font-display: swap;
+}
+
+
 img, p, h1, h2, h3, h4, h5, h6, div {
     -webkit-user-drag: none;
     -khtml-user-drag: none;
@@ -83,12 +96,18 @@ img, p, h1, h2, h3, h4, h5, h6, div {
   //   rgba(62, 50, 62, 1) 100%
   // );
 
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: Helvetica, Arial, sans-serif;
   /* margin-top: 60px; */
   overflow: hidden;
   // cursor: none;
-  p, a, h1, h2, h3, h4, h5, span {
-    font-family: Arial, Helvetica, sans-serif;
+  p, a, h1, h2, h3, h4, h5, span, input, button {
+    font-family: Orator, Helvetica, sans-serif;
+  }
+  .helvetica {
+    font-family: Helvetica, Arial, sans-serif;
+    p {
+      font-family: Helvetica, Arial, sans-serif;
+    }
   }
 }
 

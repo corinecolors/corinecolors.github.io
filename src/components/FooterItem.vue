@@ -34,40 +34,17 @@
             <input type="text" class="url" ref="url" :value="url" />
           </button>
     </div> -->
-     <div class="socials navOpen">
-      <div class="share navOpen">
-        <h3>Page</h3>
-        </div>
-       <transition v-for="(item, i) in pagesocials" :key="i">
-            <div class="social navOpen"><a target="_blank" :href="item.link"><component :is="item.component" class="pagesocial"/></a></div>
-        </transition>
-        <button @click="copytoclipboard" class="copy">
-            <iconCopyLink class="iconCopyLink navOpen"/>
-            <input type="text" class="url" ref="url" :value="url" />
-          </button>
-          <div class="copiedMsg navOpen" v-if="showCopiedMsg">
-            Link copied to clipboard!
-          </div>
-    </div>
+    <SocialsSharing/>
   </div>
 </template>
 
 <script>
-import iconFacebook from "./iconFacebook";
-import iconTwitter from "./iconTwitter";
-import iconWhatsapp from "./iconWhatsapp";
-import iconInstagram from "./iconInstagram";
-import InfoIcon from "./InfoIcon.vue";
-import iconCopyLink from "./iconCopyLink";
+
+import SocialsSharing from "./SocialsSharing";
 export default {
   name: "Footer",
   components: {
-    iconFacebook,
-    iconTwitter,
-    iconWhatsapp,
-    InfoIcon,
-    iconCopyLink,
-    iconInstagram
+    SocialsSharing
   },
   data() {
     return {

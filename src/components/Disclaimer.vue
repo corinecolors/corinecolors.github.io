@@ -3,11 +3,11 @@
     <div class="bg" />
     <div class="msg" v-if="$store.state.data.disclaimer && $store.state.data.disclaimer.length">
       <div v-html="$cms.htmlField($store.state.data.disclaimer)"/>
-        <button class="disclaimerbutton" @click="handleLang('agree')">Agree</button>
-        <button class="disclaimerbutton" @click="handleLang('leave')">Leave</button>
+        <button class="disclaimerbutton" @click="handleLang('agree')"><span class="helvetica">Agree</span></button>
+        <button class="disclaimerbutton" @click="handleLang('leave')"><span class="helvetica">Leave</span></button>
         <br/>
         <button class="mute" @click="handleMute"><iconMute :mute="mute" class="iconMute"/></button>
-        <p>USE HEADPHONES FOR AN OPTIMAL EXPERIENCE.</p>
+        <p class="helvetica"><strong>USE HEADPHONES FOR AN OPTIMAL EXPERIENCE.</strong></p>
       </div>
       
   </div>

@@ -34,9 +34,9 @@
         <source :src="disclaimervoiceUrl" type="audio/mpeg" />
       </audio>
 
-      <transition-group v-if="finalscreen" appear name="section">
+      <transition-group  v-if="finalscreen" appear name="section">
         <FinalScreen @showWarning="showWarning=true" class="section FinalScreen" :key="finalscreen"/>
-        <WarningText v-if="showWarning" :key="finalscreen"/>
+        <WarningText v-if="showWarning" class="topWarningText" :key="finalscreen"/>
         <WarningText v-if="showWarning" class="bottomWarningText" :key="finalscreen"/>
         </transition-group>
 
@@ -471,5 +471,8 @@ button {
 }
 .bottomWarningText {
   bottom: 0;
+}
+.topWarningText {
+  top: 0;
 }
 </style>

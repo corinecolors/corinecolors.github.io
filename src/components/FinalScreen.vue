@@ -35,6 +35,7 @@
         <div class="desc" v-if="pulled">
             <h2>{{$cms.textField($fin.header)}}</h2>
             <p v-html="$cms.htmlField($fin.text)"></p>
+            <SocialsSharing class="social"/>
             <button class="mute" @click="handleMute"><iconMute :mute="!mute" class="iconMute"/></button>
         </div>
         </div>
@@ -44,11 +45,13 @@
 
 <script>
 import iconMute from "./iconMute";
+import SocialsSharing from "./SocialsSharing";
 
 export default {
   name: "FinalScreen",
   components: {
-    iconMute
+    iconMute,
+    SocialsSharing
   },
   data() {
     return {
@@ -200,11 +203,23 @@ h2 {
     width: 50%;
     left: 50%;
     transform: translateX(-50%);
+    background: rgb(0,0,0,.75);
+    padding: 10px;
+    border-radius: 10px;
+
     &::v-deep p {
         margin: 10px 0;
     }
 }
-.finalscreen {
-    background: rgb(0,0,0,0.8);
+
+.social {
+  filter: invert(1);
+  display: inline-block;
+  margin-left: 50%;
+  transform: translateX(-50%);
+  width: auto !important;
+  &::v-deep .share {
+    display: none;
+  }
 }
 </style>

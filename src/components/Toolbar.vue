@@ -19,14 +19,14 @@
                 :style="!$store.state.AAsolved && !$store.state.puzzleScreenOpen ? `opacity: 1` : `opacity: .25; pointer-events: none;`"
                 :src="$puzzle.scraper.url" 
                 @click="assignTool({src: $puzzle.scraper.url,  digType: etch})"/>
-                <p>Unmasking Tool</p>
+                <p class="helvetica">Unmasking Tool</p>
 
                 <!-- Reveal -->
                 <img 
                 :style="$store.state.AAsolved || $store.state.puzzleScreenOpen ? `opacity: 1` : `opacity: .25; pointer-events: none;`"
                 :src="$puzzle.revealer.url" 
                 @click="assignTool({src: $puzzle.revealer.url,  digType: reveal})"/>
-                <p>Light Tool</p>
+                <p class="helvetica">Light Tool</p>
 
             </div>
         </div>
@@ -118,7 +118,7 @@ export default {
 }
 p {
     color: white;
-    font-size: 10px;
+    font-size: 12px;
     text-align: center;
     padding: 0 0 80px;
 }

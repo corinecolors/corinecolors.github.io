@@ -5,14 +5,14 @@
       <img src="../assets/Email.png"/>
       </div>
     <div class="left col">
-      <p><b>New Email from Corine Colors</b></p>
-      <p class="small">from Email Thread</p>
-      <p class="small">from Email Thread</p>
+      <p class="helvetica"><b>New Email from Corine Colors</b></p>
+      <p class="small helvetica">from Email Thread</p>
+      <p class="small helvetica">{{$cms.textField($desktopcontent.screenemail.items[0].email_title)}}</p>
 
       </div>
       <div class="right col">
-        <p @click="handleClose">Close</p>
-        <p @click="openEmail">Show</p>
+        <p class="helvetica" @click="handleClose">Close</p>
+        <p class="helvetica" @click="openEmail">Show</p>
       </div>
   </div>
 </template>

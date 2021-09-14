@@ -2,7 +2,10 @@
   <div class="nav">
       <div :class="`navdrawer navOpen ${showNav ? `show` : `hide`}`">
           <ul>
-              <li><a class="navOpen" target="_blank" href="/">Home</a></li>
+              <li><a class="navOpen" target="_blank" href="/">About This Platform</a></li>
+              <li><a class="navOpen" target="_blank" href="/">About The Creators</a></li>
+              <li><a class="navOpen" target="_blank" href="/">Credits</a></li>
+
           </ul>
     <FooterItem ref="footer" class="section FooterItem" />
 
@@ -86,6 +89,9 @@ export default {
         color: black;
         font-weight: bold;
         font-size: 20px;
+    }
+    li {
+        margin: 20px 0;
     }
 }
 .hide {

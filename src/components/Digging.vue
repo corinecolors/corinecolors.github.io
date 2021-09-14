@@ -150,7 +150,7 @@ export default {
         //update the active canvas
         this.active = document.getElementById(`canvas${this.data.i}A`);
         //re-introduce moue listener to the new active canvas
-      this.$store.commit("mouse", {mouseevent: "mouseup", e: "none"});
+        this.$store.commit("mouse", {mouseevent: "mouseup", e: "none"});
         this.mouseEvents();
       }
       if (!this.preventPopup) this.handleLightbox();
@@ -170,10 +170,10 @@ export default {
         this.active.removeEventListener("mousemove", this.mousemove);
         this.active.removeEventListener("mouseup", this.mouseup);
         this.$store.commit("isDigging", false);
-        this.$store.commit("mouse", {mouseevent: "mouseup", e: "none"});
+        // this.$store.commit("mouse", {mouseevent: "mouseup", e: "none"});
         if (this.data.data.c.url) {
           this.active = document.getElementById(`canvas${this.data.i}B`);
-          this.$store.commit("mouse", {mouseevent: "mouseup", e: "none"});
+          // this.$store.commit("mouse", {mouseevent: "mouseup", e: "none"});
           this.mouseEvents();
         }
       }
@@ -216,7 +216,8 @@ export default {
         });
         this.$store.commit("AAsolved", false);
     },
-    handleChangingImages() {
+    handleChangingImages(e) {
+      this.$store.commit("mouse", {mouseevent: "mousedown", e: e});
       if (this.tool.digType !== "Reveal") {
         return;
       }
@@ -418,8 +419,9 @@ export default {
       this.handleMouseDown();
       
       this.$store.commit("isDigging", true);
-      if (this.active === document.getElementById(`canvas${this.data.i}AA`)) {
+      if (this.active === document.getElementById(`canvas${this.data.i}AA`) && !this.AAsolved) {
         this.active.addEventListener("mousemove", this.mousemove);
+        console.log("should not be seeing this");
       } else {
         var x = e.offsetX;
         var y = e.offsetY;
@@ -450,7 +452,7 @@ export default {
 
     },
     mouseout() {
-      this.$store.commit("mouse", {mouseevent: "mouseup", e: "none"})
+      // this.$store.commit("mouse", {mouseevent: "mouseup", e: "none"})
     },
     mousemove(e) {
       if (this.isPress) {

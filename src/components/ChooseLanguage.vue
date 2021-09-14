@@ -5,24 +5,28 @@
       <div class="msg" v-if="revealMsg">
         <div class="bg"/>
         <p class="line">Please choose your language.</p>
-        <button class="eng" @click="handleLang('en')">English Audio</button>
-        <button class="arabic" @click="handleLang('ar')">Arabic Audio</button>
+        <button class="eng" @click="handleLang('en')"><span class="helvetica">English Audio</span></button>
+        <button class="arabic" @click="handleLang('ar')"><span class="helvetica">Arabic Audio</span></button>
       </div>
     </transition>
-    <transition appear name="appear">
-    <div 
-    v-if="!revealMsg"
-    class="msg playbutton" 
-    @click="revealMsg = true"
-    @mousedown = "revealMsg = true">
-      <Playbutton/>
+      <div class="container">
+        <transition appear name="appear">
+            <div 
+            v-if="!revealMsg"
+            class="msg playbutton" 
+            @click="revealMsg = true"
+            @mousedown="revealMsg = true">
+              <Playbutton fill="#7e494e"/>
+            </div>
+        </transition>
+          <SocialsSharing class="social"/>
     </div>
-    </transition>
   </div>
 </template>
 
 <script>
 import Playbutton from "./Playbutton";
+import SocialsSharing from "./SocialsSharing";
 
 export default {
   name: "ChooseLanguage",
@@ -32,7 +36,8 @@ export default {
     };
   },
   components: {
-    Playbutton
+    Playbutton,
+    SocialsSharing
   },
   computed: {
   },
@@ -56,10 +61,15 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="scss">
+.container {
+  position: fixed;
+    left: 50%;
+  top: 50%;
+  transform: translateX(-50%) translateY(-50%);
+  width: 50%;
+  height: 100px;
+}
 .chooselanguage {
-  /* background: black; */
-  
-  
   position: fixed;
   top: 0;
   left: 0;
@@ -75,6 +85,7 @@ export default {
   text-align: center;
   padding:  20px;
   display: inline-block;
+  z-index: 2;
   .bg {
     background: black;
     opacity: .8;
@@ -120,5 +131,20 @@ button {
 .appear-leave-to {
   opacity: 0;
   transition: opacity .5s ease;
+}
+.social {
+  background: rgb(255,255,255,.75);
+  display: inline-block;
+  padding: 10px;
+  filter: invert(1);
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  bottom: -100%;
+  width: auto !important;
+  border-radius: 10px;
+  &::v-deep .share {
+    display: none;
+  }
 }
 </style>

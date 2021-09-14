@@ -120,7 +120,6 @@ export default {
       this.slugarr = window.location.pathname.split("/");
     }
 
-      console.log(window.location.pathname);
     this.url = `https://corinecolors.github.io/#video_${
       this.currentslug
     }`;
@@ -130,7 +129,6 @@ export default {
     if (window.location.hash.includes("#video")) {
       this.slugarr = window.location.href.split("_");
       
-      console.log(this.slugarr);
       this.hash = window.location.hash.split("_")[window.location.hash.split("_").length - 1];
       this.vid = this.$puzzle.piece.filter((i) => i.video.name.split(".")[0] === this.hash)[0];
       window.location.href =`https://corinecolors.github.io/video/${this.hash}`;

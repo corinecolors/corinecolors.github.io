@@ -8,7 +8,7 @@
       @click="goTo(item)"
     >
       <img class="folder" :src="item.icon.url" />
-      <p>{{$cms.textField(item.label)}}</p>
+      <p class="helvetica">{{$cms.textField(item.label)}}</p>
     </div>
     <div class="screenarea" v-if="activeScreen && activeScreen.length">
       <transition v-for="(item, i) in activeScreen" :key="i">

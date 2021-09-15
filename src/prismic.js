@@ -59,7 +59,7 @@ export default new (class Prismic {
           (i) => i.slice_type === "screenemail"
         )[0];
 
-        console.log(Vue.prototype.$desktopcontent.screenemail);
+        // console.log(Vue.prototype.$desktopcontent.screenemail);
         // console.log(Vue.prototype.$desktopcontent);
 
         //Assign to Eng object- --------–––––––––––––––––––––––––––––––––––––––––––––
@@ -111,6 +111,15 @@ export default new (class Prismic {
         // this.arabic.disclaimervoice = resp.results.find(
         //   (e) => e.type === "intro"
         // ).data.disclaimer_voice_eng;
+        Vue.prototype.$credits = resp.results.find(
+          (e) => e.type === "credits"
+        ).data;
+        Vue.prototype.$aboutplatform = resp.results.find(
+          (e) => e.type === "aboutplatform"
+        ).data;
+        Vue.prototype.$aboutcreators = resp.results.find(
+          (e) => e.type === "aboutcreators"
+        ).data;
         this.arabic = Object.assign({}, this.eng);
         this.arabic.introvid = resp.results.find(
           (e) => e.type === "intro"

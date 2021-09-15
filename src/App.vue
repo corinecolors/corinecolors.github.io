@@ -7,7 +7,7 @@
           @closeNotif="handlecloseNotif"
           @openEmail="handleopenEmail"/>
       </transition>
-     <Nav />
+     
      <div class="backarrow"
      v-html="`<`"
      v-if="$store.state.screens['showPuzzle'] && !$store.state.hideBack"
@@ -107,7 +107,7 @@ import Desktop from "./components/Desktop.vue";
 import IntroVideo from "./components/IntroVideo.vue";
 import Curtain from "./components/Curtain.vue";
 import Disclaimer from "./components/Disclaimer.vue";
-import Nav from "./components/Nav.vue";
+// import Nav from "./components/Nav.vue";
 import PrePuzzleScreen from "./components/PrePuzzleScreen.vue";
 // import Digging from "./components/Digging.vue";
 import Toolbar from "./components/Toolbar.vue";
@@ -126,7 +126,7 @@ export default {
     ChooseLanguage,
     WarningText,
     Desktop,
-    Nav,
+    // Nav,
     IntroVideo,
     Curtain,
     Disclaimer,
@@ -144,9 +144,6 @@ export default {
     ...mapState(["emailsRead", "allEmailsRead","donePuzzle", "localizationData", "activePiece", "showEmailThread", "emailNotif"]),
   },
   watch: {
-    $router() {
-      console.log(this.$router);
-    },
     showEmailThread() {
       if (this.showEmailThread && this.emailNotif) {
         setTimeout(() => {
@@ -157,7 +154,6 @@ export default {
      donePuzzle: {
        handler() {
         if (this.donePuzzle) {
-          console.log("done puzzle!");
           this.finalscreen = true;
           this.$emit("finalscreen", this.finalscreen);
         }
@@ -215,7 +211,7 @@ export default {
       if (e === "vidDissapear") {
         this.Disclaimer = true;
         this.IntroVideo = false;
-         this.disclaimervoiceUrl = this.$store.state.data.disclaimervoice.url;
+        this.disclaimervoiceUrl = this.$store.state.data.disclaimervoice.url;
         setTimeout(() => {
           if (this.Disclaimer) this.$refs.disclaimervoice.play();
         }, 1000)
@@ -318,7 +314,9 @@ export default {
 }
 p {
   margin: 0;
-  font-size: 14px;
+  margin-bottom: 10px;
+  font-size: 16px;
+  line-height: 1.5;
   color: white;
 }
 

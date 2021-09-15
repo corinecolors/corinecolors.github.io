@@ -92,7 +92,6 @@ export default {
           this.pulled = true;
           this.$emit("showWarning", true);
       })
-      console.log(this.$fin.alarm_sound.url, this.$refs.alarm);
   setTimeout(() => {
                 this.$refs.crack1.className += " show";
        }, 500);

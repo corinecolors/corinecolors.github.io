@@ -2,9 +2,10 @@
   <div class="nav">
       <div :class="`navdrawer navOpen ${showNav ? `show` : `hide`}`">
           <ul>
-              <li><a class="navOpen" target="_blank" href="/">About This Platform</a></li>
-              <li><a class="navOpen" target="_blank" href="/">About The Creators</a></li>
-              <li><a class="navOpen" target="_blank" href="/">Credits</a></li>
+              <li><a class="navOpen" href="/">Home</a></li>
+              <li><a class="navOpen" href="/about-this-platform">About This Platform</a></li>
+              <li><a class="navOpen" href="/about-the-creators">About The Creators</a></li>
+              <li><a class="navOpen" href="/credits">Credits</a></li>
 
           </ul>
     <FooterItem ref="footer" class="section FooterItem" />

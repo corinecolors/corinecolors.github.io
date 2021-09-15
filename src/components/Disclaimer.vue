@@ -57,13 +57,15 @@ export default {
   color: white;
   &::v-deep p {
     margin: 10px 0;
+    font-size: 14px;
   }
 }
 .msg {
-  width: 50%;
   margin: auto;
   margin-top: 50vh;
   transform: translateY(-50%);
+  max-width: 900px;
+
 }
 .bg {
   position: fixed;

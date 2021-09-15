@@ -5,6 +5,7 @@
     @finalscreen="handlefinalscreen" v-if="!isVidScreen"></router-view>
     <VideoPage v-else/>
     <CursorThing />
+    <Nav />
   <!-- <FooterItem ref="footer" class="section FooterItem" /> -->
   </div>
 </template>
@@ -12,7 +13,7 @@
 <script>
 import CursorThing from "./components/Cursor.vue";
 import VideoPage from "./components/VideoPage.vue";
-// import Nav from './components/Nav.vue'
+import Nav from './components/Nav.vue'
 // import FooterItem from "./components/FooterItem.vue";
 
 export default {
@@ -37,8 +38,8 @@ export default {
 
   components: {
     CursorThing,
-    VideoPage
-    // Nav,
+    VideoPage,
+    Nav,
     // FooterItem
   },
   props: {},

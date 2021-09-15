@@ -88,4 +88,7 @@ export default {
 .ScreenImage {
     transform: translateY(-100px) translateX(-100px);
 }
+.link p {
+  font-size: 14px;
+}
 </style>

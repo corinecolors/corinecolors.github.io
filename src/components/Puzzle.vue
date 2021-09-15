@@ -49,8 +49,6 @@ export default {
       this.showVid = true;
       this.$store.commit("activePiece", {activepiece: this.$puzzle.piece[e.i + 1], i: e.i + 1});
       this.activei = e.i + 1;
-      console.log("this.$store.state.activePiece", this.$store.state.activePiece.i );
-      console.log("this.activei", this.activei )
     },
   },
   mounted() {

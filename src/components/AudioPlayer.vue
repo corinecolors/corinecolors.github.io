@@ -36,7 +36,6 @@ export default {
         } else {
           this.$refs.audioetch.pause();
         }
-        console.log(this.tool.digType, e);
         if (e.mouseevent === "mousedown" && this.tool.digType === "Reveal" && e.e !== "none") {
           this.counter ++;
           this.$refs[`audiolight${this.counter % 2}`].play();

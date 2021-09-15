@@ -144,7 +144,9 @@ Closebar
     overflow: scroll;
     height: 70vh;
     position: relative;
-    
+    p, &::v-deep p {
+      font-size: 14px;
+    }
 }
 
 .screen {
@@ -207,6 +209,9 @@ p {
 .headline {
   width: 35%;
   padding-left: 20px;
+  p {
+    margin: 0;
+  }
 }
 table {
   width: 100%;

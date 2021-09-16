@@ -124,6 +124,7 @@ Closebar
     },
     close(i) {
       this.$emit("close", i)
+      //play audio
     },
     handleClick() {
       this.$store.commit('screens', {what: "showPuzzle", bool: true});
@@ -360,6 +361,10 @@ td {
    &::v-deep p {
       color: black !important;
       margin-bottom: 10px !important;
+    }
+    &::v-deep strong {
+      text-decoration: underline;
+      color: $maroon;
     }
 }
 </style>

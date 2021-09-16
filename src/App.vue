@@ -7,15 +7,33 @@
           @closeNotif="handlecloseNotif"
           @openEmail="handleopenEmail"/>
       </transition>
-     
+
+     <div class="returnarrow"
+     v-html="`<div>↩︎</div> <p>Back to Desktop I</p>`"
+     v-if="PrePuzzleScreen && !ChooseLanguage"
+     @mousedown="handleReturn"></div>
+
      <div class="backarrow"
-     v-html="`<`"
-     v-if="$store.state.screens['showPuzzle'] && !$store.state.hideBack"
+     v-html="`<div>←</div> <p>Back to Desktop II</p>`"
+     v-if="$store.state.screens['showPuzzle'] && !hideBack && !finalscreen"
      @mousedown="handleBack"></div>
+
+     <div class="backarrow"
+     v-html="`<div>←</div> <p>Back to Puzzle **</p>`"
+      v-if="finalscreen"
+     @mousedown="handleBackToPuzzle"></div>
+
      <div class="frontarrow"
-     v-html="`>`"
-     v-if="showFront"
+     v-html="`<p>Go To Alarm</p><div>→</div>`"
+     v-if="!finalscreen && donePuzzle && $store.state.screens['showPuzzle']"
      @mousedown="handleFront"></div>
+
+     <div class="frontarrow"
+     v-html="`<p>Go To Puzzle</p><div>→</div>`"
+     v-if="showGoToPuzzleOnce && !$store.state.screens['showPuzzle'] && !ChooseLanguage"
+     @mousedown="handleFrontToPuzzle"></div>
+
+
      <!-- v-if="!ChooseLanguage" -->
 
       <!-- <transition appear name="section" >
@@ -141,7 +159,7 @@ export default {
     PrePuzzleScreen,
   },
   computed: {
-    ...mapState(["emailsRead", "allEmailsRead","donePuzzle", "localizationData", "activePiece", "showEmailThread", "emailNotif"]),
+    ...mapState(["emailsRead", "allEmailsRead","donePuzzle", "localizationData", "activePiece", "showEmailThread", "donePuzzle", "emailNotif", "hideBack"]),
   },
   watch: {
     showEmailThread() {
@@ -189,8 +207,10 @@ export default {
       muteDisclaimer: false,
       PrePuzzleScreen: false,
       showEmailNotifOnce: true,
+      showEmailNotif: true,
       showFront:false,
-      showWarning:false
+      showWarning:false,
+      showGoToPuzzleOnce: false
     };
   },
   methods: {
@@ -266,9 +286,19 @@ export default {
         this.$store.state.emailsRead.push(false);
       }
     },
+    handleReturn() {
+      this.ChooseLanguage = true;
+    },
+    handleFrontToPuzzle() {
+       this.$store.commit('screens', {what: "Toolbar", bool: true});
+       this.$store.commit('screens', {what: "showPuzzle", bool: true});
+    },
     handleBack() {
       if (this.$store.state.screens['showPuzzle'] && !this.finalscreen) {
+      this.ChooseLanguage = false;
+      this.PrePuzzleScreen = true;
        this.$store.commit('screens', {what: "showPuzzle", bool: false});
+       this.showGoToPuzzleOnce = true;
        this.$store.commit('screens', {what: "Toolbar", bool: false});
          this.$store.commit("tool", {
           src: '',
@@ -278,6 +308,10 @@ export default {
         this.finalscreen = false;
         this.showFront = true;
       }
+    },
+    handleBackToPuzzle() {
+      this.finalscreen = false;
+       this.$store.commit('screens', {what: "Toolbar", bool: true});
     },
     handleFront() {
       this.finalscreen = true;
@@ -455,14 +489,29 @@ button {
 .ScreenEmail {
   z-index: 1;
 }
-.backarrow, .frontarrow {
+.backarrow, .frontarrow, .returnarrow {
   color: white;
   position: fixed;
   z-index: 99;
   font-size: 40px;
   cursor: pointer;
   top: 0;
-  padding: 20px;
+  padding: 10px;
+  background: rgb(0,0,0,0.5);
+  p {
+    font-size: 14px;
+    margin: 0;
+    transform: translateY(25%);
+    margin: 0 10px;
+  }
+  div, p {
+    display: inline-block;
+    vertical-align: middle;
+  }
+}
+.frontarrow {
+  right: 0;
+  padding-right: 100px;
 }
 .front {
   right: 0;

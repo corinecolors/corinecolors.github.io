@@ -91,6 +91,7 @@ Playbutton
     close(i) {
       this.$emit("close", i)
       this.$store.commit("showEmailThread", true);
+      //play audio
     }
   },
   mounted() {

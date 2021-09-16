@@ -41,5 +41,8 @@ export default {
     color: white;
     padding-top: 100px;
     text-align: center;
+    &::v-deep h5 {
+      margin-bottom: 10px;
+    }
 }
 </style>

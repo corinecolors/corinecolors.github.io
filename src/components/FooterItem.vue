@@ -1,5 +1,7 @@
 <template>
   <div class="footer navOpen">
+    <SocialsSharing/>
+
     <div class="newsletter">
       <form @submit.prevent="submit"  ref="form">
         <h3 class="navOpen">Subscribe to follow the story!</h3>
@@ -12,7 +14,7 @@
       Link copied to clipboard!
       </div>
       <div class="share navOpen">
-        Share
+        <h3 class="navOpen">Share</h3>
         </div>
        <transition v-for="(item, i) in socials" :key="i">
             <ShareNetwork
@@ -34,17 +36,26 @@
             <input type="text" class="url" ref="url" :value="url" />
           </button>
     </div> -->
-    <SocialsSharing/>
   </div>
 </template>
 
 <script>
 
 import SocialsSharing from "./SocialsSharing";
+// import iconWhatsapp from "./iconWhatsapp";
+// import iconInstagram from "./iconInstagram";
+// import iconFacebook from "./iconFacebook";
+// import iconTwitter from "./iconTwitter";
+// import iconCopyLink from "./iconCopyLink";
 export default {
   name: "Footer",
   components: {
-    SocialsSharing
+    SocialsSharing,
+    // iconWhatsapp,
+    // iconInstagram,
+    // iconFacebook,
+    // iconTwitter,
+    // iconCopyLink
   },
   data() {
     return {
@@ -73,17 +84,17 @@ export default {
         {
           name: "facebook",
           component: "iconFacebook",
-          link: "http://www.facebook.com"
+          link: "https://www.facebook.com/C.Colors.In.Motion/"
         },
         {
           name: "twitter",
           component: "iconTwitter",
-          link: "http://www.twitter.com"
+          link: "https://twitter.com/ccolorsinmotion"
         },
         {
           name: "instagram",
           component: "iconInstagram",
-          link: "http://www.instagram.com"
+          link: "https://www.instagram.com/corine.colors"
         },
       ],
     };
@@ -134,11 +145,12 @@ export default {
   padding: 5px;
 }
 .footer {
-  text-align: center;
+  text-align: left;
   position: absolute;
   bottom: 40px;
   left: 0;
-  width: 100%;
+  width: calc(100% - 40px);
+  padding-left: 40px;
   // margin-right: 25px;
   // opacity: .35;
   transition: opacity .5s ease;
@@ -146,7 +158,6 @@ export default {
   transition: opacity .5s ease;
     opacity: 1;
   }
-  width: 100%;
 }
 .pagesocial {
   padding: 5px;
@@ -224,7 +235,7 @@ button {
 .newsletter {
   display: inline-block;
   vertical-align: middle;
-  text-align: center;
+  text-align: left;
   width: 90%;
   margin-bottom: 20px;
  
@@ -251,7 +262,8 @@ button {
 }
 .socials {
   display: inline-block;
-  width: 100%;
+  width: calc(100% - 60px);
+  margin-bottom: 20px;
    &::v-deep svg {
     background: white;
     border-radius: 4px;
@@ -277,5 +289,10 @@ button {
 form {
   position:relative;
   padding-bottom: 5px;
+  background: rgb(255,255,255,0.8);
+  border-radius: 10px;
+  display: inline-block;
+  padding: 10px;
+  width: calc(100% - 25px);
 }
 </style>

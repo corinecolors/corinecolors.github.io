@@ -2,7 +2,7 @@
   <div class="disclaimer">
     <div class="bg" />
     <div class="msg" v-if="$store.state.data.disclaimer && $store.state.data.disclaimer.length">
-      <div v-html="$cms.htmlField($store.state.data.disclaimer)"/>
+      <div class="helvetica" v-html="$cms.htmlField($store.state.data.disclaimer)"/>
         <button class="disclaimerbutton" @click="handleLang('agree')"><span class="helvetica">Agree</span></button>
         <button class="disclaimerbutton" @click="handleLang('leave')"><span class="helvetica">Leave</span></button>
         <br/>
@@ -64,7 +64,7 @@ export default {
   margin: auto;
   margin-top: 50vh;
   transform: translateY(-50%);
-  max-width: 900px;
+  max-width: 800px;
 
 }
 .bg {

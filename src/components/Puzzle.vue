@@ -1,5 +1,6 @@
 <template>
   <div class="puzzle">
+    <img class="prot" src="../assets/Protestors.png"/>
    <img class="bg" :src="$puzzle.main_bg_bordered.url"/>
     <VideoPopup
       class="section VideoPopup"
@@ -101,5 +102,14 @@ export default {
 .bg {
   width: calc(100vw - 2px);
   height: calc(100vh - 2px);
+}
+.prot {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  left: 50%;
+  transform: translateX(-50%) translateY(50%);
+  pointer-events: none;
+  z-index: 5;
 }
 </style>

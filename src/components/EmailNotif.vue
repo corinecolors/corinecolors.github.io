@@ -69,6 +69,7 @@ export default {
     cursor: pointer;
     height: 20px;
     padding: 10px 0;
+    font-size: 14px;
     &:first-child {
       border-bottom: 1px solid white;
     }
@@ -95,6 +96,7 @@ export default {
 }
 .small {
   font-size: 12px;
+  margin: 0 !important;
 }
 img {
   display: inline-block;
@@ -104,4 +106,8 @@ img {
   height: auto;
   padding: 0 10px 0 15px;
 }
+p {
+  margin-bottom: 0 !important;
+}
+
 </style>

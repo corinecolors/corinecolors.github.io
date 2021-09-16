@@ -67,8 +67,9 @@ export default {
     font-size: 60px;
     position: absolute;
     color: white;
-    top: -80%;
+    // top: -80%;
+    transform: translateY(-100%) translateX(100%);
     cursor: pointer;
-    right: -5%;
+    right: 0;
 }
 </style>

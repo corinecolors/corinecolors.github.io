@@ -1,7 +1,7 @@
 <template>
      <div class="socials navOpen">
       <div class="share navOpen">
-        <h3>Page</h3>
+        <h3>Share The Experience</h3>
         </div>
        <transition v-for="(item, i) in pagesocials" :key="i">
             <div class="social navOpen"><a target="_blank" :href="item.link"><component :is="item.component" class="pagesocial"/></a></div>
@@ -60,17 +60,17 @@ export default {
         {
           name: "facebook",
           component: "iconFacebook",
-          link: "http://www.facebook.com"
+          link: "https://www.facebook.com/C.Colors.In.Motion/"
         },
         {
           name: "twitter",
           component: "iconTwitter",
-          link: "http://www.twitter.com"
+          link: "https://twitter.com/ccolorsinmotion"
         },
         {
           name: "instagram",
           component: "iconInstagram",
-          link: "http://www.instagram.com"
+          link: "https://www.instagram.com/corine.colors"
         },
       ],
     };
@@ -104,9 +104,10 @@ export default {
     },
   },
   mounted() {
-    if (!window.location.href.includes("localhost")) {
-      this.url = window.location.href;
-    }
+    // if (!window.location.href.includes("localhost")) {
+    //   this.url = window.location.href;
+    // }
+    this.url = "http://www.the-firstlady.com/";
   },
 };
 </script>
@@ -176,16 +177,16 @@ export default {
 .url {
   position: absolute;
   opacity: 0;
+  pointer-events: none;
 }
 .copiedMsg {
   padding: 10px;
   color: black;
   position: absolute;
-  left: 50%;
-  bottom: -20px;
-  width: 100%;
-  font-size: 10px;
-  transform: translateX(-50%);
+  width: 100px;
+  right: 0;
+  font-size: 12px;
+  bottom: 0;
 }
 button {
   padding: 0;
@@ -238,7 +239,12 @@ button {
 }
 .socials {
   display: inline-block;
-  width: 100%;
+  // width: 100%;
+  position: relative;
+  background: rgb(255,255,255,0.8);
+  border-radius: 10px;
+  display: inline-block;
+  padding: 10px;
    &::v-deep svg {
     background: white;
     border-radius: 4px;

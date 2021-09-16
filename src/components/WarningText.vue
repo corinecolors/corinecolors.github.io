@@ -37,7 +37,7 @@ export default {
 <style scoped lang="scss">
 .warning {
     position: fixed;
-    z-index: 1000;
+    z-index: 98;
     width: 100%;
     white-space: nowrap;
     overflow: hidden;

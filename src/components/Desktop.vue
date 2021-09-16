@@ -4,7 +4,7 @@
       v-for="(item, i) in $store.state.data.desktop"
       class="link"
       :key="i"
-      :style="`transform: translateY(${i * 100}px)`"
+      :style="`transform: translateY(${(i + 1) * 100}px)`"
       @click="goTo(item)"
     >
       <img class="folder" :src="item.icon.url" />

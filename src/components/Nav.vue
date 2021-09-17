@@ -24,7 +24,7 @@
       @click.prevent="handleNav" 
       src="../assets/X.svg" />
       <transition appear name="slidein">
-        <div :key="`${data}i`" class="sideDrawer" v-if="data && (aboutplatformopen || aboutcreatorsopen || creditsopen)" :style="`background-image: url(${data.bg})`">
+        <div :key="`${data}i`" class="sideDrawer" v-if="data && (aboutplatformopen || aboutcreatorsopen || creditsopen)">
             <img 
             class="x-inner"
             @click.prevent="closeSideBar" 

@@ -5,14 +5,14 @@
       <img src="../assets/Email.png"/>
       </div>
     <div class="left col">
-      <p class="helvetica"><b>New Email from Corine Colors</b></p>
-      <p class="small helvetica">from Email Thread</p>
-      <p class="small helvetica">{{$cms.textField($desktopcontent.screenemail.items[0].email_title)}}</p>
+      <p class="sansserif"><b>New Email from Corine Colors</b></p>
+      <p class="small sansserif">from Email Thread</p>
+      <p class="small sansserif">{{$cms.textField($desktopcontent.screenemail.items[0].email_title)}}</p>
 
       </div>
       <div class="right col">
-        <p class="helvetica" @click="handleClose">Close</p>
-        <p class="helvetica" @click="openEmail">Show</p>
+        <p class="sansserif" @click="handleClose">Close</p>
+        <p class="sansserif" @click="openEmail">Show</p>
       </div>
   </div>
 </template>
@@ -70,6 +70,8 @@ export default {
     height: 20px;
     padding: 10px 0;
     font-size: 14px;
+  font-family: Helvetica !important;
+
     &:first-child {
       border-bottom: 1px solid white;
     }
@@ -97,6 +99,7 @@ export default {
 .small {
   font-size: 12px;
   margin: 0 !important;
+  font-family: Helvetica !important;
 }
 img {
   display: inline-block;
@@ -108,6 +111,8 @@ img {
 }
 p {
   margin-bottom: 0 !important;
+  font-family: Helvetica !important;
+
 }
 
 </style>

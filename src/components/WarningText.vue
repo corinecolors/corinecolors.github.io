@@ -1,7 +1,7 @@
 <template>
   <div class="warning" ref="warningouter">
       <div class="warninginner" ref="warninginner">
-          <h1 v-for="(item, i) in sentenceCount" :key="i" class="warning1" ref="warning1">This is a warning</h1>
+          <h1 v-for="(item, i) in sentenceCount" :key="i" class="warning1" ref="warning1">Evacuate the site immediately, your legitimacy has fallen. </h1>
         </div>
     </div>
 </template>
@@ -27,7 +27,7 @@ export default {
       this.warning1W = this.$refs.warning1[0].getBoundingClientRect().width;
       this.sentenceCount = Math.ceil(this.warningouterW / this.warning1W) + 1;
       console.log(this.sentenceCount);
-      gsap.fromTo(this.$refs.warninginner,{x:0},{x:-this.warning1W, duration: 3, repeat: -1,ease: Power0.easeNone});
+      gsap.fromTo(this.$refs.warninginner,{x:0},{x:-this.warning1W, duration: 10, repeat: -1,ease: Power0.easeNone});
       
   },
 };

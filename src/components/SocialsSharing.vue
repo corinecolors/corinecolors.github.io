@@ -1,17 +1,34 @@
 <template>
      <div class="socials navOpen">
       <div class="share navOpen">
-        <h3>Share The Experience</h3>
+        <h3>Share The Story</h3>
         </div>
-       <transition v-for="(item, i) in pagesocials" :key="i">
-            <div class="social navOpen"><a target="_blank" :href="item.link"><component :is="item.component" class="pagesocial"/></a></div>
-        </transition>
-        <button @click="copytoclipboard" class="copy">
-            <iconCopyLink class="iconCopyLink navOpen"/>
-            <input type="text" class="url" ref="url" :value="url" />
-          </button>
-          <div class="copiedMsg navOpen" v-if="showCopiedMsg">
-            Link copied to clipboard!
+         <div class="socialicons" v-if="url">
+            <transition v-for="(item, i) in socials" :key="i">
+                <span @mouseover="handleShareNetwork(item)">
+                <ShareNetwork
+                  class="social"
+                  :network="item.name"
+                  :url="url"
+                  :title="item.name === `whatsapp` ? `` : title"
+                  :description="desc"
+                  hashtags="#nice, #good"
+                  :ref="item.name"
+                  :quote="`${desc}`"
+                >
+                  <component 
+                  class="icon" 
+                  :is="item.component" />
+                </ShareNetwork>
+                </span>
+            </transition>
+            <button @click="copytoclipboard" class="copy">
+             <iconCopyLink class="copyLink"/>
+              <input type="text" class="url" ref="url" :value="url" />
+            </button>
+            <div class="copiedMsg" v-if="showCopiedMsg">
+              Link copied to clipboard!
+            </div>
           </div>
     </div>
 </template>
@@ -36,10 +53,11 @@ export default {
   data() {
     return {
       showCopiedMsg: false,
-      url: "",
-      title: "The First Lady",
-      desc: "description text blah blah blah",
+      url: "http://www.the-firstlady.com/",
+      title: `In the decade following the August 4, 2020 Port of Beirut Explosion, the Police State which Lebanon has become, intensified its crackdown on opposition and freedom of expression...`,
+      desc: "In the decade following the August 4, 2020 Port of Beirut Explosion, the Police State which Lebanon has become, intensified its crackdown on opposition and freedom of expression. The impoverished Lebanese people have become scarred and betrayed prisoners, being killed by their establishment. Refusing to stand idle, the First Lady jumps ship and becomes a dissident from the inside of the ruling class. This platform is a gateway into the mind of the woman who will startle the deep-state and set it off its domineering streak. ",
       submissionMessage: null,
+      data: null,
       socials: [
         {
           name: "facebook",
@@ -51,10 +69,10 @@ export default {
           component: "iconTwitter",
           link: "http://www.twitter.com"
         },
-        {
-          name: "whatsapp",
-          component: "iconWhatsapp",
-        },
+        // {
+        //   name: "whatsapp",
+        //   component: "iconWhatsapp",
+        // },
       ],
       pagesocials: [
         {
@@ -115,6 +133,14 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="scss">
 @import "../main.scss";
+.socialicons {
+    .copyLink  {
+       width: 25px !important;
+       height: 20px;
+       margin-top: 5px;
+       margin-left: 5px;
+    }
+}
 .icon {
   width: 25px;
   vertical-align: middle;
@@ -127,6 +153,7 @@ export default {
   bottom: 40px;
   left: 0;
   width: 100%;
+
   // margin-right: 25px;
   // opacity: .35;
   transition: opacity .5s ease;
@@ -271,4 +298,5 @@ form {
   position:relative;
   padding-bottom: 5px;
 }
+
 </style>

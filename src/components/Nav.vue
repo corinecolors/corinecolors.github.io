@@ -2,7 +2,7 @@
   <div class="nav">
       <div :class="`navdrawer navOpen ${showNav ? `show` : `hide`}`">
           <ul class="navOpen">
-              <li class="navOpen"><a class="navOpen" href="/">Home</a></li>
+              <li class="navOpen"><a class="navOpen" href="/" target="_blank">Home</a></li>
               <!-- href="/about-this-platform" -->
               <li class="navOpen"><a class="navOpen" @click="drawer(`aboutplatform`)">About This Platform</a></li>
               <!-- href="/about-the-creators" -->
@@ -30,9 +30,10 @@
             @click.prevent="closeSideBar" 
             src="../assets/X.svg" />
             <div class="inner">
-                <img class="logo" src="../assets/CCLockup.png"/>
+                <h2>{{data.title}}</h2>
+                <img class="logo" src="../assets/CCLockup.png" v-if="aboutcreatorsopen"/>
                 <div class="overlay" :style="`background: ${data.overlay}`"/>
-                <p :class="data.className" v-html="$cms.htmlField(data.content.text)"/>
+                <div :class="data.className" v-html="$cms.htmlField(data.content.text)"/>
             </div>
         </div>
       </transition>
@@ -85,7 +86,8 @@ export default {
                   content: this.$aboutplatform, 
                   bg: this.$aboutplatform.bg.url, 
                   overlay: this.$cms.textField(this.$aboutplatform.overlaycolor),
-                  className: "helvetica"
+                  className: "sansserif",
+                  title: "About This Platform"
                 };
           } else if (what === "aboutcreators") {
               this.aboutplatformopen = false;
@@ -95,7 +97,8 @@ export default {
                   content: this.$aboutcreators, 
                   bg: this.$aboutcreators.bg.url, 
                   overlay: this.$cms.textField(this.$aboutcreators.overlaycolor),
-                  className: "helvetica"
+                  className: "sansserif",
+                  title: "About The Creators"
                 };
           } else {
               this.aboutcreatorsopen = false;
@@ -105,7 +108,8 @@ export default {
                   content: this.$credits, 
                   bg: this.$credits.bg.url, 
                   overlay: this.$cms.textField(this.$credits.overlaycolor),
-                  className: ""
+                  className: "",
+                  title: "Credits"
                 };
           }
       }
@@ -195,11 +199,15 @@ export default {
     overflow-x: hidden;
     &::v-deep p {
         color: white;
-        font-size: 14px;
+        font-size: 16px;
+        text-align: justify;
+        text-justify: inter-word;
     }
-    &::v-deep h5 {
+    &::v-deep h5, &::v-deep h3 {
         font-size: 16px;
         margin-bottom: 10px;
+        text-align: left !important;
+        color: white !important;
     }
 }
 .overlay {
@@ -222,11 +230,27 @@ export default {
 }
 .inner {
     padding: 30px;
+    padding-top: 60px;
 }
 .x-inner {
     position: absolute;
     right: 0;
     width: 30px;
     padding: 20px;
+    cursor: pointer;
+}
+h2 {
+    color: white;
+    position: relative;
+    display: inline-block;
+    &:after {
+        content: '';
+        background: white;
+        position: absolute;
+        width: 100%;
+        bottom: 0;
+        left: 0;
+        height: 2px;
+    }
 }
 </style>

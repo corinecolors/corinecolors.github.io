@@ -1,9 +1,11 @@
 <template>
   <div class="cursor-wrapper">
     <div class="cursor" ref="cursor">
-      <img :src="$store.state.tool.src" v-if="$store.state.tool.src"/>
+      <img :src="$store.state.tool.src" :style="$store.state.tool.src ? `opacity: 1` : `opacity: 0`"/>
       <!-- <DebrisChoppings class="debris" /> -->
-      <div class="digmore" v-if="$store.state.digMoreMessage">Use the light to reveal the next image!</div>
+      <div class="tooltip" 
+      v-if="digMoreMessage" 
+      ref="tooltip">{{digMoreMessage}}</div>
       <!-- <div class="pressPlayMessage" v-if="$store.state.pressPlayMessage">
         Press play to continue!
       </div> -->
@@ -38,8 +40,8 @@ export default {
   methods: {
     mousemove() {
       window.addEventListener("mousemove", (e) => {
-        // console.log(e);
         this.$refs.cursor.style = `transform: translateX(${e.clientX}px) translateY(${e.clientY}px)`;
+        this.$refs.tooltip.style = `transform: translateX(${e.clientX})`
       });
     },
   },
@@ -57,6 +59,10 @@ export default {
   pointer-events: none;
   left: -50px;
   top: -50px;
+  img {
+    width: 80px;
+    height: 80px;
+  }
 }
 img {
   max-height: 100px;
@@ -71,11 +77,13 @@ img {
   color: black;
   font-size: 12px;
 }
-.digmore {
+.tooltip {
   background: white;
   padding: 1px 5px;
   border: 1px solid black;
-  margin-top: 80px;
+  // margin-top: 80px;
+  font-family: Helvetica !important;
+
 }
 
 .pressPlayMessage {

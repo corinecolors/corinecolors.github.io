@@ -4,6 +4,9 @@
     <div class="lightboximage" v-if="lightboxImage && showlightboxImage" >
       <div class="lightboximage-inner">
         <div class="lightboximageinner" >
+          <h3 class="text" v-if="showPreviewText">{{
+            $cms.textField(data.data.puzzle_preview_message)
+          }}</h3>
           <span @mousedown="handlePlayButton" @mouseover="handleHover" @mouseout="handleOutHover"  class="play">
             <Playbutton
               :fill="$cms.textField(this.data.data.playbuttom_color)"
@@ -12,7 +15,9 @@
               }`"
               
             />
-            <img class="glow" v-if="activei === i && Asolved" src="../assets/debris/Glow.svg"/>
+            <!-- <img class="glow" v-if="activei === i && Asolved" src="../assets/debris/Glow.svg"/> -->
+            <img class="glow" v-if="activei === i && AAsolved" src="../assets/debris/Glow.svg"/>
+            <!-- <div class="tooltip" v-if="activei === i && Asolved">Click to play</div> -->
           </span>
           <img :src="lightboxImage" @mousedown="handleChangingImages"/>
         </div>
@@ -46,11 +51,11 @@
       class="a"
       :style="`${Asolved ? `opacity: 0; pointer-events: none;` : ``}`"
     />
-    <!-- <div class="lightbox" @click="handleLightbox" 
+    <div class="lightbox" @click="handleLightbox" 
     :style="!Asolved && !AAsolved && activei === i ? `pointer-events: none` : `pointer-events: auto`">
       <img class="mg" src="../assets/magnifying_icon.svg"/>
       <img class="glow" v-if="showGlow && activei === i && AAsolved" src="../assets/debris/Glow.svg"/>
-      </div> -->
+      </div>
     <!-- <div class="playbutton" :style="`${Asolved ? `opacity: 1; cursor: pointer;` : `pointer-events: none`}`" @click="handlePlayButton"></div> -->
  
     <canvas
@@ -246,21 +251,21 @@ export default {
     },
     handleHover() {
       if (!this.Asolved) {
-        this.$store.commit("digMoreMessage", true);
-      } else if (this.AAsolved) {
-        this.$store.commit("pressPlayMessage", true);
-      } else {
-        this.$store.commit("digMoreMessage", true);
+        this.$store.commit("digMoreMessage", "Use Light tool to reveal Invisible Ink");
+      } else{
+        this.$store.commit("digMoreMessage", "Click to play");
       }
+    //catch-all in case the mouseout is not senses
+      setTimeout(() => {
+          this.$store.commit("digMoreMessage", null);
+        }, 3000)
     },
     handleOutHover() {
       if (!this.Asolved) {
-        this.$store.commit("digMoreMessage", false);
+        this.$store.commit("digMoreMessage", null);
       } else if (this.AAsolved) {
-        this.$store.commit("pressPlayMessage", false);
-      } else {
-        this.$store.commit("digMoreMessage", false);
-      }
+        this.$store.commit("digMoreMessage", null);
+      } 
     },
     imgSrc(i) {
       return require(`../assets/QuestionMarks/qm${i + 1}.png`)
@@ -895,10 +900,12 @@ export default {
   // font-weight: bold;
   width: 80%;
   text-align: center;
+
+}
   .text {
     margin: 0;
     position: absolute;
-    width: 100%;
+    width: 90%;
     top: 10%;
     left: 50%;
     font-family: $gh !important;
@@ -906,8 +913,10 @@ export default {
     left: 50%;
     z-index: 7;
     transform: translateX(-50%);
+    color: white;
+    text-align: center;
+    pointer-events: none;
   }
-}
 .questionmark {
   font-size: 40px;
   position: absolute;
@@ -1006,6 +1015,7 @@ export default {
     position: absolute;
     // right: 0;
     right: 10%;
+    font-family: Helvetica !important;
 
     // transform: translateX(100%) translateY(-100%);
     cursor: pointer;
@@ -1019,12 +1029,23 @@ export default {
   left: 50%;
   transform: translateX(-50%) translateY(-50%);
   z-index: 0;
-  width: 80px !important;
-  height: 80px !important;
+  width: 120px !important;
+  height: 120px !important;
   // mix-blend-mode: difference;
 }
 .nopointer {
   pointer-events: none;
 }
-
+.tooltip {
+  background: white;
+  padding: 1px 5px;
+  border: 1px solid black;
+  // margin-top: 80px;
+  font-family: Helvetica !important;
+  display: inline-block;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translateY(110%) translateX(-50%);
+}
 </style>

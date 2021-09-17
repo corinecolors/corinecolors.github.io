@@ -1,37 +1,44 @@
 <template>
   <div id="app" ref="app">
     <div class="app-inner" v-if="ww > 1000">
-      <transition appear name="EmailNotif" v-if="emailNotif && showEmailThread && showEmailNotifOnce">
+      <transition appear name="EmailNotif" v-if="emailNotif && showEmailThread && showEmailNotifOnce" >
           <EmailNotif 
+          :key="showEmailNotifOnce"
           class="EmailNotif" 
           @closeNotif="handlecloseNotif"
           @openEmail="handleopenEmail"/>
       </transition>
 
-     <div class="returnarrow"
+     <!-- <div class="returnarrow"
      v-html="`<div>↩︎</div> <p>Back to Desktop I</p>`"
      v-if="PrePuzzleScreen && !ChooseLanguage"
-     @mousedown="handleReturn"></div>
+     @mousedown="handleReturn"
+     @mouseover="handleReturnHover"
+     @mouseout="mouseout"></div> -->
 
      <div class="backarrow"
-     v-html="`<div>←</div> <p>Back to Desktop II</p>`"
+     v-html="`<div>←</div> <p>Back to Desktop I</p>`"
      v-if="$store.state.screens['showPuzzle'] && !hideBack && !finalscreen"
-     @mousedown="handleBack"></div>
+     @mousedown="handleBack"
+     @mouseout="mouseout"></div>
 
      <div class="backarrow"
-     v-html="`<div>←</div> <p>Back to Puzzle **</p>`"
+     v-html="`<div>←</div> <p>Back to The Wall</p>`"
       v-if="finalscreen"
-     @mousedown="handleBackToPuzzle"></div>
+     @mousedown="handleBackToPuzzle"
+     @mouseout="mouseout"></div>
 
      <div class="frontarrow"
-     v-html="`<p>Go To Alarm</p><div>→</div>`"
+     v-html="`<p>Sound The Alarm</p><div>→</div>`"
      v-if="!finalscreen && donePuzzle && $store.state.screens['showPuzzle']"
-     @mousedown="handleFront"></div>
+     @mousedown="handleFront"
+     @mouseout="mouseout"></div>
 
      <div class="frontarrow"
-     v-html="`<p>Go To Puzzle</p><div>→</div>`"
+     v-html="`<p>Go To The Wall</p><div>→</div>`"
      v-if="showGoToPuzzleOnce && !$store.state.screens['showPuzzle'] && !ChooseLanguage"
-     @mousedown="handleFrontToPuzzle"></div>
+     @mousedown="handleFrontToPuzzle"
+     @mouseout="mouseout"></div>
 
 
      <!-- v-if="!ChooseLanguage" -->
@@ -56,7 +63,7 @@
         <FinalScreen @showWarning="showWarning=true" class="section FinalScreen" :key="finalscreen"/>
         <WarningText v-if="showWarning" class="topWarningText" :key="finalscreen"/>
         <WarningText v-if="showWarning" class="bottomWarningText" :key="finalscreen"/>
-        </transition-group>
+      </transition-group>
 
 
       <AudioPlayer/>
@@ -289,12 +296,19 @@ export default {
     handleReturn() {
       this.ChooseLanguage = true;
     },
+    handleReturnHover() {
+      this.$store.commit("digMoreMessage", "Back to Desktop I");
+    },
+    mouseout() {
+      this.$store.commit("digMoreMessage", null);
+    },
     handleFrontToPuzzle() {
        this.$store.commit('screens', {what: "Toolbar", bool: true});
        this.$store.commit('screens', {what: "showPuzzle", bool: true});
     },
     handleBack() {
       if (this.$store.state.screens['showPuzzle'] && !this.finalscreen) {
+        
       this.ChooseLanguage = false;
       this.PrePuzzleScreen = true;
        this.$store.commit('screens', {what: "showPuzzle", bool: false});
@@ -310,6 +324,7 @@ export default {
       }
     },
     handleBackToPuzzle() {
+      this.showWarning = false;
       this.finalscreen = false;
        this.$store.commit('screens', {what: "Toolbar", bool: true});
     },
@@ -499,7 +514,7 @@ button {
   padding: 10px;
   background: rgb(0,0,0,0.5);
   p {
-    font-size: 14px;
+    font-size: 16px;
     margin: 0;
     transform: translateY(25%);
     margin: 0 10px;

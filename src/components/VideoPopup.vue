@@ -1,7 +1,7 @@
 <template>
   <div class="videopopup">
     <div class="inner">
-      <div class="close" v-if="showX" @click="closeVid">X</div>
+      <div class="close x" v-if="showX" @click="closeVid">X</div>
       <div class="videopopup-inner">
         <h2>{{ $cms.textField(data.video_title) }}</h2>
         <video class="vid" controls controlsList="nodownload" oncontextmenu="return false;" ref="video" id="video">
@@ -14,7 +14,7 @@
             <InfoIcon />
             <p>{{ $cms.textField(data.info) }}</p>
           </div> -->
-          <div class="socialicons" v-if="url">
+          <!-- <div class="socialicons" v-if="url">
             <transition v-for="(item, i) in socials" :key="i">
                 <span @mouseover="handleShareNetwork(item)">
                 <ShareNetwork
@@ -40,7 +40,7 @@
             <div class="copiedMsg" v-if="showCopiedMsg">
               Link copied to clipboard!
             </div>
-          </div>
+          </div> -->
         </div>
       </div>
     </div>
@@ -48,20 +48,20 @@
 </template>
 
 <script>
-import iconFacebook from "./iconFacebook";
-import iconTwitter from "./iconTwitter";
-import iconWhatsapp from "./iconWhatsapp";
-import InfoIcon from "./InfoIcon.vue";
-import iconCopyLink from "./iconCopyLink";
+// import iconFacebook from "./iconFacebook";
+// import iconTwitter from "./iconTwitter";
+// import iconWhatsapp from "./iconWhatsapp";
+// import InfoIcon from "./InfoIcon.vue";
+// import iconCopyLink from "./iconCopyLink";
 
 export default {
   name: "VideoPopup",
   components: {
-    iconFacebook,
-    iconTwitter,
-    iconWhatsapp,
-    InfoIcon,
-    iconCopyLink
+    // iconFacebook,
+    // iconTwitter,
+    // iconWhatsapp,
+    // InfoIcon,
+    // iconCopyLink
   },
   data() {
     return {
@@ -125,18 +125,9 @@ ${this.cutString(this.$cms.textField(this.data.info))}
       return `${i.substr(0, limit)}...`;
     },
     closeVid() {
-      // console.log("closing vie on 7");
       this.$emit("closeVid", true);
-        // if (this.$store.state.activePiece.i === 8) {
-        //   this.$store.commit("donePuzzle", true);
-        // }
-        // if (this.$store.state.activePiece.i === 8) {
-        //   this.$store.commit("donePuzzle", true);
-        // }
     },
     blobVideo(url) {
-      // var file = new Blob([url], {"type" : "video/mp4"});
-      // return URL.createObjectURL(file);
       return url;
 
     },
@@ -315,5 +306,9 @@ p {
 button {
   border: none;
   padding: 0 5px;
+}
+.x {
+    font-family: Helvetica !important;
+
 }
 </style>

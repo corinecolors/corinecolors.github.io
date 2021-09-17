@@ -2,12 +2,12 @@
   <div class="disclaimer">
     <div class="bg" />
     <div class="msg" v-if="$store.state.data.disclaimer && $store.state.data.disclaimer.length">
-      <div class="helvetica" v-html="$cms.htmlField($store.state.data.disclaimer)"/>
-        <button class="disclaimerbutton" @click="handleLang('agree')"><span class="helvetica">Agree</span></button>
-        <button class="disclaimerbutton" @click="handleLang('leave')"><span class="helvetica">Leave</span></button>
+      <div class="sansserif" v-html="$cms.htmlField($store.state.data.disclaimer)"/>
+        <button class="disclaimerbutton" @click="handleLang('agree')"><span class="sansserif">Agree</span></button>
+        <button class="disclaimerbutton" @click="handleLang('leave')"><span class="sansserif">Leave</span></button>
         <br/>
         <button class="mute" @click="handleMute"><iconMute :mute="mute" class="iconMute"/></button>
-        <p class="helvetica"><strong>USE HEADPHONES FOR AN OPTIMAL EXPERIENCE.</strong></p>
+        <p class="sansserif"><strong>USE HEADPHONES FOR AN OPTIMAL EXPERIENCE.</strong></p>
       </div>
       
   </div>
@@ -57,8 +57,11 @@ export default {
   color: white;
   &::v-deep p {
     margin: 10px 0;
-    font-size: 14px;
+    font-size: 16px;
   }
+  &::v-deep strong {
+  font-family: "Orator";
+}
 }
 .msg {
   margin: auto;
@@ -93,5 +96,8 @@ export default {
       fill: black !important;
     }
  }
+}
+strong {
+  font-family: "Orator";
 }
 </style>

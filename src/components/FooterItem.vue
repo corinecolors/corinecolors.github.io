@@ -41,7 +41,9 @@
 
 <script>
 
+// import SocialsLinking from "./SocialsLinking";
 import SocialsSharing from "./SocialsSharing";
+
 // import iconWhatsapp from "./iconWhatsapp";
 // import iconInstagram from "./iconInstagram";
 // import iconFacebook from "./iconFacebook";

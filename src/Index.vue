@@ -97,17 +97,20 @@ img, p, h1, h2, h3, h4, h5, h6, div {
   //   rgba(62, 50, 62, 1) 100%
   // );
 
-  font-family: Helvetica, Arial, sans-serif;
+  font-family: 'Open Sans Condensed', sans-serif;
   /* margin-top: 60px; */
+
   overflow: hidden;
   // cursor: none;
   p, a, h1, h2, h3, h4, h5, span, input, button {
     font-family: Orator, Helvetica, sans-serif;
+    
   }
-  .helvetica {
-    font-family: Helvetica, Arial, sans-serif;
+  .sansserif {
+    font-family: 'Open Sans Condensed', sans-serif;
     p {
-      font-family: Helvetica, Arial, sans-serif;
+      font-family: 'Open Sans Condensed', sans-serif;
+
     }
   }
 }

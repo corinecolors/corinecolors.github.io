@@ -2,12 +2,7 @@
   <div class="prepuzzlescreen">
       <div class="message">
           <div class="x" @mousedown="close">X</div>
-          <p>Authorities have raised walls to re-assert themselves that they are impregnable by enemies. <br/>
-But when authorities raise a wall inside a capital, and take shelter behind it, which enemy are they holding back? </p>
-<p>Can this wall do anything besides severing a city from its own self, and standing witness to the level of tyranny a government is willing to exert to maintain authority? Can it hold back the desire to demolish it? If not, how much is justified in the face of tyranny?
-</p><p>
-Use the tools to start scraping….
-</p>
+          <p v-html="$cms.htmlField($puzzle.prepuzzletext)"></p>
       </div>
       <div class="exit" @mousedown="close" ref="exit"/>
   </div>
@@ -15,7 +10,7 @@ Use the tools to start scraping….
 
 <script>
 export default {
-  name: "Template",
+  name: "PrePuzzleTemplate",
   data() {
     return {};
   },
@@ -27,6 +22,7 @@ export default {
       }
   },
   mounted() {
+    console.log(this.$puzzle);
   },
 };
 </script>
@@ -40,7 +36,7 @@ export default {
     background: rgb(0,0,0,.5);
 }
 .message {
-    background: $maroon;
+    background: rgb(126,73,78, .5);
     display: inline-block;
     position: fixed;
     left: 50%;
@@ -49,12 +45,18 @@ export default {
     padding: 20px;
     z-index: 2;
     border-radius: 10px;
-    max-width: 50%;
+    width: 800px;
+    max-width: 100%;
     text-align: center;
     &::v-deep p {
         color: white;
-        font-size: 16px;
+        font-size: 18px;
+        line-height: 1.2;
         margin: 10px 0;
+    }
+    &::v-deep h1,&::v-deep h2,&::v-deep h3,&::v-deep h4 {
+      margin-bottom: 0;
+      font-size: 30px;
     }
 }
 .exit {
@@ -68,6 +70,7 @@ export default {
     position: absolute;
     color: white;
     // top: -80%;
+    font-family: Helvetica !important;
     transform: translateY(-100%) translateX(100%);
     cursor: pointer;
     right: 0;

@@ -36,10 +36,12 @@ export default {
     padding: 0 30px;
 }
 .aboutplatformpage {
+  
     max-width: 700px;
     margin: auto;
     color: white;
     padding-top: 100px;
     text-align: center;
+  
 }
 </style>

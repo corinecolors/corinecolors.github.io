@@ -4,11 +4,11 @@
       v-for="(item, i) in $store.state.data.desktop"
       class="link"
       :key="i"
-      :style="`transform: translateY(${(i + 1) * 100}px)`"
+      :style="`transform: translateY(${i * 100}px)`"
       @click="goTo(item)"
     >
       <img class="folder" :src="item.icon.url" />
-      <p class="helvetica">{{$cms.textField(item.label)}}</p>
+      <p class="sansserif">{{$cms.textField(item.label)}}</p>
     </div>
     <div class="screenarea" v-if="activeScreen && activeScreen.length">
       <transition v-for="(item, i) in activeScreen" :key="i">
@@ -32,7 +32,7 @@ export default {
   name: "Desktop",
   data() {
     return {
-      activeScreen: ['ScreenRecordings', 'ScreenImage'],
+      activeScreen: ['ScreenRecordings'],
     };
   },
   props: {
@@ -90,5 +90,6 @@ export default {
 }
 .link p {
   font-size: 14px;
+  font-family: Helvetica !important;
 }
 </style>

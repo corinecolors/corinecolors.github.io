@@ -1,16 +1,16 @@
 <template>
   <div class="screen email">
       <Closebar @close="close"/>
-      <div class="screeninner helvetica">
+      <div class="screeninner sansserif">
         <div class="sidebar">
           <div class="logo">
             <img src="../assets/Email.png"/>
-            <h1 class="helvetica">Email</h1>
+            <h1 class="sansserif">Email</h1>
           </div>
           <div class="menu">
             <div v-for="(item, i) in menuitems" :key="i" class="menuitem">
               <img :src="item.src"/>
-              <p class="helvetica">{{item.title}}</p>
+              <p class="sansserif">{{item.title}}</p>
               </div>
             </div>
         </div>
@@ -26,10 +26,10 @@
                       <img src='../assets/starred.png'/>
                     </td>
                     <td class="headline">
-                      <p class="helvetica">{{$cms.textField($desktopcontent.screenemail.items[0].email_title)}}</p>
+                      <p class="sansserif">{{$cms.textField($desktopcontent.screenemail.items[0].email_title)}}</p>
                     </td>
                     <td class="subject">
-                      <p class="helvetica">{{$cms.textField($desktopcontent.screenemail.items[0].email_body)}}</p>
+                      <p class="sansserif">{{$cms.textField($desktopcontent.screenemail.items[0].email_body)}}</p>
                     </td>
                   </tr>
                 </transition>
@@ -48,7 +48,7 @@
                             </div>
                             <p class="senderinfo">Sent from <b>{{$cms.textField(item.sender_name)}}</b> &lt;{{$cms.textField(item.sender_email)}}&gt;
                             <br/>
-                              <span class="smol helvetica">To {{$cms.textField(item.to_who)}}</span>
+                              <span class="smol sansserif">To {{$cms.textField(item.to_who)}}</span>
                             </p>
                             <div class="icons">
                               <img src='../assets/forward.png'/>
@@ -57,8 +57,8 @@
                             </div>
 
                           </div>
-                            <h2 v-if="item.email_title.length" class="helvetica">{{$cms.textField(item.email_title)}}</h2>
-                            <p class="emailBody helvetica" v-html="$cms.htmlField(item.email_body)"></p>
+                            <h2 v-if="item.email_title.length" class="sansserif">{{$cms.textField(item.email_title)}}</h2>
+                            <p class="emailBody sansserif" v-html="$cms.htmlField(item.email_body)"></p>
                             <div class="link" v-if="item.link">
                               <div class="linkinner" @click="handleClick"><span>#The-FirstLady Records</span></div>
                             </div>
@@ -146,7 +146,7 @@ Closebar
     height: 70vh;
     position: relative;
     p, &::v-deep p {
-      font-size: 14px;
+      font-size: 16px;
     }
 }
 

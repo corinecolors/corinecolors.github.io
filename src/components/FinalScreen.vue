@@ -35,7 +35,12 @@
         <div class="desc" v-if="pulled">
             <h2>{{$cms.textField($fin.header)}}</h2>
             <p v-html="$cms.htmlField($fin.text)"></p>
-            <SocialsSharing class="social"/>
+            <div class="share">
+                <div class="shareinner">
+                    <h3>Share the Experience</h3>
+                    <SocialsSharing class="social"/>
+                </div>
+            </div>
             <button class="mute" @click="handleMute"><iconMute :mute="!mute" class="iconMute"/></button>
         </div>
         </div>
@@ -169,7 +174,7 @@ export default {
     height: 200px;
     position: fixed;
     left: 50vw;
-    top: calc(50% - 100px);
+    top: 20%;
     transform: translateX(-50%) translateY(-50%);
 }
 .show {
@@ -198,16 +203,21 @@ h2 {
 }
 .desc {
     position: fixed;
-    top: 50%;
+    top: 60%;
     width: 50%;
     left: 50%;
-    transform: translateX(-50%);
+    transform: translateX(-50%) translateY(-50%);
     background: rgb(0,0,0,.75);
     padding: 10px;
     border-radius: 10px;
 
     &::v-deep p {
         margin: 10px 0;
+    }
+    h3 {
+        color: white;
+        text-align: center;
+        margin-bottom: 0;
     }
 }
 
@@ -220,5 +230,27 @@ h2 {
   &::v-deep .share {
     display: none;
   }
+  &::v-deep .copiedMsg {
+    width: 200% !important;
+    transform: translateY(50%) translateX(-50%);
+    text-align: center;
+    left: 50%;
+}
+}
+.share {
+    width: 100%;
+    .shareinner {
+        display: inline-block;
+        background: rgb(0,0,0,.5);
+        filter: invert(1);
+        width: 300px;
+        margin-left: 50%;
+        transform: translateX(-50%);
+        border-radius: 10px;
+        padding-bottom: 10px;
+    }
+    &::v-deep .social {
+        padding-bottom: 0;
+    }
 }
 </style>

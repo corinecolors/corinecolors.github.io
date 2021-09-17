@@ -5,8 +5,8 @@
       <div class="msg" v-if="revealMsg">
         <div class="bg"/>
         <p class="line">Please choose your language.</p>
-        <button class="eng" @click="handleLang('en')"><span class="helvetica">English Audio</span></button>
-        <button class="arabic" @click="handleLang('ar')"><span class="helvetica">Arabic Audio</span></button>
+        <button class="eng" @click="handleLang('en')"><span class="sansserif">English Audio</span></button>
+        <button class="arabic" @click="handleLang('ar')"><span class="sansserif">Arabic Audio</span></button>
       </div>
     </transition>
       <div class="container">
@@ -19,14 +19,18 @@
               <Playbutton fill="#7e494e"/>
             </div>
         </transition>
-          <SocialsSharing class="social"/>
     </div>
+    <div class="footer">
+        <SocialsLinking class="social"/>
+        <p>© 2021 – 2023 CColorsInMotion <small>corine attieh</small></p>
+      </div>
+
   </div>
 </template>
 
 <script>
 import Playbutton from "./Playbutton";
-import SocialsSharing from "./SocialsSharing";
+import SocialsLinking from "./SocialsLinking";
 
 export default {
   name: "ChooseLanguage",
@@ -37,7 +41,7 @@ export default {
   },
   components: {
     Playbutton,
-    SocialsSharing
+    SocialsLinking
   },
   computed: {
   },
@@ -132,19 +136,33 @@ button {
   opacity: 0;
   transition: opacity .5s ease;
 }
-.social {
-  background: rgb(255,255,255,.75);
-  display: inline-block;
-  padding: 10px;
-  filter: invert(1);
+
+.footer {
   position: absolute;
   left: 50%;
   transform: translateX(-50%);
-  bottom: -100%;
-  width: auto !important;
+  bottom: 0;
+  margin-bottom: 10px;
+  background: rgb(255,255,255,.75);
+  display: inline-block;
   border-radius: 10px;
-  &::v-deep .share {
-    display: none;
+  filter: invert(1);
+  padding: 10px;
+p {
+  font-size: 12px;
+  color: black;
+  margin: 0;
+}
+.social {
+    padding: 10px;
+    width: auto !important;
+    padding-bottom: 0;
+    margin-bottom: 10px;
+    margin-left: 50%;
+    transform: translateX(-50%);
+    &::v-deep .share {
+      display: none;
+    }
   }
 }
 </style>
